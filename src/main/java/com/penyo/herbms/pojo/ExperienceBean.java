@@ -6,6 +6,8 @@ package com.penyo.herbms.pojo;
  * @author Penyo
  */
 public class ExperienceBean extends Bean {
+  /** 唯一识别码 */
+  private int id;
   /** 中草药 ID（外键） */
   private int herbId;
   /** 出处 */
@@ -16,10 +18,19 @@ public class ExperienceBean extends Bean {
   public ExperienceBean() {
   }
 
-  public ExperienceBean(int herbId, String derivation, String content) {
+  public ExperienceBean(int id, int herbId, String derivation, String content) {
+    this.id = id;
     this.herbId = herbId;
     this.derivation = derivation;
     this.content = content;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
   }
 
   public int getHerbId() {

@@ -57,17 +57,15 @@ public class HerbDAO extends DAO<HerbBean> {
   }
 
   @Override
+  public List<HerbBean> selectAll() {
+    final String SQL = "select * from herbs";
+    return runRawSQLToQuery(rm, SQL);
+  }
+
+  @Override
   public int update(HerbBean o) {
     final String SQL = "update herbs set code=?, name=?, nickname=?, type=?, description=?, efficacy=?, taste=?, origin=?, dosage=?, taboo=?, processing=? where id=?";
     return runRawSQLToUpdate(SQL, o.getCode(), o.getName(), o.getNickname(), o.getType(), o.getDescription(),
         o.getEfficacy(), o.getTaste(), o.getOrigin(), o.getDosage(), o.getTaboo(), o.getProcessing(), o.getId());
-  }
-
-  /**
-   * 查找全部元素。
-   */
-  public List<HerbBean> selectAll() {
-    final String SQL = "select * from herbs";
-    return runRawSQLToQuery(rm, SQL);
   }
 }

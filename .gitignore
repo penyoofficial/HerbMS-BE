@@ -23,6 +23,7 @@
 hs_err_pid*
 replay_pid*
 
-# Dev Env
+# Dev Env Cache
 .vscode
+.idea
 target

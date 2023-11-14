@@ -9,5 +9,5 @@ public interface RowMapper<T> {
   /**
    * 对数据结果进行重包装。
    */
-  public T repack(ResultSet rs);
+  public T mapRow(ResultSet rs);
 }

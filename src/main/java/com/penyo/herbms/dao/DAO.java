@@ -46,7 +46,7 @@ public abstract class DAO<T> {
         ps.setObject(i + 1, params[i]);
       rs = ps.executeQuery();
       while (rs.next())
-        list.add(rm.repack(rs));
+        list.add(rm.mapRow(rs));
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
@@ -63,22 +63,27 @@ public abstract class DAO<T> {
   }
 
   /**
-   * 添加元素。
+   * 添加单个元素。
    */
   public abstract int add(T o);
 
   /**
-   * 删除元素。
+   * 删除单个元素。
    */
   public abstract int delete(int id);
 
   /**
-   * 查询元素。
+   * 查找单个元素。
    */
   public abstract T select(int id);
 
   /**
-   * 修改元素。
+   * 查找全部元素。
+  */
+  public abstract List<T> selectAll(); 
+
+  /**
+   * 修改单个元素。
    */
   public abstract int update(T o);
 }
