@@ -6,12 +6,11 @@
 
   <groupId>edu.penyo</groupId>
   <artifactId>herbms</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.3</version>
   <packaging>war</packaging>
 
-  <name>herbms Maven Webapp</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <name>Herb Management System</name>
+  <url>https://github.com/penyoofficial/HerbMS</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,9 +25,9 @@
       <version>8.0.33</version>
     </dependency>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>5.10.1</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -68,5 +67,13 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <resources>
+      <resource>
+        <directory>src/main/java</directory>
+        <includes>
+          <include>**/*.properties</include>  
+        </includes>
+      </resource>
+    </resources>
   </build>
 </project>

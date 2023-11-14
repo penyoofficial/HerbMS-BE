@@ -8,6 +8,9 @@ import java.util.List;
 
 import com.penyo.herbms.util.DatabaseUtil;
 
+/**
+ * 持久层。
+ */
 public abstract class DAO<T> {
   private Connection c;
   private PreparedStatement ps = null;
@@ -79,8 +82,8 @@ public abstract class DAO<T> {
 
   /**
    * 查找全部元素。
-  */
-  public abstract List<T> selectAll(); 
+   */
+  public abstract List<T> selectAll();
 
   /**
    * 修改单个元素。

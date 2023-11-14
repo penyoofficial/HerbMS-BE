@@ -1,13 +1,13 @@
 package com.penyo.herbms.pojo;
 
+import java.util.Map;
+
 /**
  * 药品的数据容器。
  * 
  * @author Penyo
  */
 public class HerbBean extends Bean {
-  /** 唯一识别码 */
-  private int id;
   /** 编号 */
   private int code;
   /** 学名 */
@@ -37,11 +37,11 @@ public class HerbBean extends Bean {
   public HerbBean(int id, int code, String name, String nickname, String type, String description,
       String efficacy,
       String taste, String origin, String dosage, String taboo, String processing) {
-    this.id = id;
+    super(id);
     this.code = code;
     this.name = name;
     this.nickname = nickname;
-    this.type = type;
+    setType(type);
     this.description = description;
     this.efficacy = efficacy;
     this.taste = taste;
@@ -49,14 +49,6 @@ public class HerbBean extends Bean {
     this.dosage = dosage;
     this.taboo = taboo;
     this.processing = processing;
-  }
-
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
   }
 
   public int getCode() {
@@ -83,12 +75,31 @@ public class HerbBean extends Bean {
     this.nickname = nickname;
   }
 
+  public static boolean isTypeValid(String type) {
+    final Map<String, Boolean> TYPES = Map.of(
+        "上经", true,
+        "中经", true,
+        "下经", true,
+        "增补", true);
+
+    if (TYPES.get(type) != null)
+      return true;
+    return false;
+  }
+
   public String getType() {
     return type;
   }
 
   public void setType(String type) {
-    this.type = type;
+    try {
+      if (!HerbBean.isTypeValid(type))
+      throw new TypeNotPresentException(type, null);
+      this.type = type;
+    } catch (Exception e) {
+      this.type = "上经";
+      e.printStackTrace();
+    }
   }
 
   public String getDescription() {
