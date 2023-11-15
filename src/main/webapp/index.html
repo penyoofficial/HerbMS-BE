@@ -1,0 +1,111 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HerbMS：中药处方管理系统</title>
+  <link rel="stylesheet" href="assets/base.css">
+</head>
+
+<script type="module">
+  import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.prod.js'
+
+  createApp({
+    setup() {
+      const menu = ref([
+        ['中草药管理', 'herb'],
+        ['经方管理', 'prescription'],
+        ['条辨管理', 'item-differentiation'],
+      ])
+      const view = ref(menu.value[0][1])
+
+      function handleChangeView(path) {
+        view.value = path;
+      }
+
+      return {
+        menu,
+        view,
+        handleChangeView,
+      }
+    }
+  }).mount('#app')
+</script>
+
+<body>
+  <div class="box">
+    <div class="title-box">
+      <h1 class="title">中药处方管理系统</h1>
+      <p class="subtitle">Based on JSP/JDBC</p>
+    </div>
+    <div id="app">
+      <ul class="menu">
+        <li v-for="fx in menu" class="fx" :class="fx[1] === view ? 'now' : ''" @click="handleChangeView(fx[1])">
+          {{ fx[0] }}
+        </li>
+      </ul>
+      <iframe class="view" :src="'views/' + view + '.jsp'" frameborder="0">
+      </iframe>
+    </div>
+  </div>
+</body>
+
+<style>
+  div.box {
+    position: fixed;
+    width: calc(100vw - 2rem * 2);
+    height: calc(100vh - 2.2rem - 2rem);
+    padding: 2.2rem 2rem 2rem;
+    background: var(--c-highlight);
+
+    .title-box {
+      display: flex;
+      color: var(--c-text-highlight);
+      user-select: none;
+
+      .title {
+        margin-right: 0.3rem;
+      }
+
+      .subtitle {
+        opacity: 0.3;
+      }
+    }
+
+    #app {
+      display: flex;
+      width: 100%;
+      height: calc(100% - 2.6rem);
+      background: var(--c-background);
+      border-radius: 0.3rem;
+      overflow: hidden;
+      box-shadow: 0 0.1rem 3px 3px rgba(0, 0, 0, .1);
+
+      .menu {
+        flex: 1;
+        box-shadow: 0 0.1rem 3px 3px rgba(0, 0, 0, .1);
+        user-select: none;
+
+        .fx {
+          display: flex;
+          align-items: center;
+          height: 3rem;
+          border-bottom: 1px solid var(--c-background-hover);
+          text-indent: 2rem;
+        }
+
+        .fx.now {
+          background: linear-gradient(to right, var(--c-highlight), var(--c-background));
+          color: var(--c-text-highlight);
+        }
+      }
+
+      .view {
+        flex: 4;
+        padding: 1rem 2rem;
+      }
+    }
+  }
+</style>
+
+</html>

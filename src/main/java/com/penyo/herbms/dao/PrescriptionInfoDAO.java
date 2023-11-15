@@ -28,7 +28,10 @@ public class PrescriptionInfoDAO extends DAO<PrescriptionInfoBean> {
   @Override
   public int add(PrescriptionInfoBean o) {
     final String SQL = "insert prescription_infos(name, nickname, description) values(?, ?, ?)";
-    return runRawSQLToUpdate(SQL, o.getName(), o.getNickname(), o.getDescription());
+    return runRawSQLToUpdate(SQL,
+        o.getName(),
+        o.getNickname(),
+        o.getDescription());
   }
 
   @Override
@@ -56,6 +59,10 @@ public class PrescriptionInfoDAO extends DAO<PrescriptionInfoBean> {
   @Override
   public int update(PrescriptionInfoBean o) {
     final String SQL = "update prescription_infos set name=?, nickname=?, description=? where id=?";
-    return runRawSQLToUpdate(SQL, o.getName(), o.getNickname(), o.getDescription(), o.getId());
+    return runRawSQLToUpdate(SQL,
+        o.getName(),
+        o.getNickname(),
+        o.getDescription(),
+        o.getId());
   }
 }

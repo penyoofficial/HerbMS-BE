@@ -36,12 +36,12 @@ public abstract class Bean implements Serializable {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("id: " + getId() + ", ");
+    StringBuilder sb = new StringBuilder("\"id\": " + getId() + ", ");
     try {
       Field[] fs = this.getClass().getDeclaredFields();
       for (Field f : fs) {
         f.setAccessible(true);
-        sb.append(f.getName() + ": " + f.get(this) + ", ");
+        sb.append("\"" + f.getName() + "\": \"" + f.get(this) + "\", ");
       }
     } catch (Exception e) {
       e.printStackTrace();

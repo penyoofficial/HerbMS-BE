@@ -28,7 +28,10 @@ public class ItemDifferentiationDAO extends DAO<ItemDifferentiationBean> {
   @Override
   public int add(ItemDifferentiationBean o) {
     final String SQL = "insert item_differentiations(itemDifferentionId, prescriptionId, type) values(?, ?, ?)";
-    return runRawSQLToUpdate(SQL, o.getItemDifferentionId(), o.getPrescriptionId(), o.getType());
+    return runRawSQLToUpdate(SQL,
+        o.getItemDifferentionId(),
+        o.getPrescriptionId(),
+        o.getType());
   }
 
   @Override
@@ -56,6 +59,10 @@ public class ItemDifferentiationDAO extends DAO<ItemDifferentiationBean> {
   @Override
   public int update(ItemDifferentiationBean o) {
     final String SQL = "update item_differentiations set itemDifferentionId=?, prescriptionId=?, type=? where id=?";
-    return runRawSQLToUpdate(SQL, o.getItemDifferentionId(), o.getPrescriptionId(), o.getType(), o.getId());
+    return runRawSQLToUpdate(SQL,
+        o.getItemDifferentionId(),
+        o.getPrescriptionId(),
+        o.getType(),
+        o.getId());
   }
 }

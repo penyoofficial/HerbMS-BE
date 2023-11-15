@@ -59,13 +59,6 @@ public abstract class DAO<T> {
   }
 
   /**
-   * 关闭连接。
-   */
-  public void close() {
-    DatabaseUtil.close(c);
-  }
-
-  /**
    * 添加单个元素。
    */
   public abstract int add(T o);
@@ -89,4 +82,9 @@ public abstract class DAO<T> {
    * 修改单个元素。
    */
   public abstract int update(T o);
+
+  @Override
+  protected void finalize() {
+    DatabaseUtil.close(c);
+  }
 }

@@ -29,7 +29,11 @@ public class PrescriptionDAO extends DAO<PrescriptionBean> {
   @Override
   public int add(PrescriptionBean o) {
     final String SQL = "insert prescriptions(prescriptionId, herbId, dosage, usage) values(?, ?, ?, ?)";
-    return runRawSQLToUpdate(SQL, o.getPrescriptionId(), o.getHerbId(), o.getDosage(), o.getUsage());
+    return runRawSQLToUpdate(SQL,
+        o.getPrescriptionId(),
+        o.getHerbId(),
+        o.getDosage(),
+        o.getUsage());
   }
 
   @Override
@@ -57,6 +61,11 @@ public class PrescriptionDAO extends DAO<PrescriptionBean> {
   @Override
   public int update(PrescriptionBean o) {
     final String SQL = "update prescriptions set prescriptionId=?, herbId=?, dosage=?, usage=? where id=?";
-    return runRawSQLToUpdate(SQL, o.getPrescriptionId(), o.getHerbId(), o.getDosage(), o.getUsage(), o.getId());
+    return runRawSQLToUpdate(SQL,
+        o.getPrescriptionId(),
+        o.getHerbId(),
+        o.getDosage(),
+        o.getUsage(),
+        o.getId());
   }
 }

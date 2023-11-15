@@ -1,5 +1,6 @@
 package com.penyo.herbms.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.penyo.herbms.pojo.ExperienceBean;
@@ -28,7 +29,10 @@ public class ExperienceDAO extends DAO<ExperienceBean> {
   @Override
   public int add(ExperienceBean o) {
     final String SQL = "insert experiences(herbId, derivation, content) values(?, ?, ?)";
-    return runRawSQLToUpdate(SQL, o.getHerbId(), o.getDerivation(), o.getContent());
+    return runRawSQLToUpdate(SQL,
+        o.getHerbId(),
+        o.getDerivation(),
+        o.getContent());
   }
 
   @Override
@@ -56,6 +60,46 @@ public class ExperienceDAO extends DAO<ExperienceBean> {
   @Override
   public int update(ExperienceBean o) {
     final String SQL = "update experiences set herbId=?, derivation=?, content=? where id=?";
-    return runRawSQLToUpdate(SQL, o.getHerbId(), o.getDerivation(), o.getContent(), o.getId());
+    return runRawSQLToUpdate(SQL,
+        o.getHerbId(),
+        o.getDerivation(),
+        o.getContent(),
+        o.getId());
+  }
+
+  /**
+   * 根据药品 ID 查找元素。
+   */
+  public List<ExperienceBean> selectByHerbId(int herbId) {
+    List<ExperienceBean> hs = new ArrayList<ExperienceBean>();
+    for (ExperienceBean h : selectAll())
+      if (h.getHerbId() == herbId)
+        hs.add(h);
+    return hs;
+  }
+
+  /**
+   * 根据字段查找元素。
+   */
+  public List<ExperienceBean> selectByField(String field) {
+    List<ExperienceBean> hs = new ArrayList<ExperienceBean>();
+    for (ExperienceBean h : selectAll())
+      if (h.getDerivation().contains(field)
+          || h.getContent().contains(field))
+        hs.add(h);
+    return hs;
+  }
+
+  /**
+   * 根据字段查找心得。
+   */
+  public List<String> selectExperiencesByField(String field) {
+    List<String> hs = new ArrayList<String>();
+    for (ExperienceBean h : selectAll()) {
+      String c = h.getContent();
+      if (c.contains(field))
+        hs.add(c);
+    }
+    return hs;
   }
 }

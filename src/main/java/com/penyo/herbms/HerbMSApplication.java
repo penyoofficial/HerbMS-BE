@@ -9,6 +9,6 @@ import com.penyo.herbms.util.Bootloader;
  */
 public class HerbMSApplication {
   public static void main(String[] args) {
-    Bootloader.boot("0.0.3");
+    Bootloader.boot("0.0.4");
   }
 }

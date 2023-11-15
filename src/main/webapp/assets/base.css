@@ -1,0 +1,98 @@
+:root {
+  --c-highlight: #BE3455;
+  --c-text-highlight: #eee;
+
+  --c-background: #fff;
+  --c-background-hover: #ddd;
+  --c-text: #333;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+button,
+input[type="submit"] {
+  padding: 0.5rem 1rem;
+  border: 0;
+  outline: 0;
+  border-radius: 0.3rem;
+  background: var(--c-highlight);
+  color: var(--c-text-highlight)
+}
+
+input[type="text"] {
+  width: 14rem;
+  height: 2.2rem;
+  padding: 0 1.2rem;
+  border: 0;
+  outline: 0;
+  border-radius: 0.3rem;
+  background: var(--c-background-hover);
+  color: var(--c-text)
+}
+
+::selection {
+  background: var(--c-highlight);
+  color: var(--c-text-highlight);
+}
+
+.flex-left,
+.flex-right {
+  display: flex;
+  flex: 1;
+  align-items: center;
+}
+
+.flex-left {
+  justify-content: flex-start;
+}
+
+.flex-left>* {
+  margin-right: 0.8rem;
+}
+
+.flex-right {
+  justify-content: flex-end;
+}
+
+.flex-right>* {
+  margin-left: 0.8rem;
+}
+
+div.line {
+  height: .1rem;
+  margin: 1rem 0;
+  background: var(--c-background-hover);
+}
+
+table {
+  display: block;
+  overflow-x: auto;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead tr {
+  background: var(--c-highlight);
+  color: var(--c-text-highlight);
+}
+
+thead th {
+  padding: 0.8rem 2rem;
+}
+
+tbody tr {
+  background: var(--c-text-highlight);
+  transition: background-color 0.5s;
+}
+
+tbody tr:hover {
+  background: var(--c-background-hover);
+}
+
+tbody td {
+  padding: 0.2rem;
+  text-align: center;
+}
