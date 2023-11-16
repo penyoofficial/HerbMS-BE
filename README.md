@@ -22,7 +22,7 @@ graph
   s1["安装全部依赖"]
   -->s2["使用 git clone 获取项目"]
   -->s3
-  -->s4["配置 db.properties"]
+  -->s4
   -->s5["Maven 打包"]
   -->s6["添加本地 Tomcat、添加部署并发布服务器"]
   -->s7["启动 Tomcat，访问 localhost/herbms/"]
@@ -30,5 +30,9 @@ graph
     s3.1["Extension for Java"]
     s3.2["Community Server Connector"]
     s3.3["JSP"]
+  end
+  subgraph s4["配置数据库"]
+    s4.1["配置 src/main/java/db.properties"]
+    s4.2["执行 document/ssql/herbms.sql"]
   end
 ```

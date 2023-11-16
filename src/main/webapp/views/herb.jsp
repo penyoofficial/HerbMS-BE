@@ -2,10 +2,8 @@
 
 <head>
   <%@ page pageEncoding="UTF-8" %>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
   <link rel="stylesheet" href="../assets/base.css">
-  <%@ page import="java.util.List" %>
+  <%@ page import="java.util.*" %>
   <%@ page import="com.penyo.herbms.dao.*" %>
   <%@ page import="com.penyo.herbms.pojo.*" %>
 </head>
@@ -19,19 +17,82 @@
   HerbBean hObj = null;
   ExperienceBean expObj = null;
 
-  String keyword = request.getParameter("keyword");
+  Enumeration<String> paramNames = request.getParameterNames();
+  Map<String, String> params = new HashMap<String, String>();
+  while (paramNames.hasMoreElements()) {
+    String key = paramNames.nextElement();
+    params.put(key, request.getParameter(key));
+  }
+
+  // Query Part
+
+  String keyword = params.get("keyword");
   if (keyword == null)
     keyword = "";
 
   boolean isId = false;
-  String oIsId = request.getParameter("isId");
+  String oIsId = params.get("isId");
   if (oIsId != null)
     isId = oIsId.equals("on");
 
   boolean needQueryHerb = true;
-  String oNeedQueryHerb = request.getParameter("needQueryHerb");
+  String oNeedQueryHerb = params.get("needQueryHerb");
   if (oNeedQueryHerb != null)
     needQueryHerb = oNeedQueryHerb.equals("1");
+
+  // Update Part
+
+  String oId = params.get("id");
+  if (oId != null) {
+    int id = Integer.parseInt(oId);
+    String opType = params.get("opType");
+    try {
+      if (opType == null) {
+        if (needQueryHerb) {
+          HerbBean h = new HerbBean(
+            id,
+            Integer.parseInt(params.get("code")),
+            params.get("name"),
+            params.get("nickname"),
+            params.get("type"),
+            params.get("description"),
+            params.get("efficacy"),
+            params.get("taste"),
+            params.get("origin"),
+            params.get("dosage"),
+            params.get("taboo"),
+            params.get("processing"));
+          if (hDAO.select(id) == null)
+            hDAO.add(h);
+          else
+            hDAO.update(h);
+        }
+        else {
+          ExperienceBean exp = new ExperienceBean(
+            id,
+            Integer.parseInt(params.get("herbId")),
+            params.get("derivation"),
+            params.get("content"));
+          if (expDAO.select(id) == null)
+            expDAO.add(exp);
+          else
+            expDAO.update(exp);
+        }
+      }
+      else {
+        if (needQueryHerb)
+          hDAO.delete(id);
+        else
+          expDAO.delete(id);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      response.sendRedirect(request.getRequestURI());
+    }
+  }
+
+  // Arbitrate Time
 
   if (isId) {
     if (needQueryHerb)
@@ -54,31 +115,31 @@
     setup() {
       const isNewingFormPoped = ref(false)
       const columnHeads = ref([[
-        '唯一识别码',
-        '编号',
-        '学名',
-        '别名',
-        '归属类别',
-        '本经原文',
-        '主治',
-        '性味',
-        '产地',
-        '用量',
-        '禁忌',
-        '炮制方法',
+        ['唯一识别码', 'id'],
+        ['编号', 'code'],
+        ['学名', 'name'],
+        ['别名', 'nickname'],
+        ['归属类别', 'type'],
+        ['本经原文', 'description'],
+        ['主治', 'efficacy'],
+        ['性味', 'taste'],
+        ['产地', 'origin'],
+        ['用量', 'dosage'],
+        ['禁忌', 'taboo'],
+        ['炮制方法', 'processing'],
       ], [
-        '唯一识别码',
-        '中草药',
-        '出处',
-        '心得内容',
+        ['唯一识别码', 'id'],
+        ['中草药 ID', 'herbId'],
+        ['出处', 'derivation'],
+        ['心得内容', 'content'],
       ]])
       const isId = ref(<%= isId %>)
       const needQueryHerb = ref(<%= needQueryHerb %>)
       const objs = ref(JSON.parse((() => {
         if (isId.value && needQueryHerb.value)
-          return '<%= hObj %>'
+          return '[<%= hObj %>]'
         else if (isId.value && !needQueryHerb.value)
-          return '<%= expObj %>'
+          return '[<%= expObj %>]'
         else if (!isId.value && needQueryHerb.value)
           return '<%= hs %>'
         else if (!isId.value && !needQueryHerb.value)
@@ -93,6 +154,31 @@
         isId,
         objs,
       }
+    },
+    methods: {
+      handleNewOrCancelOP () {
+        this.isNewingFormPoped = !this.isNewingFormPoped
+        document.querySelector('.infos').querySelectorAll('input').forEach((i, index) => {
+          i.value = ""
+        })
+      },
+      handleAlterOP(id) {
+        this.isNewingFormPoped = true
+
+        let obj = null;
+        this.objs.forEach((o) => {
+          if (id === o.id)
+            obj = Object.values(o);
+        })
+
+        document.querySelector('.infos').querySelectorAll('input').forEach((i, index) => {
+          i.value = obj[index]
+        })
+      },
+      handleDeleteOP(id) {
+        const url = window.location.origin + window.location.pathname + '?opType=delete&id=' + id
+        window.location.href = url
+      },
     }
   }).mount('#subapp')
 </script>
@@ -101,7 +187,7 @@
   <div id="subapp">
     <div class="tool-bar">
       <div class="flex-left">
-        <button @click="isNewingFormPoped = !isNewingFormPoped">
+        <button @click="handleNewOrCancelOP">
           {{ isNewingFormPoped ? '取消' : '新增' }}
         </button>
       </div>
@@ -109,23 +195,38 @@
         <input type="text" name="keyword">
         <input type="checkbox" name="isId" id="isId">
         <label for="isId">ID 查询</label>
-        <button type="submit" name="needQueryHerb" value="1" @click="needQueryHerb = true">查询中草药</button>
-        <button type="submit" name="needQueryHerb" value="0" @click="needQueryHerb = false">查询心得</button>
+        <button type="submit" name="needQueryHerb" value="1">查询中草药</button>
+        <button type="submit" name="needQueryHerb" value="0">查询心得</button>
       </form>
     </div>
     <div class="line"></div>
-    <table>
+    <div v-show="isNewingFormPoped" class="dialog">
+      <form class="row-edit">
+        <p class="tip">若处于“新增”模式，则对唯一识别码的指定无效。</p>
+        <table class="infos">
+          <tr v-for="ch in columnHeads[(needQueryHerb ? 0 : 1)]">
+            <td><label class="label" :for="ch[1]">{{ ch[0] }}</label></td>
+            <td><input type="text" :name="ch[1]" :id="ch[1]" required></td>
+          </tr>
+        </table>
+        <input type="submit">
+      </form>
+    </div>
+    <table class="result">
       <thead>
         <tr>
-          <th v-for="ch in columnHeads[(needQueryHerb ? 0 : 1)]" :style="`min-width: ${ch.length}rem;`">{{ ch }}</th>
+          <th v-for="ch in columnHeads[(needQueryHerb ? 0 : 1)]" :style="`min-width: ${ch[0].length}rem;`">{{ ch[0] }}</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-if="isId">
-          <td v-for="col in objs">{{ col }}</td>
-        </tr>
-        <tr v-else v-for="o in objs">
+        <tr v-for="o in objs">
           <td v-for="col in o">{{ col }}</td>
+          <td>
+            <button @click="handleAlterOP(o.id)">改</button>
+          </td>
+          <td>
+            <button @click="handleDeleteOP(o.id)">删</button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -145,6 +246,19 @@
     .flex-right {
       flex: 5;
     }
+  }
+
+  p.tip {
+    font-style: italic;
+    font-size: 0.8rem;
+  }
+  
+  .infos {
+    margin-bottom: 1rem;
+  }
+  
+  .label {
+    margin-right: 1rem;
   }
 </style>
 

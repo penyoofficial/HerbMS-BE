@@ -3,7 +3,10 @@
   --c-text-highlight: #eee;
 
   --c-background: #fff;
-  --c-background-hover: #ddd;
+  --c-background-hover: #eee;
+  --c-background-2: #eee;
+  --c-background-2-hover: #ddd;
+
   --c-text: #333;
 }
 
@@ -29,7 +32,7 @@ input[type="text"] {
   border: 0;
   outline: 0;
   border-radius: 0.3rem;
-  background: var(--c-background-hover);
+  background: var(--c-background-2);
   color: var(--c-text)
 }
 
@@ -64,35 +67,48 @@ input[type="text"] {
 div.line {
   height: .1rem;
   margin: 1rem 0;
-  background: var(--c-background-hover);
+  background: var(--c-background-2);
 }
 
-table {
+div.dialog {
+  position: fixed;
+  width: 50vw;
+  height: 80vh;
+  left: 10vw;
+  top: 1vh;
+  padding: 1.5rem;
+  box-shadow: 0 0.1rem 3px 3px rgba(0, 0, 0, .1);
+  border-radius: 0.3rem;
+  background: var(--c-background);
+  overflow: auto;
+}
+
+table.result {
   display: block;
   overflow-x: auto;
   width: 100%;
   border-collapse: collapse;
 }
 
-thead tr {
+.result>thead tr {
   background: var(--c-highlight);
   color: var(--c-text-highlight);
 }
 
-thead th {
+.result>thead th {
   padding: 0.8rem 2rem;
 }
 
-tbody tr {
-  background: var(--c-text-highlight);
+.result>tbody tr {
+  background: var(--c-background-2);
   transition: background-color 0.5s;
 }
 
-tbody tr:hover {
-  background: var(--c-background-hover);
+.result>tbody tr:hover {
+  background: var(--c-background-2-hover);
 }
 
-tbody td {
+.result>tbody td {
   padding: 0.2rem;
   text-align: center;
 }
