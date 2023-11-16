@@ -1,7 +1,7 @@
 package com.penyo.herbms.dao;
 
+import java.util.ArrayList;
 import java.util.List;
-
 import com.penyo.herbms.pojo.PrescriptionInfoBean;
 
 /**
@@ -64,5 +64,29 @@ public class PrescriptionInfoDAO extends DAO<PrescriptionInfoBean> {
         o.getNickname(),
         o.getDescription(),
         o.getId());
+  }
+      /**
+   * 根据名称或者别名查找处方。
+   */
+  public List<PrescriptionInfoBean> selectByField(String field) {
+    List<PrescriptionInfoBean> ps = new ArrayList<PrescriptionInfoBean>();
+    for (PrescriptionInfoBean h : selectAll())
+      if (h.getName().contains(field)
+          || h.getNickname().contains(field))
+     ps.add(h);
+     return ps;
+  }
+
+
+  /**
+   * 根据解释查找处方。
+   */
+  public List<String> selectByPrescriptionInfoByField(String filed) {
+    List<String> ps = new ArrayList<String>();
+    for (PrescriptionInfoBean e : selectAll()) {
+      if (e.getDescription().equals(filed))
+        ps.add(filed);
+    }
+    return ps;
   }
 }

@@ -1,5 +1,6 @@
 package com.penyo.herbms.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.penyo.herbms.pojo.ItemDifferentiationBean;
@@ -64,5 +65,14 @@ public class ItemDifferentiationDAO extends DAO<ItemDifferentiationBean> {
         o.getPrescriptionId(),
         o.getType(),
         o.getId());
+  }
+
+
+  public List<ItemDifferentiationBean> selectByField(String field) {
+    List<ItemDifferentiationBean> itds = new ArrayList<ItemDifferentiationBean>();
+    for (ItemDifferentiationBean h : selectAll())
+      if (h.getType().contains(field))
+        itds.add(h);
+    return itds;
   }
 }

@@ -1,5 +1,6 @@
 package com.penyo.herbms.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.penyo.herbms.pojo.ItemDifferentiationInfoBean;
@@ -64,5 +65,14 @@ public class ItemDifferentiationInfoDAO extends DAO<ItemDifferentiationInfoBean>
         o.getContent(),
         o.getAnnotation(),
         o.getId());
+  }
+
+  public List<ItemDifferentiationInfoBean> selectByField(String field) {
+    List<ItemDifferentiationInfoBean> itdis = new ArrayList<ItemDifferentiationInfoBean>();
+    for (ItemDifferentiationInfoBean h : selectAll())
+      if (h.getAnnotation().contains(field)
+      || h.getContent().contains(field))
+        itdis.add(h);
+    return itdis;
   }
 }

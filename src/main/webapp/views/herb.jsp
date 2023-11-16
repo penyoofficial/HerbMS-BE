@@ -44,9 +44,9 @@
 
   String oId = params.get("id");
   if (oId != null) {
-    int id = Integer.parseInt(oId);
     String opType = params.get("opType");
     try {
+      int id = Integer.parseInt(oId);
       if (opType == null) {
         if (needQueryHerb) {
           HerbBean h = new HerbBean(
@@ -79,7 +79,7 @@
             expDAO.update(exp);
         }
       }
-      else {
+      else if (opType.equals("delete")) {
         if (needQueryHerb)
           hDAO.delete(id);
         else
@@ -176,7 +176,7 @@
         })
       },
       handleDeleteOP(id) {
-        const url = window.location.origin + window.location.pathname + '?opType=delete&id=' + id
+        const url = `${window.location.origin}${window.location.pathname}?opType=delete&needQueryHerb=${this.needQueryHerb ? 1 : 0}&id=${id}`
         window.location.href = url
       },
     }
@@ -203,6 +203,7 @@
     <div v-show="isNewingFormPoped" class="dialog">
       <form class="row-edit">
         <p class="tip">若处于“新增”模式，则对唯一识别码的指定无效。</p>
+        <input class="invisible" type="text" name="needQueryHerb" :value="needQueryHerb ? 1 : 0">
         <table class="infos">
           <tr v-for="ch in columnHeads[(needQueryHerb ? 0 : 1)]">
             <td><label class="label" :for="ch[1]">{{ ch[0] }}</label></td>
@@ -251,6 +252,10 @@
   p.tip {
     font-style: italic;
     font-size: 0.8rem;
+  }
+
+  .invisible {
+    display: none;
   }
   
   .infos {
