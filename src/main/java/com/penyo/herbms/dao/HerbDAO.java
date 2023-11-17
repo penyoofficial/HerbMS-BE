@@ -96,6 +96,9 @@ public class HerbDAO extends DAO<HerbBean> {
    * 根据字段查找元素。
    */
   public List<HerbBean> selectByField(String field) {
+    if (field.length() == 0)
+      return selectAll();
+
     List<HerbBean> hs = new ArrayList<HerbBean>();
     for (HerbBean h : selectAll())
       if (h.getName().contains(field)

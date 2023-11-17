@@ -9,8 +9,8 @@ public class Bootloader {
   /**
    * 启动应用程序。
    */
-  public static void boot(String version) {
-    // nothing here, except the coming mvc components
+  public static void boot() {
+    // nothing here
   }
 
   /**

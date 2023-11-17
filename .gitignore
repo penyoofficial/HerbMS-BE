@@ -26,4 +26,5 @@ replay_pid*
 # Dev Env Cache
 .vscode
 .idea
+.svn
 target

@@ -68,24 +68,27 @@ public class ExperienceDAO extends DAO<ExperienceBean> {
   }
 
   /**
+   * 根据字段查找元素。
+   */
+  public List<ExperienceBean> selectByField(String field) {
+    if (field.length() == 0)
+      return selectAll();
+
+    List<ExperienceBean> hs = new ArrayList<ExperienceBean>();
+    for (ExperienceBean h : selectAll())
+      if (h.getDerivation().contains(field)
+          || h.getContent().contains(field))
+        hs.add(h);
+    return hs;
+  }
+
+  /**
    * 根据药品 ID 查找元素。
    */
   public List<ExperienceBean> selectByHerbId(int herbId) {
     List<ExperienceBean> hs = new ArrayList<ExperienceBean>();
     for (ExperienceBean h : selectAll())
       if (h.getHerbId() == herbId)
-        hs.add(h);
-    return hs;
-  }
-
-  /**
-   * 根据字段查找元素。
-   */
-  public List<ExperienceBean> selectByField(String field) {
-    List<ExperienceBean> hs = new ArrayList<ExperienceBean>();
-    for (ExperienceBean h : selectAll())
-      if (h.getDerivation().contains(field)
-          || h.getContent().contains(field))
         hs.add(h);
     return hs;
   }
