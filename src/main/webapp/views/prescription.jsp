@@ -9,13 +9,13 @@
 </head>
 
 <%
-  PrescriptionDAO pDAO = new PrescriptionDAO();
   PrescriptionInfoDAO piDAO = new PrescriptionInfoDAO();
+  PrescriptionDAO pDAO = new PrescriptionDAO();
 
-  List<PrescriptionBean> ps = null;
   List<PrescriptionInfoBean> pis = null;
-  PrescriptionBean pObj = null;
+  List<PrescriptionBean> ps = null;
   PrescriptionInfoBean piObj = null; 
+  PrescriptionBean pObj = null;
 
   Enumeration<String> paramNames = request.getParameterNames();
   Map<String, String> params = new HashMap<String, String>();
@@ -35,7 +35,7 @@
   if (oIsId != null)
     isId = oIsId.equals("on");
 
-  boolean needQueryInfo = false;
+  boolean needQueryInfo = true;
   String oNeedQueryInfo = params.get("needQueryInfo");
   if (oNeedQueryInfo != null)
     needQueryInfo = oNeedQueryInfo.equals("1");
@@ -49,7 +49,7 @@
       int id = Integer.parseInt(oId);
       if (opType == null) {
         if (needQueryInfo) {
-           PrescriptionInfoBean pi = new PrescriptionInfoBean(
+          PrescriptionInfoBean pi = new PrescriptionInfoBean(
             id,
             params.get("name"),
             params.get("nickname"),
@@ -59,8 +59,6 @@
           else
             piDAO.update(pi);
         }
-
-
         else {
           PrescriptionBean p = new PrescriptionBean(
             id,
@@ -68,8 +66,6 @@
             Integer.parseInt(params.get("herbId")),
             params.get("dosage"),
             params.get("usage"));
-
-          
           if (pDAO.select(id) == null)
             pDAO.add(p);
           else
@@ -78,9 +74,9 @@
       }
       else if (opType.equals("delete")) {
         if (needQueryInfo)
-          pDAO.delete(id);
-        else
           piDAO.delete(id);
+        else
+          pDAO.delete(id);
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -93,47 +89,47 @@
 
   if (isId) {
     if (needQueryInfo)
-      pObj = pDAO.select(Integer.parseInt(keyword));
-    else
       piObj = piDAO.select(Integer.parseInt(keyword));
+    else
+      pObj = pDAO.select(Integer.parseInt(keyword));
   }
   else {
     if (needQueryInfo)
-      ps = pDAO.selectByField(keyword);
-    else
       pis = piDAO.selectByField(keyword);
+    else
+      ps = pDAO.selectByField(keyword);
   }
 %>
 
 <script type="module">
-  import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.prod.js'
+  import { createApp, ref } from '../assets/vue.esm-browser.prod.js'
 
   createApp({
     setup() {
       const isNewingFormPoped = ref(false)
       const columnHeads = ref([[
         ['唯一识别码', 'id'],
-        ['中药处方 ID', 'prescriptionId'],
-        ['学药品 ID', 'herbId'],
-        ['用量', 'dosage'],
-        ['用法', 'usage'],
-      ], [
-         ['唯一识别码', 'id'],
         ['名称', 'name'],
         ['别名', 'nickname'],
-        ['解释', 'description'],       
+        ['解释', 'description'],
+      ], [
+        ['唯一识别码', 'id'],
+        ['中药处方 ID', 'prescriptionId'],
+        ['药品 ID', 'herbId'],
+        ['用量', 'dosage'],
+        ['用法', 'usage'],
       ]])
       const isId = ref(<%= isId %>)
       const needQueryInfo = ref(<%= needQueryInfo %>)
       const objs = ref(JSON.parse((() => {
         if (isId.value && needQueryInfo.value)
-          return '[<%= pObj %>]'
-        else if (isId.value && !needQueryInfo.value)
           return '[<%= piObj %>]'
+        else if (isId.value && !needQueryInfo.value)
+          return '[<%= pObj %>]'
         else if (!isId.value && needQueryInfo.value)
-          return '<%= ps %>'
-        else if (!isId.value && !needQueryInfo.value)
           return '<%= pis %>'
+        else if (!isId.value && !needQueryInfo.value)
+          return '<%= ps %>'
         return '[]'
       })()))
 
@@ -185,8 +181,8 @@
         <input type="text" name="keyword">
         <input type="checkbox" name="isId" id="isId">
         <label for="isId">ID 查询</label>
-        <button type="submit" name="needQueryInfo" value="0">查询处方</button>
         <button type="submit" name="needQueryInfo" value="1">查询处方概要</button>
+        <button type="submit" name="needQueryInfo" value="0">查询处方</button>
       </form>
     </div>
     <div class="line"></div>
@@ -242,10 +238,6 @@
   p.tip {
     font-style: italic;
     font-size: 0.8rem;
-  }
-
-    .invisible {
-    display: none;
   }
   
   .infos {

@@ -83,6 +83,10 @@ div.dialog {
   overflow: auto;
 }
 
+.invisible {
+  display: none;
+}
+
 table.result {
   display: block;
   overflow-x: auto;

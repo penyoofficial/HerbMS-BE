@@ -109,7 +109,7 @@
 %>
 
 <script type="module">
-  import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.prod.js'
+  import { createApp, ref } from '../assets/vue.esm-browser.prod.js'
 
   createApp({
     setup() {
@@ -252,10 +252,6 @@
   p.tip {
     font-style: italic;
     font-size: 0.8rem;
-  }
-
-  .invisible {
-    display: none;
   }
   
   .infos {

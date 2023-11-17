@@ -67,12 +67,14 @@ public class ItemDifferentiationDAO extends DAO<ItemDifferentiationBean> {
         o.getId());
   }
 
-
+  /**
+   * 根据字段查找元素。
+   */
   public List<ItemDifferentiationBean> selectByField(String field) {
-    List<ItemDifferentiationBean> itds = new ArrayList<ItemDifferentiationBean>();
+    List<ItemDifferentiationBean> idts = new ArrayList<ItemDifferentiationBean>();
     for (ItemDifferentiationBean h : selectAll())
       if (h.getType().contains(field))
-        itds.add(h);
-    return itds;
+        idts.add(h);
+    return idts;
   }
 }

@@ -65,28 +65,28 @@ public class PrescriptionInfoDAO extends DAO<PrescriptionInfoBean> {
         o.getDescription(),
         o.getId());
   }
-      /**
-   * 根据名称或者别名查找处方。
+
+  /**
+   * 根据字段查找元素。
    */
   public List<PrescriptionInfoBean> selectByField(String field) {
     List<PrescriptionInfoBean> ps = new ArrayList<PrescriptionInfoBean>();
     for (PrescriptionInfoBean h : selectAll())
       if (h.getName().contains(field)
-          || h.getNickname().contains(field))
-     ps.add(h);
-     return ps;
+          || h.getNickname().contains(field)
+          || h.getDescription().contains(field))
+        ps.add(h);
+    return ps;
   }
 
-
   /**
-   * 根据解释查找处方。
+   * 根据条辨 ID 查找元素。
    */
-  public List<String> selectByPrescriptionInfoByField(String filed) {
-    List<String> ps = new ArrayList<String>();
-    for (PrescriptionInfoBean e : selectAll()) {
-      if (e.getDescription().equals(filed))
-        ps.add(filed);
-    }
-    return ps;
+  public PrescriptionInfoBean selectByItemDifferentiationId(int id) {
+    int neededId = -1;
+    ItemDifferentiationDAO idtDAO = new ItemDifferentiationDAO();
+    neededId = idtDAO.select(id).getPrescriptionId();
+
+    return select(neededId);
   }
 }
