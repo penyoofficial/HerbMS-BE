@@ -1,7 +1,5 @@
 package com.penyo.herbms.service;
 
-import com.penyo.herbms.dao.ExperienceDAO;
-import com.penyo.herbms.dao.HerbDAO;
 import com.penyo.herbms.pojo.ExperienceBean;
 import com.penyo.herbms.pojo.HerbBean;
 
@@ -46,7 +44,7 @@ public class HerbService extends AbstractService {
    * 根据字段查找元素。
    */
   public List<HerbBean> selectByField(String field) {
-    if (field.length() == 0) return new HerbDAO().selectAll();
+    if (field.length() == 0) return hDAO.selectAll();
 
     List<HerbBean> hs = new ArrayList<>();
     for (HerbBean h : hDAO.selectAll())
@@ -60,7 +58,7 @@ public class HerbService extends AbstractService {
    */
   public List<HerbBean> selectByExperience(String exp) {
     List<HerbBean> hs = new ArrayList<>();
-    for (ExperienceBean e : new ExperienceDAO().selectAll())
+    for (ExperienceBean e : expDAO.selectAll())
       if (e.getContent().equals(exp)) hs.add(hDAO.select(e.getHerbId()));
     return hs;
   }

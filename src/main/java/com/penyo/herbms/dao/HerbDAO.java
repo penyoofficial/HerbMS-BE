@@ -21,6 +21,9 @@ public class HerbDAO extends AbstractDAO<HerbBean> {
     return h;
   };
 
+  protected HerbDAO() {
+  }
+
   @Override
   public int add(HerbBean o) {
     final String SQL = "insert herbs(code, name, nickname, type, description, efficacy, taste, origin, dosage, taboo, processing) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

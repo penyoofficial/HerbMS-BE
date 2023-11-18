@@ -22,6 +22,9 @@ public class ItemDifferentiationDAO extends AbstractDAO<ItemDifferentiationBean>
     return idt;
   };
 
+  protected ItemDifferentiationDAO() {
+  }
+
   @Override
   public int add(ItemDifferentiationBean o) {
     final String SQL = "insert item_differentiations(itemDifferentionId, prescriptionId, type) values(?, ?, ?)";

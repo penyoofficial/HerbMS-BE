@@ -21,6 +21,9 @@ public class ExperienceDAO extends AbstractDAO<ExperienceBean> {
     return exp;
   };
 
+  protected ExperienceDAO() {
+  }
+
   @Override
   public int add(ExperienceBean o) {
     final String SQL = "insert experiences(herbId, derivation, content) values(?, ?, ?)";

@@ -15,10 +15,6 @@ import com.penyo.herbms.util.ConnectionsPool;
  */
 public abstract class AbstractDAO<T> {
   /**
-   * 连接壳
-   */
-  private final ConnectionShell cs;
-  /**
    * 命令缓存
    */
   private PreparedStatement ps = null;
@@ -26,10 +22,6 @@ public abstract class AbstractDAO<T> {
    * 结果缓存
    */
   private ResultSet rs = null;
-
-  protected AbstractDAO() {
-    this.cs = ConnectionsPool.getShell();
-  }
 
   /**
    * 创建具体 DAO 类。
@@ -51,7 +43,8 @@ public abstract class AbstractDAO<T> {
    */
   public int runRawSQLToUpdate(String sql, Object... params) {
     int num = -1;
-    try {
+    ConnectionShell cs = ConnectionsPool.getShell();
+    if (cs != null) try {
       ps = cs.getUsufruct().prepareStatement(sql);
       for (int i = 0; i < params.length; i++)
         ps.setObject(i + 1, params[i]);
@@ -61,6 +54,7 @@ public abstract class AbstractDAO<T> {
     } finally {
       ConnectionsPool.close(ps, rs);
     }
+    ConnectionsPool.returnShell(cs);
     return num;
   }
 
@@ -69,7 +63,8 @@ public abstract class AbstractDAO<T> {
    */
   public List<T> runRawSQLToQuery(RowMapper<T> rm, String sql, Object... params) {
     List<T> list = new ArrayList<>();
-    try {
+    ConnectionShell cs = ConnectionsPool.getShell();
+    if (cs != null) try {
       ps = cs.getUsufruct().prepareStatement(sql);
       for (int i = 0; i < params.length; i++)
         ps.setObject(i + 1, params[i]);
@@ -80,6 +75,7 @@ public abstract class AbstractDAO<T> {
     } finally {
       ConnectionsPool.close(ps, rs);
     }
+    ConnectionsPool.returnShell(cs);
     return list;
   }
 
@@ -107,9 +103,4 @@ public abstract class AbstractDAO<T> {
    * 修改单个元素。
    */
   public abstract int update(T o);
-
-  @Override
-  protected void finalize() {
-    ConnectionsPool.returnShell(cs);
-  }
 }

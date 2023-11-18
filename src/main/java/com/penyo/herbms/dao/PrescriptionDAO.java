@@ -22,6 +22,9 @@ public class PrescriptionDAO extends AbstractDAO<PrescriptionBean> {
     return p;
   };
 
+  protected PrescriptionDAO() {
+  }
+
   @Override
   public int add(PrescriptionBean o) {
     final String SQL = "insert prescriptions(prescriptionId, herbId, dosage, usage) values(?, ?, ?, ?)";

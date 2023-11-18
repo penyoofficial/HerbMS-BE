@@ -7,15 +7,21 @@
 </head>
 
 <%
+  String servletName = "herbServlet";
+
   boolean needQueryHerb = true;
   Object oNeedQueryHerb = session.getAttribute("needQueryHerb");
+  session.setAttribute("needQueryHerb", null);
   if (oNeedQueryHerb != null)
     needQueryHerb = (Boolean) oNeedQueryHerb;
   
   List<?> list = new ArrayList<>();
   Object oList = session.getAttribute("list");
+  session.setAttribute("list", null);
   if (oList != null)
     list = (List<?>) oList;
+  else
+    response.sendRedirect(servletName);
 %>
 
 <script type="module">
@@ -45,7 +51,7 @@
       ]])
       const needQueryHerb = ref(<%= needQueryHerb %>)
       const objs = ref(JSON.parse('<%= list %>'))
-      const servletName = ref('herbServlet')
+      const servletName = ref('<%= servletName %>')
 
       return {
         isNewingFormPoped,

@@ -23,6 +23,9 @@ public class ItemDifferentiationInfoDAO extends AbstractDAO<ItemDifferentiationI
     return idti;
   };
 
+  protected ItemDifferentiationInfoDAO() {
+  }
+
   @Override
   public int add(ItemDifferentiationInfoBean o) {
     final String SQL = "insert item_differentiation_infos(code, content, annotation) values(?, ?, ?)";
