@@ -18,7 +18,7 @@
   PrescriptionBean pObj = null;
 
   Enumeration<String> paramNames = request.getParameterNames();
-  Map<String, String> params = new HashMap<String, String>();
+  Map<String, String> params = new HashMap<>();
   while (paramNames.hasMoreElements()) {
     String key = paramNames.nextElement();
     params.put(key, request.getParameter(key));
@@ -115,7 +115,7 @@
       ], [
         ['唯一识别码', 'id'],
         ['中药处方 ID', 'prescriptionId'],
-        ['药品 ID', 'herbId'],
+        ['中药 ID', 'herbId'],
         ['用量', 'dosage'],
         ['用法', 'usage'],
       ]])

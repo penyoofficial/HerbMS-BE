@@ -7,20 +7,16 @@ import com.penyo.herbms.pojo.ItemDifferentiationBean;
 import com.penyo.herbms.pojo.ItemDifferentiationInfoBean;
 
 /**
- * 条辨概要的持久层。
- * 
+ * 条辨概要的数据访问代理。
+ *
  * @author Penyo
  * @see com.penyo.herbms.pojo.ItemDifferentiationInfoBean
  */
-public class ItemDifferentiationInfoDAO extends DAO<ItemDifferentiationInfoBean> {
-  RowMapper<ItemDifferentiationInfoBean> rm = (rs) -> {
+public class ItemDifferentiationInfoDAO extends AbstractDAO<ItemDifferentiationInfoBean> {
+  final RowMapper<ItemDifferentiationInfoBean> rm = (rs) -> {
     ItemDifferentiationInfoBean idti = null;
     try {
-      idti = new ItemDifferentiationInfoBean(
-          rs.getInt("id"),
-          rs.getInt("code"),
-          rs.getString("content"),
-          rs.getString("annotation"));
+      idti = new ItemDifferentiationInfoBean(rs.getInt("id"), rs.getInt("code"), rs.getString("content"), rs.getString("annotation"));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -30,10 +26,7 @@ public class ItemDifferentiationInfoDAO extends DAO<ItemDifferentiationInfoBean>
   @Override
   public int add(ItemDifferentiationInfoBean o) {
     final String SQL = "insert item_differentiation_infos(code, content, annotation) values(?, ?, ?)";
-    return runRawSQLToUpdate(SQL,
-        o.getCode(),
-        o.getContent(),
-        o.getAnnotation());
+    return runRawSQLToUpdate(SQL, o.getCode(), o.getContent(), o.getAnnotation());
   }
 
   @Override
@@ -47,8 +40,7 @@ public class ItemDifferentiationInfoDAO extends DAO<ItemDifferentiationInfoBean>
     ItemDifferentiationInfoBean idti = null;
     final String SQL = "select * from item_differentiation_infos where id=?";
     List<ItemDifferentiationInfoBean> idtis = runRawSQLToQuery(rm, SQL, id);
-    if (idtis != null && idtis.size() > 0)
-      idti = idtis.get(0);
+    if (idtis != null && idtis.size() > 0) idti = idtis.get(0);
     return idti;
   }
 
@@ -61,22 +53,16 @@ public class ItemDifferentiationInfoDAO extends DAO<ItemDifferentiationInfoBean>
   @Override
   public int update(ItemDifferentiationInfoBean o) {
     final String SQL = "update item_differentiation_infos set code=?, content=?, annotation=? where id=?";
-    return runRawSQLToUpdate(SQL,
-        o.getCode(),
-        o.getContent(),
-        o.getAnnotation(),
-        o.getId());
+    return runRawSQLToUpdate(SQL, o.getCode(), o.getContent(), o.getAnnotation(), o.getId());
   }
 
   /**
    * 根据字段查找元素。
    */
   public List<ItemDifferentiationInfoBean> selectByField(String field) {
-    List<ItemDifferentiationInfoBean> idtis = new ArrayList<ItemDifferentiationInfoBean>();
+    List<ItemDifferentiationInfoBean> idtis = new ArrayList<>();
     for (ItemDifferentiationInfoBean h : selectAll())
-      if (h.getAnnotation().contains(field)
-          || h.getContent().contains(field))
-        idtis.add(h);
+      if (h.getAnnotation().contains(field) || h.getContent().contains(field)) idtis.add(h);
     return idtis;
   }
 

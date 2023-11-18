@@ -3,40 +3,60 @@ package com.penyo.herbms.pojo;
 import java.util.Map;
 
 /**
- * 药品的数据容器。
- * 
+ * 中药的数据容器。
+ *
  * @author Penyo
  */
-public class HerbBean extends Bean {
-  /** 编号 */
+public class HerbBean extends AbstractBean {
+  /**
+   * 编号
+   */
   private int code;
-  /** 学名 */
+  /**
+   * 学名
+   */
   private String name;
-  /** 别名 */
+  /**
+   * 别名
+   */
   private String nickname;
-  /** 归属类别 */
+  /**
+   * 归属类别
+   */
   private String type;
-  /** 本经原文 */
+  /**
+   * 本经原文
+   */
   private String description;
-  /** 主治 */
+  /**
+   * 主治
+   */
   private String efficacy;
-  /** 性味 */
+  /**
+   * 性味
+   */
   private String taste;
-  /** 产地 */
+  /**
+   * 产地
+   */
   private String origin;
-  /** 用量 */
+  /**
+   * 用量
+   */
   private String dosage;
-  /** 禁忌 */
+  /**
+   * 禁忌
+   */
   private String taboo;
-  /** 炮制方法 */
+  /**
+   * 炮制方法
+   */
   private String processing;
 
   public HerbBean() {
   }
 
-  public HerbBean(int id, int code, String name, String nickname, String type, String description,
-      String efficacy,
-      String taste, String origin, String dosage, String taboo, String processing) {
+  public HerbBean(int id, int code, String name, String nickname, String type, String description, String efficacy, String taste, String origin, String dosage, String taboo, String processing) {
     super(id);
     this.code = code;
     this.name = name;
@@ -76,15 +96,9 @@ public class HerbBean extends Bean {
   }
 
   public static boolean isTypeValid(String type) {
-    final Map<String, Boolean> TYPES = Map.of(
-        "上经", true,
-        "中经", true,
-        "下经", true,
-        "增补", true);
+    final Map<String, Boolean> TYPES = Map.of("上经", true, "中经", true, "下经", true, "增补", true);
 
-    if (TYPES.get(type) != null)
-      return true;
-    return false;
+    return TYPES.get(type) != null;
   }
 
   public String getType() {
@@ -93,8 +107,7 @@ public class HerbBean extends Bean {
 
   public void setType(String type) {
     try {
-      if (!HerbBean.isTypeValid(type))
-      throw new TypeNotPresentException(type, null);
+      if (!HerbBean.isTypeValid(type)) throw new TypeNotPresentException(type, null);
       this.type = type;
     } catch (Exception e) {
       this.type = "上经";

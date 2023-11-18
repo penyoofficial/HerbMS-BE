@@ -1,16 +1,22 @@
 package com.penyo.herbms.pojo;
 
 /**
- * 药品使用心得的数据容器。
- * 
+ * 中药使用心得的数据容器。
+ *
  * @author Penyo
  */
-public class ExperienceBean extends Bean {
-  /** 中草药 ID（外键） */
+public class ExperienceBean extends AbstractBean {
+  /**
+   * 中草药 ID（外键）
+   */
   private int herbId;
-  /** 出处 */
+  /**
+   * 出处
+   */
   private String derivation;
-  /** 心得内容 */
+  /**
+   * 心得内容
+   */
   private String content;
 
   public ExperienceBean() {

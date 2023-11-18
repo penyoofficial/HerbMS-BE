@@ -4,15 +4,21 @@ import java.util.Map;
 
 /**
  * 条辨的数据容器。
- * 
+ *
  * @author Penyo
  */
-public class ItemDifferentiationBean extends Bean {
-  /** 条辨 ID（外键） */
+public class ItemDifferentiationBean extends AbstractBean {
+  /**
+   * 条辨 ID（外键）
+   */
   private int itemDifferentionId;
-  /** 处方 ID（外键） */
+  /**
+   * 处方 ID（外键）
+   */
   private int prescriptionId;
-  /** 类型 */
+  /**
+   * 类型
+   */
   private String type;
 
   public ItemDifferentiationBean() {
@@ -42,14 +48,9 @@ public class ItemDifferentiationBean extends Bean {
   }
 
   public static boolean isTypeValid(String type) {
-    final Map<String, Boolean> TYPES = Map.of(
-        "对症", true,
-        "不适用", true,
-        "其他", true);
+    final Map<String, Boolean> TYPES = Map.of("对症", true, "不适用", true, "其他", true);
 
-    if (TYPES.get(type) != null)
-      return true;
-    return false;
+    return TYPES.get(type) != null;
   }
 
   public String getType() {
@@ -58,8 +59,7 @@ public class ItemDifferentiationBean extends Bean {
 
   public void setType(String type) {
     try {
-      if (!ItemDifferentiationBean.isTypeValid(type))
-        throw new TypeNotPresentException(type, null);
+      if (!ItemDifferentiationBean.isTypeValid(type)) throw new TypeNotPresentException(type, null);
       this.type = type;
     } catch (Exception e) {
       this.type = "对症";

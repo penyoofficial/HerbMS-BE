@@ -12,10 +12,10 @@
   if (oNeedQueryHerb != null)
     needQueryHerb = (Boolean) oNeedQueryHerb;
   
-  List list = new ArrayList();
+  List<?> list = new ArrayList<>();
   Object oList = session.getAttribute("list");
   if (oList != null)
-    list = (List) oList;
+    list = (List<?>) oList;
 %>
 
 <script type="module">

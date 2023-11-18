@@ -2,15 +2,21 @@ package com.penyo.herbms.pojo;
 
 /**
  * 处方概要的数据容器。
- * 
+ *
  * @author Penyo
  */
-public class PrescriptionInfoBean extends Bean {
-  /** 名称 */
+public class PrescriptionInfoBean extends AbstractBean {
+  /**
+   * 名称
+   */
   private String name;
-  /** 别名 */
+  /**
+   * 别名
+   */
   private String nickname;
-  /** 解释 */
+  /**
+   * 解释
+   */
   private String description;
 
   public PrescriptionInfoBean() {

@@ -29,7 +29,7 @@ CREATE TABLE `experiences`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `experiences::herbId`(`herbId` ASC) USING BTREE,
   CONSTRAINT `experiences::herbId` FOREIGN KEY (`herbId`) REFERENCES `herbs` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '药品使用心得' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '中药使用心得' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of experiences
@@ -62,7 +62,7 @@ CREATE TABLE `herbs`  (
   `taboo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '禁忌',
   `processing` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '炮制方法',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '药品' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '中药' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of herbs
@@ -147,7 +147,7 @@ DROP TABLE IF EXISTS `prescriptions`;
 CREATE TABLE `prescriptions`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '唯一识别码',
   `prescriptionId` int(11) NOT NULL COMMENT '中药处方 ID',
-  `herbId` int(11) NOT NULL COMMENT '药品 ID',
+  `herbId` int(11) NOT NULL COMMENT '中药 ID',
   `dosage` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用量',
   `usage` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用法',
   PRIMARY KEY (`id`) USING BTREE,

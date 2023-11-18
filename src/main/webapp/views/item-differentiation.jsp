@@ -18,7 +18,7 @@
   ItemDifferentiationBean idtObj = null;
 
   Enumeration<String> paramNames = request.getParameterNames();
-  Map<String, String> params = new HashMap<String, String>();
+  Map<String, String> params = new HashMap<>();
   while (paramNames.hasMoreElements()) {
     String key = paramNames.nextElement();
     params.put(key, request.getParameter(key));

@@ -1,25 +1,20 @@
 package com.penyo.herbms.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.penyo.herbms.pojo.ExperienceBean;
 
 /**
- * 药品使用心得的持久层。
- * 
+ * 中药使用心得的数据访问代理。
+ *
  * @author Penyo
  * @see com.penyo.herbms.pojo.ExperienceBean
  */
-public class ExperienceDAO extends DAO<ExperienceBean> {
-  RowMapper<ExperienceBean> rm = (rs) -> {
+public class ExperienceDAO extends AbstractDAO<ExperienceBean> {
+  final RowMapper<ExperienceBean> rm = (rs) -> {
     ExperienceBean exp = null;
     try {
-      exp = new ExperienceBean(
-          rs.getInt("id"),
-          rs.getInt("herbId"),
-          rs.getString("derivation"),
-          rs.getString("content"));
+      exp = new ExperienceBean(rs.getInt("id"), rs.getInt("herbId"), rs.getString("derivation"), rs.getString("content"));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -29,10 +24,7 @@ public class ExperienceDAO extends DAO<ExperienceBean> {
   @Override
   public int add(ExperienceBean o) {
     final String SQL = "insert experiences(herbId, derivation, content) values(?, ?, ?)";
-    return runRawSQLToUpdate(SQL,
-        o.getHerbId(),
-        o.getDerivation(),
-        o.getContent());
+    return runRawSQLToUpdate(SQL, o.getHerbId(), o.getDerivation(), o.getContent());
   }
 
   @Override
@@ -46,8 +38,7 @@ public class ExperienceDAO extends DAO<ExperienceBean> {
     ExperienceBean exp = null;
     final String SQL = "select * from experiences where id=?";
     List<ExperienceBean> exps = runRawSQLToQuery(rm, SQL, id);
-    if (exps != null && exps.size() > 0)
-      exp = exps.get(0);
+    if (exps != null && exps.size() > 0) exp = exps.get(0);
     return exp;
   }
 
@@ -60,49 +51,6 @@ public class ExperienceDAO extends DAO<ExperienceBean> {
   @Override
   public int update(ExperienceBean o) {
     final String SQL = "update experiences set herbId=?, derivation=?, content=? where id=?";
-    return runRawSQLToUpdate(SQL,
-        o.getHerbId(),
-        o.getDerivation(),
-        o.getContent(),
-        o.getId());
-  }
-
-  /**
-   * 根据字段查找元素。
-   */
-  public List<ExperienceBean> selectByField(String field) {
-    if (field.length() == 0)
-      return selectAll();
-
-    List<ExperienceBean> hs = new ArrayList<ExperienceBean>();
-    for (ExperienceBean h : selectAll())
-      if (h.getDerivation().contains(field)
-          || h.getContent().contains(field))
-        hs.add(h);
-    return hs;
-  }
-
-  /**
-   * 根据药品 ID 查找元素。
-   */
-  public List<ExperienceBean> selectByHerbId(int herbId) {
-    List<ExperienceBean> hs = new ArrayList<ExperienceBean>();
-    for (ExperienceBean h : selectAll())
-      if (h.getHerbId() == herbId)
-        hs.add(h);
-    return hs;
-  }
-
-  /**
-   * 根据字段查找心得。
-   */
-  public List<String> selectExperiencesByField(String field) {
-    List<String> hs = new ArrayList<String>();
-    for (ExperienceBean h : selectAll()) {
-      String c = h.getContent();
-      if (c.contains(field))
-        hs.add(c);
-    }
-    return hs;
+    return runRawSQLToUpdate(SQL, o.getHerbId(), o.getDerivation(), o.getContent(), o.getId());
   }
 }

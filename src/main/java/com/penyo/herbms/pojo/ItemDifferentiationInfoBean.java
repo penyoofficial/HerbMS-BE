@@ -2,15 +2,21 @@ package com.penyo.herbms.pojo;
 
 /**
  * 条辨概要的数据容器。
- * 
+ *
  * @author Penyo
  */
-public class ItemDifferentiationInfoBean extends Bean {
-  /** 编号 */
+public class ItemDifferentiationInfoBean extends AbstractBean {
+  /**
+   * 编号
+   */
   private int code;
-  /** 内容 */
+  /**
+   * 内容
+   */
   private String content;
-  /** 注释 */
+  /**
+   * 注释
+   */
   private String annotation;
 
   public ItemDifferentiationInfoBean() {
