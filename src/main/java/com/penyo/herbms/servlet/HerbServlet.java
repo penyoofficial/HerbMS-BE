@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * 中药和中药使用心得的请求处理层。
+ * 中药和中药使用心得的请求处理层
  *
  * @author Penyo
  * @see com.penyo.herbms.pojo.HerbBean

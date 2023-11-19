@@ -6,7 +6,7 @@ import java.util.List;
 import com.penyo.herbms.pojo.PrescriptionInfoBean;
 
 /**
- * 处方概要的数据访问代理。
+ * 处方概要的数据访问代理
  *
  * @author Penyo
  * @see com.penyo.herbms.pojo.PrescriptionInfoBean
@@ -42,7 +42,7 @@ public class PrescriptionInfoDAO extends AbstractDAO<PrescriptionInfoBean> {
     PrescriptionInfoBean pi = null;
     final String SQL = "select * from prescription_infos where id=?";
     List<PrescriptionInfoBean> pis = runRawSQLToQuery(rm, SQL, id);
-    if (pis != null && pis.size() > 0) pi = pis.get(0);
+    if (pis != null && !pis.isEmpty()) pi = pis.get(0);
     return pi;
   }
 

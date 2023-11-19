@@ -3,7 +3,7 @@ package com.penyo.herbms.service;
 import com.penyo.herbms.dao.*;
 
 /**
- * 业务层。
+ * 业务层
  *
  * @author Penyo
  */

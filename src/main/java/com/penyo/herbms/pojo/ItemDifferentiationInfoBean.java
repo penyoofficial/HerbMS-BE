@@ -1,7 +1,7 @@
 package com.penyo.herbms.pojo;
 
 /**
- * 条辨概要的数据容器。
+ * 条辨概要的数据容器
  *
  * @author Penyo
  */

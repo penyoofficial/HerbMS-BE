@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 
 /**
- * 数据容器。
+ * 数据容器
  *
  * @author Penyo
  */

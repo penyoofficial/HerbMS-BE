@@ -7,7 +7,7 @@ import com.penyo.herbms.pojo.ItemDifferentiationBean;
 import com.penyo.herbms.pojo.ItemDifferentiationInfoBean;
 
 /**
- * 条辨概要的数据访问代理。
+ * 条辨概要的数据访问代理
  *
  * @author Penyo
  * @see com.penyo.herbms.pojo.ItemDifferentiationInfoBean
@@ -43,7 +43,7 @@ public class ItemDifferentiationInfoDAO extends AbstractDAO<ItemDifferentiationI
     ItemDifferentiationInfoBean idti = null;
     final String SQL = "select * from item_differentiation_infos where id=?";
     List<ItemDifferentiationInfoBean> idtis = runRawSQLToQuery(rm, SQL, id);
-    if (idtis != null && idtis.size() > 0) idti = idtis.get(0);
+    if (idtis != null && !idtis.isEmpty()) idti = idtis.get(0);
     return idti;
   }
 

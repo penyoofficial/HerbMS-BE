@@ -5,7 +5,7 @@ import java.util.List;
 import com.penyo.herbms.pojo.HerbBean;
 
 /**
- * 中药的数据访问代理。
+ * 中药的数据访问代理
  *
  * @author Penyo
  * @see com.penyo.herbms.pojo.HerbBean
@@ -41,7 +41,7 @@ public class HerbDAO extends AbstractDAO<HerbBean> {
     HerbBean h = null;
     final String SQL = "select * from herbs where id=?";
     List<HerbBean> hs = runRawSQLToQuery(rm, SQL, id);
-    if (hs != null && hs.size() > 0) h = hs.get(0);
+    if (hs != null && !hs.isEmpty()) h = hs.get(0);
     return h;
   }
 

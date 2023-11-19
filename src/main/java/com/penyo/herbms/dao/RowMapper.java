@@ -3,7 +3,7 @@ package com.penyo.herbms.dao;
 import java.sql.ResultSet;
 
 /**
- * 行映射器。
+ * 行映射器
  *
  * @author Penyo
  */

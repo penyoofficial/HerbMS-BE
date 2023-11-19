@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 中药的业务层。
+ * 中药的业务层
  *
  * @author Penyo
  */
@@ -44,7 +44,7 @@ public class HerbService extends AbstractService {
    * 根据字段查找元素。
    */
   public List<HerbBean> selectByField(String field) {
-    if (field.length() == 0) return hDAO.selectAll();
+    if (field.isEmpty()) return hDAO.selectAll();
 
     List<HerbBean> hs = new ArrayList<>();
     for (HerbBean h : hDAO.selectAll())

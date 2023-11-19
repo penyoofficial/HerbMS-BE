@@ -5,11 +5,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.penyo.herbms.util.ConnectionShell;
-import com.penyo.herbms.util.ConnectionsPool;
+import com.penyo.herbms.util.DBUtil;
+import com.penyo.tsington.v0.ConnectionShell;
 
 /**
- * 数据访问代理。
+ * 数据访问代理
  *
  * @author Penyo
  */
@@ -43,7 +43,7 @@ public abstract class AbstractDAO<T> {
    */
   public int runRawSQLToUpdate(String sql, Object... params) {
     int num = -1;
-    ConnectionShell cs = ConnectionsPool.getShell();
+    ConnectionShell cs = DBUtil.pool.lendShell();
     if (cs != null) try {
       ps = cs.getUsufruct().prepareStatement(sql);
       for (int i = 0; i < params.length; i++)
@@ -52,9 +52,9 @@ public abstract class AbstractDAO<T> {
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
-      ConnectionsPool.close(ps, rs);
+      DBUtil.close(ps, rs);
     }
-    ConnectionsPool.returnShell(cs);
+    DBUtil.pool.returnShell(cs);
     return num;
   }
 
@@ -63,7 +63,7 @@ public abstract class AbstractDAO<T> {
    */
   public List<T> runRawSQLToQuery(RowMapper<T> rm, String sql, Object... params) {
     List<T> list = new ArrayList<>();
-    ConnectionShell cs = ConnectionsPool.getShell();
+    ConnectionShell cs = DBUtil.pool.lendShell();
     if (cs != null) try {
       ps = cs.getUsufruct().prepareStatement(sql);
       for (int i = 0; i < params.length; i++)
@@ -73,9 +73,9 @@ public abstract class AbstractDAO<T> {
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
-      ConnectionsPool.close(ps, rs);
+      DBUtil.close(ps, rs);
     }
-    ConnectionsPool.returnShell(cs);
+    DBUtil.pool.returnShell(cs);
     return list;
   }
 

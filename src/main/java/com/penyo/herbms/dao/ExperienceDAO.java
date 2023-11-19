@@ -5,7 +5,7 @@ import java.util.List;
 import com.penyo.herbms.pojo.ExperienceBean;
 
 /**
- * 中药使用心得的数据访问代理。
+ * 中药使用心得的数据访问代理
  *
  * @author Penyo
  * @see com.penyo.herbms.pojo.ExperienceBean
@@ -41,7 +41,7 @@ public class ExperienceDAO extends AbstractDAO<ExperienceBean> {
     ExperienceBean exp = null;
     final String SQL = "select * from experiences where id=?";
     List<ExperienceBean> exps = runRawSQLToQuery(rm, SQL, id);
-    if (exps != null && exps.size() > 0) exp = exps.get(0);
+    if (exps != null && !exps.isEmpty()) exp = exps.get(0);
     return exp;
   }
 

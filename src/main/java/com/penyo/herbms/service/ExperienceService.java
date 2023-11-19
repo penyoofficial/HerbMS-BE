@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 中药使用心得的业务层。
+ * 中药使用心得的业务层
  *
  * @author Penyo
  */
@@ -43,7 +43,7 @@ public class ExperienceService extends AbstractService {
    * 根据字段查找元素。
    */
   public List<ExperienceBean> selectByField(String field) {
-    if (field.length() == 0) return expDAO.selectAll();
+    if (field.isEmpty()) return expDAO.selectAll();
 
     List<ExperienceBean> hs = new ArrayList<>();
     for (ExperienceBean h : expDAO.selectAll())

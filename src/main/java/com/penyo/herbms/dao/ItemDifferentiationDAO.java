@@ -6,7 +6,7 @@ import java.util.List;
 import com.penyo.herbms.pojo.ItemDifferentiationBean;
 
 /**
- * 条辨的数据访问代理。
+ * 条辨的数据访问代理
  *
  * @author Penyo
  * @see com.penyo.herbms.pojo.ItemDifferentiationBean
@@ -42,7 +42,7 @@ public class ItemDifferentiationDAO extends AbstractDAO<ItemDifferentiationBean>
     ItemDifferentiationBean idt = null;
     final String SQL = "select * from item_differentiations where id=?";
     List<ItemDifferentiationBean> idts = runRawSQLToQuery(rm, SQL, id);
-    if (idts != null && idts.size() > 0) idt = idts.get(0);
+    if (idts != null && !idts.isEmpty()) idt = idts.get(0);
     return idt;
   }
 

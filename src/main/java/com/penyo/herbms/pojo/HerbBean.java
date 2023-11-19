@@ -3,7 +3,7 @@ package com.penyo.herbms.pojo;
 import java.util.Map;
 
 /**
- * 中药的数据容器。
+ * 中药的数据容器
  *
  * @author Penyo
  */
