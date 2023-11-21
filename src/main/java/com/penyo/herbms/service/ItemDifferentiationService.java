@@ -2,7 +2,6 @@ package com.penyo.herbms.service;
 
 import com.penyo.herbms.pojo.ItemDifferentiationBean;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,16 +33,5 @@ public class ItemDifferentiationService extends AbstractService<ItemDifferentiat
   @Override
   public List<ItemDifferentiationBean> selectByFields(String... fields) {
     return idtDAO.select(fields);
-  }
-
-  /**
-   * 根据字段查找元素。
-   */
-  public List<ItemDifferentiationBean> selectByField(String field) {
-    if (field.isEmpty()) return idtDAO.selectAll();
-    List<ItemDifferentiationBean> idts = new ArrayList<>();
-    for (ItemDifferentiationBean h : idtDAO.selectAll())
-      if (h.getType().contains(field)) idts.add(h);
-    return idts;
   }
 }

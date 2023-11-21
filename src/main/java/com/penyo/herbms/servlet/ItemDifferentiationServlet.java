@@ -21,13 +21,12 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ItemDifferentiationServlet", urlPatterns = "/itemDifferentiationServlet")
 public class ItemDifferentiationServlet extends AbstractServlet<ItemDifferentiationInfoBean, ItemDifferentiationBean, ItemDifferentiationInfoService, ItemDifferentiationService> {
-
-
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     doProcess(req, new ItemDifferentiationInfoService(), new ItemDifferentiationService());
     resp.sendRedirect("item-differentiation");
-    }
+  }
+
   @Override
   protected ItemDifferentiationInfoBean getAInstance(Map<String, String> params) {
     return new ItemDifferentiationInfoBean(Integer.parseInt(params.get("id")), Integer.parseInt(params.get("code")), params.get("content"), params.get("annotation"));
