@@ -1,9 +1,8 @@
 package com.penyo.herbms.dao;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.penyo.herbms.pojo.PrescriptionInfoBean;
+
+import java.util.List;
 
 /**
  * 处方概要的数据访问代理

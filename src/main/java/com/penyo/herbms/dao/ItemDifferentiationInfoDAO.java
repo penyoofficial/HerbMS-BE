@@ -1,10 +1,8 @@
 package com.penyo.herbms.dao;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.penyo.herbms.pojo.ItemDifferentiationBean;
 import com.penyo.herbms.pojo.ItemDifferentiationInfoBean;
+
+import java.util.List;
 
 /**
  * 条辨概要的数据访问代理
@@ -57,30 +55,5 @@ public class ItemDifferentiationInfoDAO extends AbstractDAO<ItemDifferentiationI
   public int update(ItemDifferentiationInfoBean o) {
     final String SQL = "update item_differentiation_infos set code=?, content=?, annotation=? where id=?";
     return runRawSQLToUpdate(SQL, o.getCode(), o.getContent(), o.getAnnotation(), o.getId());
-  }
-
-  /**
-   * 根据字段查找元素。
-   */
-  public List<ItemDifferentiationInfoBean> selectByField(String field) {
-    List<ItemDifferentiationInfoBean> idtis = new ArrayList<>();
-    for (ItemDifferentiationInfoBean h : selectAll())
-      if (h.getAnnotation().contains(field) || h.getContent().contains(field)) idtis.add(h);
-    return idtis;
-  }
-
-  /**
-   * 根据处方 ID 查询元素。
-   */
-  public ItemDifferentiationInfoBean selectByPrescriptionId(int id) {
-    int neededId = -1;
-
-    PrescriptionDAO pDAO = new PrescriptionDAO();
-    ItemDifferentiationDAO idtDAO = new ItemDifferentiationDAO();
-    for (ItemDifferentiationBean o : idtDAO.selectAll())
-      if (o.getPrescriptionId() == pDAO.select(id).getPrescriptionId())
-        neededId = idtDAO.select(o.getId()).getItemDifferentionId();
-
-    return select(neededId);
   }
 }

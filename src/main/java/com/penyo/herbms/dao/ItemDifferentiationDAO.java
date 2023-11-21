@@ -1,9 +1,8 @@
 package com.penyo.herbms.dao;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.penyo.herbms.pojo.ItemDifferentiationBean;
+
+import java.util.List;
 
 /**
  * 条辨的数据访问代理
@@ -56,15 +55,5 @@ public class ItemDifferentiationDAO extends AbstractDAO<ItemDifferentiationBean>
   public int update(ItemDifferentiationBean o) {
     final String SQL = "update item_differentiations set itemDifferentionId=?, prescriptionId=?, type=? where id=?";
     return runRawSQLToUpdate(SQL, o.getItemDifferentionId(), o.getPrescriptionId(), o.getType(), o.getId());
-  }
-
-  /**
-   * 根据字段查找元素。
-   */
-  public List<ItemDifferentiationBean> selectByField(String field) {
-    List<ItemDifferentiationBean> idts = new ArrayList<>();
-    for (ItemDifferentiationBean h : selectAll())
-      if (h.getType().contains(field)) idts.add(h);
-    return idts;
   }
 }
