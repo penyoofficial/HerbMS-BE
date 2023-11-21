@@ -101,6 +101,11 @@ public abstract class AbstractDAO<UncertainBean extends AbstractBean> {
   public abstract UncertainBean select(int id);
 
   /**
+   * 模糊查找元素。
+   */
+  public abstract List<UncertainBean> select(String... fields);
+
+  /**
    * 查找全部元素。
    */
   public abstract List<UncertainBean> selectAll();

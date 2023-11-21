@@ -32,13 +32,8 @@ public class ExperienceService extends AbstractService<ExperienceBean> {
   }
 
   @Override
-  public List<ExperienceBean> selectByField(String field) {
-    if (field.isEmpty()) return expDAO.selectAll();
-
-    List<ExperienceBean> hs = new ArrayList<>();
-    for (ExperienceBean h : expDAO.selectAll())
-      if (h.getDerivation().contains(field) || h.getContent().contains(field)) hs.add(h);
-    return hs;
+  public List<ExperienceBean> selectByFields(String... fields) {
+    return expDAO.select(fields);
   }
 
   /**

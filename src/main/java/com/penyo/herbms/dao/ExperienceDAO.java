@@ -52,6 +52,17 @@ public class ExperienceDAO extends AbstractDAO<ExperienceBean> {
   }
 
   @Override
+  public List<ExperienceBean> select(String... fields) {
+    if (fields.length == 0) return selectAll();
+
+    StringBuilder tempSQL = new StringBuilder("select * from experiences where ");
+    for (String field : fields)
+      tempSQL.append("concat_ws(derivation, content) like '%?%' or ");
+    final String SQL = tempSQL.toString();
+    return runRawSQLToQuery(rm, SQL.substring(0, SQL.length() - 4), (Object) fields);
+  }
+
+  @Override
   public List<ExperienceBean> selectAll() {
     final String SQL = "select * from experiences";
     return runRawSQLToQuery(rm, SQL);

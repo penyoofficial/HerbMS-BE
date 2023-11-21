@@ -33,14 +33,8 @@ public class HerbService extends AbstractService<HerbBean> {
   }
 
   @Override
-  public List<HerbBean> selectByField(String field) {
-    if (field.isEmpty()) return hDAO.selectAll();
-
-    List<HerbBean> hs = new ArrayList<>();
-    for (HerbBean h : hDAO.selectAll())
-      if (h.getName().contains(field) || h.getNickname().contains(field) || h.getType().contains(field) || h.getDescription().contains(field) || h.getEfficacy().contains(field) || h.getTaste().contains(field) || h.getOrigin().contains(field) || h.getDosage().contains(field) || h.getTaboo().contains(field) || h.getProcessing().contains(field))
-        hs.add(h);
-    return hs;
+  public List<HerbBean> selectByFields(String... fields) {
+    return hDAO.select(fields);
   }
 
   /**

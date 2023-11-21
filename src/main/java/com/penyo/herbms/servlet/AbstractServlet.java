@@ -81,8 +81,8 @@ public abstract class AbstractServlet<UncertainBeanA extends AbstractBean, Uncer
       if (needQueryA) objsA.add(serviceA.selectById(Integer.parseInt(keyword)));
       else objsB.add(serviceB.selectById(Integer.parseInt(keyword)));
     } else {
-      if (needQueryA) objsA = serviceA.selectByField(keyword);
-      else objsB = serviceB.selectByField(keyword);
+      if (needQueryA) objsA = serviceA.selectByFields(keyword.split(","));
+      else objsB = serviceB.selectByFields(keyword.split(","));
     }
 
     // Transport Time

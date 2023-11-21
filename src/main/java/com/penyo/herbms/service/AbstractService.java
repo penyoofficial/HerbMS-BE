@@ -41,5 +41,5 @@ public abstract class AbstractService<UncertainBean extends AbstractBean> {
   /**
    * 根据字段查找元素。
    */
-  public abstract List<UncertainBean> selectByField(String field);
+  public abstract List<UncertainBean> selectByFields(String... fields);
 }
