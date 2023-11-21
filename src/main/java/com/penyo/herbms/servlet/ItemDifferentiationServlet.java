@@ -35,6 +35,6 @@ public class ItemDifferentiationServlet extends AbstractServlet<ItemDifferentiat
 
   @Override
   protected ItemDifferentiationBean getBInstance(Map<String, String> params) {
-    return new ItemDifferentiationBean(Integer.parseInt(params.get("id")), Integer.parseInt(params.get("itemDifferentionId")), Integer.parseInt(params.get("prescriptionId")), params.get("type"));
+    return new ItemDifferentiationBean(Integer.parseInt(params.get("id")), Integer.parseInt(params.get("itemDifferentiationId")), Integer.parseInt(params.get("prescriptionId")), params.get("type"));
   }
 }
