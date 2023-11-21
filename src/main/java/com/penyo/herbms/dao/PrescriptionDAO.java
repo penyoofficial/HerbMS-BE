@@ -1,6 +1,5 @@
 package com.penyo.herbms.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.penyo.herbms.pojo.PrescriptionBean;
@@ -56,15 +55,5 @@ public class PrescriptionDAO extends AbstractDAO<PrescriptionBean> {
   public int update(PrescriptionBean o) {
     final String SQL = "update prescriptions set prescriptionId=?, herbId=?, dosage=?, `usage`=? where id=?";
     return runRawSQLToUpdate(SQL, o.getPrescriptionId(), o.getHerbId(), o.getDosage(), o.getUsage(), o.getId());
-  }
-
-  /**
-   * 根据字段查找元素。
-   */
-  public List<PrescriptionBean> selectByField(String field) {
-    List<PrescriptionBean> ps = new ArrayList<>();
-    for (PrescriptionBean h : selectAll())
-      if (h.getDosage().contains(field) || h.getUsage().contains(field)) ps.add(h);
-    return ps;
   }
 }

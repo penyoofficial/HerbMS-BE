@@ -57,26 +57,4 @@ public class PrescriptionInfoDAO extends AbstractDAO<PrescriptionInfoBean> {
     final String SQL = "update prescription_infos set name=?, nickname=?, description=? where id=?";
     return runRawSQLToUpdate(SQL, o.getName(), o.getNickname(), o.getDescription(), o.getId());
   }
-
-  /**
-   * 根据字段查找元素。
-   */
-  public List<PrescriptionInfoBean> selectByField(String field) {
-    List<PrescriptionInfoBean> ps = new ArrayList<>();
-    for (PrescriptionInfoBean h : selectAll())
-      if (h.getName().contains(field) || h.getNickname().contains(field) || h.getDescription().contains(field))
-        ps.add(h);
-    return ps;
-  }
-
-  /**
-   * 根据条辨 ID 查找元素。
-   */
-  public PrescriptionInfoBean selectByItemDifferentiationId(int id) {
-    int neededId = -1;
-    ItemDifferentiationDAO idtDAO = new ItemDifferentiationDAO();
-    neededId = idtDAO.select(id).getPrescriptionId();
-
-    return select(neededId);
-  }
 }
