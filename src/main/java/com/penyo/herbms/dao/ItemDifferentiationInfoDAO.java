@@ -52,6 +52,17 @@ public class ItemDifferentiationInfoDAO extends AbstractDAO<ItemDifferentiationI
   }
 
   @Override
+  public List<ItemDifferentiationInfoBean> select(String... fields) {
+    if (fields.length == 0) return selectAll();
+
+    StringBuilder tempSQL = new StringBuilder("select * from item_differentiation_infos where ");
+    for (int i = 0; i < fields.length; i++)
+      tempSQL.append("concat_ws(content, annotation) like '%?%' or ");
+    final String SQL = tempSQL.toString();
+    return runRawSQLToQuery(rm, SQL.substring(0, SQL.length() - 4), (Object) fields);
+  }
+
+  @Override
   public List<ItemDifferentiationInfoBean> selectAll() {
     final String SQL = "select * from item_differentiation_infos";
     return runRawSQLToQuery(rm, SQL);

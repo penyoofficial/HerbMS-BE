@@ -1,7 +1,6 @@
 package com.penyo.herbms.service;
 
 import com.penyo.herbms.pojo.PrescriptionBean;
-import com.penyo.herbms.util.NeedRebuild;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,34 +10,30 @@ import java.util.List;
  *
  * @author hawkkie
  */
-@NeedRebuild
-public class PrescriptionService extends AbstractService {
-  /**
-   * 添加单个元素。
-   */
+public class PrescriptionService extends AbstractService<PrescriptionBean> {
+  @Override
   public int add(PrescriptionBean o) {
     return pDAO.add(o);
   }
 
-  /**
-   * 根据 ID 删除单个元素。
-   */
+  @Override
   public int deleteById(int id) {
     return pDAO.delete(id);
   }
 
-  /**
-   * 根据 ID 查找单个元素。
-   */
+  @Override
+  public int update(PrescriptionBean o) {
+    return pDAO.update(o);
+  }
+
+  @Override
   public PrescriptionBean selectById(int id) {
     return pDAO.select(id);
   }
 
-  /**
-   * 修改单个元素。
-   */
-  public int update(PrescriptionBean o) {
-    return pDAO.update(o);
+  @Override
+  public List<PrescriptionBean> selectByFields(String... fields) {
+    return pDAO.select(fields);
   }
 
   /**

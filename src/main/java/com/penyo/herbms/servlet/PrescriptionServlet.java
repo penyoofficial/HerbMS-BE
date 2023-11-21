@@ -4,17 +4,11 @@ import com.penyo.herbms.pojo.PrescriptionInfoBean;
 import com.penyo.herbms.pojo.PrescriptionBean;
 import com.penyo.herbms.service.PrescriptionInfoService;
 import com.penyo.herbms.service.PrescriptionService;
-import com.penyo.herbms.util.NeedRebuild;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -25,82 +19,21 @@ import jakarta.servlet.http.HttpServletResponse;
  * @see com.penyo.herbms.pojo.PrescriptionInfoBean
  * @see com.penyo.herbms.pojo.PrescriptionBean
  */
-@NeedRebuild
-@WebServlet(name = "PrescriptionServlet", urlPatterns = "WEB-INF/views/prescriptionServlet")
-public class PrescriptionServlet extends HttpServlet {
+@WebServlet(name = "PrescriptionServlet", urlPatterns = "/WEB-INF/views/prescriptionServlet")
+public class PrescriptionServlet extends AbstractServlet<PrescriptionInfoBean, PrescriptionBean, PrescriptionInfoService, PrescriptionService> {
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    doPost(req, resp);
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    doProcess(req, new PrescriptionInfoService(), new PrescriptionService());
+    resp.sendRedirect("prescription.jsp");
   }
 
   @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    PrescriptionInfoService piService = new PrescriptionInfoService();
-    PrescriptionService pService = new PrescriptionService();
+  protected PrescriptionInfoBean getAInstance(Map<String, String> params) {
+    return new PrescriptionInfoBean(Integer.parseInt(params.get("id")), params.get("name"), params.get("nickname"), params.get("description"));
+  }
 
-    List<PrescriptionInfoBean> pis = new ArrayList<>();
-    List<PrescriptionBean> ps = new ArrayList<>();
-
-    Enumeration<String> paramNames = req.getParameterNames();
-    Map<String, String> params = new HashMap<>();
-    while (paramNames.hasMoreElements()) {
-      String key = paramNames.nextElement();
-      params.put(key, req.getParameter(key));
-    }
-
-    // Query Part
-
-    String keyword = params.get("keyword");
-    if (keyword == null) keyword = "";
-
-    boolean isId = false;
-    String oIsId = params.get("isId");
-    if (oIsId != null) isId = oIsId.equals("on");
-
-    boolean needQueryA = true;
-    String oNeedQueryA = params.get("needQueryA");
-    if (oNeedQueryA != null) needQueryA = oNeedQueryA.equals("1");
-
-    // Update Part
-
-    String oId = params.get("id");
-    if (oId != null) {
-      String opType = params.get("opType");
-      try {
-        int id = Integer.parseInt(oId);
-        if (opType == null) {
-          if (needQueryA) {
-            PrescriptionInfoBean pi = new PrescriptionInfoBean(id, params.get("name"), params.get("nickname"), params.get("description"));
-            if (piService.selectById(id) == null) piService.add(pi);
-            else piService.update(pi);
-          } else {
-            PrescriptionBean p = new PrescriptionBean(id, Integer.parseInt(params.get("prescriptionId")), Integer.parseInt(params.get("herbId")), params.get("dosage"), params.get("usage"));
-            if (pService.selectById(id) == null) pService.add(p);
-            else pService.update(p);
-          }
-        } else if (opType.equals("delete")) {
-          if (needQueryA) piService.deleteById(id);
-          else pService.deleteById(id);
-        }
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    }
-
-    // Arbitrate Time
-
-    if (isId) {
-      if (needQueryA) pis.add(piService.selectById(Integer.parseInt(keyword)));
-      else ps.add(pService.selectById(Integer.parseInt(keyword)));
-    } else {
-      if (needQueryA) pis = piService.selectByField(keyword);
-      else ps = pService.selectByField(keyword);
-    }
-
-    // Transport Time
-
-    req.getSession().setAttribute("needQueryA", needQueryA);
-    req.getSession().setAttribute("list", needQueryA ? pis : ps);
-    resp.sendRedirect("prescription.jsp");
+  @Override
+  protected PrescriptionBean getBInstance(Map<String, String> params) {
+    return new PrescriptionBean(Integer.parseInt(params.get("id")), Integer.parseInt(params.get("prescriptionId")), Integer.parseInt("herbId"), params.get("dosage"), params.get("usage"));
   }
 }

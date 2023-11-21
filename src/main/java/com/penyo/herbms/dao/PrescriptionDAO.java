@@ -52,6 +52,17 @@ public class PrescriptionDAO extends AbstractDAO<PrescriptionBean> {
   }
 
   @Override
+  public List<PrescriptionBean> select(String... fields) {
+    if (fields.length == 0) return selectAll();
+
+    StringBuilder tempSQL = new StringBuilder("select * from prescriptions where ");
+    for (int i = 0; i < fields.length; i++)
+      tempSQL.append("concat_ws(dosage, usage) like '%?%' or ");
+    final String SQL = tempSQL.toString();
+    return runRawSQLToQuery(rm, SQL.substring(0, SQL.length() - 4), (Object) fields);
+  }
+
+  @Override
   public List<PrescriptionBean> selectAll() {
     final String SQL = "select * from prescriptions";
     return runRawSQLToQuery(rm, SQL);

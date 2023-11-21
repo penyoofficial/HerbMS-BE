@@ -1,7 +1,6 @@
 package com.penyo.herbms.service;
 
 import com.penyo.herbms.pojo.ItemDifferentiationBean;
-import com.penyo.herbms.util.NeedRebuild;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,34 +10,30 @@ import java.util.List;
  *
  * @author lyh
  */
-@NeedRebuild
-public class ItemDifferentiationService extends AbstractService {
-  /**
-   * 添加单个元素。
-   */
+public class ItemDifferentiationService extends AbstractService<ItemDifferentiationBean> {
+  @Override
   public int add(ItemDifferentiationBean o) {
     return idtDAO.add(o);
   }
 
-  /**
-   * 根据 ID 删除单个元素。
-   */
+  @Override
   public int deleteById(int id) {
     return idtDAO.delete(id);
   }
 
-  /**
-   * 根据 ID 查找单个元素。
-   */
+  @Override
+  public int update(ItemDifferentiationBean o) {
+    return idtDAO.update(o);
+  }
+
+  @Override
   public ItemDifferentiationBean selectById(int id) {
     return idtDAO.select(id);
   }
 
-  /**
-   * 修改单个元素。
-   */
-  public int update(ItemDifferentiationBean o) {
-    return idtDAO.update(o);
+  @Override
+  public List<ItemDifferentiationBean> selectByFields(String... fields) {
+    return idtDAO.select(fields);
   }
 
   /**
