@@ -1,5 +1,6 @@
 package com.penyo.herbms.dao;
 
+import com.penyo.herbms.pojo.AbstractBean;
 import com.penyo.herbms.util.DBUtil;
 import com.penyo.tsington.v0.ConnectionShell;
 
@@ -13,7 +14,7 @@ import java.util.List;
  *
  * @author Penyo
  */
-public abstract class AbstractDAO<T> {
+public abstract class AbstractDAO<UncertainBean extends AbstractBean> {
   /**
    * 命令缓存
    */
@@ -61,8 +62,8 @@ public abstract class AbstractDAO<T> {
   /**
    * 运行指定 SQL 语句并使用指定参数列填充。目的主要在于获取。
    */
-  public List<T> runRawSQLToQuery(RowMapper<T> rm, String sql, Object... params) {
-    List<T> list = new ArrayList<>();
+  public List<UncertainBean> runRawSQLToQuery(RowMapper<UncertainBean> rm, String sql, Object... params) {
+    List<UncertainBean> list = new ArrayList<>();
     ConnectionShell cs = DBUtil.pool.lendShell();
     if (cs != null) try {
       ps = cs.getUsufruct().prepareStatement(sql);
@@ -82,7 +83,7 @@ public abstract class AbstractDAO<T> {
   /**
    * 添加单个元素。
    */
-  public abstract int add(T o);
+  public abstract int add(UncertainBean o);
 
   /**
    * 删除单个元素。
@@ -90,17 +91,17 @@ public abstract class AbstractDAO<T> {
   public abstract int delete(int id);
 
   /**
+   * 修改单个元素。
+   */
+  public abstract int update(UncertainBean o);
+
+  /**
    * 查找单个元素。
    */
-  public abstract T select(int id);
+  public abstract UncertainBean select(int id);
 
   /**
    * 查找全部元素。
    */
-  public abstract List<T> selectAll();
-
-  /**
-   * 修改单个元素。
-   */
-  public abstract int update(T o);
+  public abstract List<UncertainBean> selectAll();
 }

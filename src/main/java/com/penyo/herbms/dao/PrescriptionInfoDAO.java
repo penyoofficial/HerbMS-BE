@@ -11,7 +11,7 @@ import java.util.List;
  * @see com.penyo.herbms.pojo.PrescriptionInfoBean
  */
 public class PrescriptionInfoDAO extends AbstractDAO<PrescriptionInfoBean> {
-  final RowMapper<PrescriptionInfoBean> rm = (rs) -> {
+  protected final RowMapper<PrescriptionInfoBean> rm = (rs) -> {
     PrescriptionInfoBean pi = null;
     try {
       pi = new PrescriptionInfoBean(rs.getInt("id"), rs.getString("name"), rs.getString("nickname"), rs.getString("description"));
@@ -37,6 +37,12 @@ public class PrescriptionInfoDAO extends AbstractDAO<PrescriptionInfoBean> {
   }
 
   @Override
+  public int update(PrescriptionInfoBean o) {
+    final String SQL = "update prescription_infos set name=?, nickname=?, description=? where id=?";
+    return runRawSQLToUpdate(SQL, o.getName(), o.getNickname(), o.getDescription(), o.getId());
+  }
+
+  @Override
   public PrescriptionInfoBean select(int id) {
     PrescriptionInfoBean pi = null;
     final String SQL = "select * from prescription_infos where id=?";
@@ -49,11 +55,5 @@ public class PrescriptionInfoDAO extends AbstractDAO<PrescriptionInfoBean> {
   public List<PrescriptionInfoBean> selectAll() {
     final String SQL = "select * from prescription_infos";
     return runRawSQLToQuery(rm, SQL);
-  }
-
-  @Override
-  public int update(PrescriptionInfoBean o) {
-    final String SQL = "update prescription_infos set name=?, nickname=?, description=? where id=?";
-    return runRawSQLToUpdate(SQL, o.getName(), o.getNickname(), o.getDescription(), o.getId());
   }
 }

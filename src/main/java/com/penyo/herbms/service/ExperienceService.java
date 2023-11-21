@@ -10,38 +10,28 @@ import java.util.List;
  *
  * @author Penyo
  */
-public class ExperienceService extends AbstractService {
-  /**
-   * 添加单个元素。
-   */
+public class ExperienceService extends AbstractService<ExperienceBean> {
+  @Override
   public int add(ExperienceBean o) {
     return expDAO.add(o);
   }
 
-  /**
-   * 根据 ID 删除单个元素。
-   */
+  @Override
   public int deleteById(int id) {
     return expDAO.delete(id);
   }
 
-  /**
-   * 根据 ID 查找单个元素。
-   */
-  public ExperienceBean selectById(int id) {
-    return expDAO.select(id);
-  }
-
-  /**
-   * 修改单个元素。
-   */
+  @Override
   public int update(ExperienceBean o) {
     return expDAO.update(o);
   }
 
-  /**
-   * 根据字段查找元素。
-   */
+  @Override
+  public ExperienceBean selectById(int id) {
+    return expDAO.select(id);
+  }
+
+  @Override
   public List<ExperienceBean> selectByField(String field) {
     if (field.isEmpty()) return expDAO.selectAll();
 

@@ -11,7 +11,7 @@ import java.util.List;
  * @see com.penyo.herbms.pojo.ExperienceBean
  */
 public class ExperienceDAO extends AbstractDAO<ExperienceBean> {
-  final RowMapper<ExperienceBean> rm = (rs) -> {
+  protected final RowMapper<ExperienceBean> rm = (rs) -> {
     ExperienceBean exp = null;
     try {
       exp = new ExperienceBean(rs.getInt("id"), rs.getInt("herbId"), rs.getString("derivation"), rs.getString("content"));
@@ -37,6 +37,12 @@ public class ExperienceDAO extends AbstractDAO<ExperienceBean> {
   }
 
   @Override
+  public int update(ExperienceBean o) {
+    final String SQL = "update experiences set herbId=?, derivation=?, content=? where id=?";
+    return runRawSQLToUpdate(SQL, o.getHerbId(), o.getDerivation(), o.getContent(), o.getId());
+  }
+
+  @Override
   public ExperienceBean select(int id) {
     ExperienceBean exp = null;
     final String SQL = "select * from experiences where id=?";
@@ -49,11 +55,5 @@ public class ExperienceDAO extends AbstractDAO<ExperienceBean> {
   public List<ExperienceBean> selectAll() {
     final String SQL = "select * from experiences";
     return runRawSQLToQuery(rm, SQL);
-  }
-
-  @Override
-  public int update(ExperienceBean o) {
-    final String SQL = "update experiences set herbId=?, derivation=?, content=? where id=?";
-    return runRawSQLToUpdate(SQL, o.getHerbId(), o.getDerivation(), o.getContent(), o.getId());
   }
 }

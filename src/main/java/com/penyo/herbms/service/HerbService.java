@@ -11,38 +11,28 @@ import java.util.List;
  *
  * @author Penyo
  */
-public class HerbService extends AbstractService {
-  /**
-   * 添加单个元素。
-   */
+public class HerbService extends AbstractService<HerbBean> {
+  @Override
   public int add(HerbBean o) {
     return hDAO.add(o);
   }
 
-  /**
-   * 根据 ID 删除单个元素。
-   */
+  @Override
   public int deleteById(int id) {
     return hDAO.delete(id);
   }
 
-  /**
-   * 根据 ID 查找单个元素。
-   */
-  public HerbBean selectById(int id) {
-    return hDAO.select(id);
-  }
-
-  /**
-   * 修改单个元素。
-   */
+  @Override
   public int update(HerbBean o) {
     return hDAO.update(o);
   }
 
-  /**
-   * 根据字段查找元素。
-   */
+  @Override
+  public HerbBean selectById(int id) {
+    return hDAO.select(id);
+  }
+
+  @Override
   public List<HerbBean> selectByField(String field) {
     if (field.isEmpty()) return hDAO.selectAll();
 

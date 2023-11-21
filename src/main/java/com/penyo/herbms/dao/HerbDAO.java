@@ -11,7 +11,7 @@ import java.util.List;
  * @see com.penyo.herbms.pojo.HerbBean
  */
 public class HerbDAO extends AbstractDAO<HerbBean> {
-  final RowMapper<HerbBean> rm = (rs) -> {
+  protected final RowMapper<HerbBean> rm = (rs) -> {
     HerbBean h = null;
     try {
       h = new HerbBean(rs.getInt("id"), rs.getInt("code"), rs.getString("name"), rs.getString("nickname"), rs.getString("type"), rs.getString("description"), rs.getString("efficacy"), rs.getString("taste"), rs.getString("origin"), rs.getString("dosage"), rs.getString("taboo"), rs.getString("processing"));
@@ -37,6 +37,12 @@ public class HerbDAO extends AbstractDAO<HerbBean> {
   }
 
   @Override
+  public int update(HerbBean o) {
+    final String SQL = "update herbs set code=?, name=?, nickname=?, type=?, description=?, efficacy=?, taste=?, origin=?, dosage=?, taboo=?, processing=? where id=?";
+    return runRawSQLToUpdate(SQL, o.getCode(), o.getName(), o.getNickname(), o.getType(), o.getDescription(), o.getEfficacy(), o.getTaste(), o.getOrigin(), o.getDosage(), o.getTaboo(), o.getProcessing(), o.getId());
+  }
+
+  @Override
   public HerbBean select(int id) {
     HerbBean h = null;
     final String SQL = "select * from herbs where id=?";
@@ -49,11 +55,5 @@ public class HerbDAO extends AbstractDAO<HerbBean> {
   public List<HerbBean> selectAll() {
     final String SQL = "select * from herbs";
     return runRawSQLToQuery(rm, SQL);
-  }
-
-  @Override
-  public int update(HerbBean o) {
-    final String SQL = "update herbs set code=?, name=?, nickname=?, type=?, description=?, efficacy=?, taste=?, origin=?, dosage=?, taboo=?, processing=? where id=?";
-    return runRawSQLToUpdate(SQL, o.getCode(), o.getName(), o.getNickname(), o.getType(), o.getDescription(), o.getEfficacy(), o.getTaste(), o.getOrigin(), o.getDosage(), o.getTaboo(), o.getProcessing(), o.getId());
   }
 }

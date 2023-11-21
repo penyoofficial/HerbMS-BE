@@ -11,7 +11,7 @@ import java.util.List;
  * @see com.penyo.herbms.pojo.ItemDifferentiationInfoBean
  */
 public class ItemDifferentiationInfoDAO extends AbstractDAO<ItemDifferentiationInfoBean> {
-  final RowMapper<ItemDifferentiationInfoBean> rm = (rs) -> {
+  protected final RowMapper<ItemDifferentiationInfoBean> rm = (rs) -> {
     ItemDifferentiationInfoBean idti = null;
     try {
       idti = new ItemDifferentiationInfoBean(rs.getInt("id"), rs.getInt("code"), rs.getString("content"), rs.getString("annotation"));
@@ -37,6 +37,12 @@ public class ItemDifferentiationInfoDAO extends AbstractDAO<ItemDifferentiationI
   }
 
   @Override
+  public int update(ItemDifferentiationInfoBean o) {
+    final String SQL = "update item_differentiation_infos set code=?, content=?, annotation=? where id=?";
+    return runRawSQLToUpdate(SQL, o.getCode(), o.getContent(), o.getAnnotation(), o.getId());
+  }
+
+  @Override
   public ItemDifferentiationInfoBean select(int id) {
     ItemDifferentiationInfoBean idti = null;
     final String SQL = "select * from item_differentiation_infos where id=?";
@@ -49,11 +55,5 @@ public class ItemDifferentiationInfoDAO extends AbstractDAO<ItemDifferentiationI
   public List<ItemDifferentiationInfoBean> selectAll() {
     final String SQL = "select * from item_differentiation_infos";
     return runRawSQLToQuery(rm, SQL);
-  }
-
-  @Override
-  public int update(ItemDifferentiationInfoBean o) {
-    final String SQL = "update item_differentiation_infos set code=?, content=?, annotation=? where id=?";
-    return runRawSQLToUpdate(SQL, o.getCode(), o.getContent(), o.getAnnotation(), o.getId());
   }
 }
