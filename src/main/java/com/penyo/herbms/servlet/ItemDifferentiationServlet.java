@@ -57,9 +57,9 @@ public class ItemDifferentiationServlet extends HttpServlet {
     String oIsId = params.get("isId");
     if (oIsId != null) isId = oIsId.equals("on");
 
-    boolean needQueryInfo = true;
-    String oNeedQueryInfo = params.get("needQueryInfo");
-    if (oNeedQueryInfo != null) needQueryInfo = oNeedQueryInfo.equals("1");
+    boolean needQueryA = true;
+    String oNeedQueryA = params.get("needQueryA");
+    if (oNeedQueryA != null) needQueryA = oNeedQueryA.equals("1");
 
     // Update Part
 
@@ -69,7 +69,7 @@ public class ItemDifferentiationServlet extends HttpServlet {
       try {
         int id = Integer.parseInt(oId);
         if (opType == null) {
-          if (needQueryInfo) {
+          if (needQueryA) {
             ItemDifferentiationInfoBean idti = new ItemDifferentiationInfoBean(id, Integer.parseInt(params.get("code")), params.get("content"), params.get("annotation"));
             if (idtiService.selectById(id) == null) idtiService.add(idti);
             else idtiService.update(idti);
@@ -79,7 +79,7 @@ public class ItemDifferentiationServlet extends HttpServlet {
             else idtService.update(idt);
           }
         } else if (opType.equals("delete")) {
-          if (needQueryInfo) idtiService.deleteById(id);
+          if (needQueryA) idtiService.deleteById(id);
           else idtService.deleteById(id);
         }
       } catch (Exception e) {
@@ -90,17 +90,17 @@ public class ItemDifferentiationServlet extends HttpServlet {
     // Arbitrate Time
 
     if (isId) {
-      if (needQueryInfo) idtis.add(idtiService.selectById(Integer.parseInt(keyword)));
+      if (needQueryA) idtis.add(idtiService.selectById(Integer.parseInt(keyword)));
       else idts.add(idtService.selectById(Integer.parseInt(keyword)));
     } else {
-      if (needQueryInfo) idtis = idtiService.selectByField(keyword);
+      if (needQueryA) idtis = idtiService.selectByField(keyword);
       else idts = idtService.selectByField(keyword);
     }
 
     // Transport Time
 
-    req.getSession().setAttribute("needQueryInfo", needQueryInfo);
-    req.getSession().setAttribute("list", needQueryInfo ? idtis : idts);
+    req.getSession().setAttribute("needQueryA", needQueryA);
+    req.getSession().setAttribute("list", needQueryA ? idtis : idts);
     resp.sendRedirect("item-differentiation.jsp");
   }
 }

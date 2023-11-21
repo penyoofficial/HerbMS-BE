@@ -56,8 +56,8 @@ public class HerbDAO extends AbstractDAO<HerbBean> {
     if (fields.length == 0) return selectAll();
 
     StringBuilder tempSQL = new StringBuilder("select * from herbs where ");
-    for (String field : fields)
-      tempSQL.append("concat_ws(code, name, nickname, type, description, efficacy, taste, origin, dosage, taboo, processing) like '%?%' or ");
+    for (int i = 0; i < fields.length; i++)
+      tempSQL.append("concat_ws(name, nickname, type, description, efficacy, taste, origin, dosage, taboo, processing) like '%?%' or ");
     final String SQL = tempSQL.toString();
     return runRawSQLToQuery(rm, SQL.substring(0, SQL.length() - 4), (Object) fields);
   }

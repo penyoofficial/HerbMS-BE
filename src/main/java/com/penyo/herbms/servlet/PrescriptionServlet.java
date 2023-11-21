@@ -57,9 +57,9 @@ public class PrescriptionServlet extends HttpServlet {
     String oIsId = params.get("isId");
     if (oIsId != null) isId = oIsId.equals("on");
 
-    boolean needQueryInfo = true;
-    String oNeedQueryInfo = params.get("needQueryInfo");
-    if (oNeedQueryInfo != null) needQueryInfo = oNeedQueryInfo.equals("1");
+    boolean needQueryA = true;
+    String oNeedQueryA = params.get("needQueryA");
+    if (oNeedQueryA != null) needQueryA = oNeedQueryA.equals("1");
 
     // Update Part
 
@@ -69,7 +69,7 @@ public class PrescriptionServlet extends HttpServlet {
       try {
         int id = Integer.parseInt(oId);
         if (opType == null) {
-          if (needQueryInfo) {
+          if (needQueryA) {
             PrescriptionInfoBean pi = new PrescriptionInfoBean(id, params.get("name"), params.get("nickname"), params.get("description"));
             if (piService.selectById(id) == null) piService.add(pi);
             else piService.update(pi);
@@ -79,7 +79,7 @@ public class PrescriptionServlet extends HttpServlet {
             else pService.update(p);
           }
         } else if (opType.equals("delete")) {
-          if (needQueryInfo) piService.deleteById(id);
+          if (needQueryA) piService.deleteById(id);
           else pService.deleteById(id);
         }
       } catch (Exception e) {
@@ -90,17 +90,17 @@ public class PrescriptionServlet extends HttpServlet {
     // Arbitrate Time
 
     if (isId) {
-      if (needQueryInfo) pis.add(piService.selectById(Integer.parseInt(keyword)));
+      if (needQueryA) pis.add(piService.selectById(Integer.parseInt(keyword)));
       else ps.add(pService.selectById(Integer.parseInt(keyword)));
     } else {
-      if (needQueryInfo) pis = piService.selectByField(keyword);
+      if (needQueryA) pis = piService.selectByField(keyword);
       else ps = pService.selectByField(keyword);
     }
 
     // Transport Time
 
-    req.getSession().setAttribute("needQueryInfo", needQueryInfo);
-    req.getSession().setAttribute("list", needQueryInfo ? pis : ps);
+    req.getSession().setAttribute("needQueryA", needQueryA);
+    req.getSession().setAttribute("list", needQueryA ? pis : ps);
     resp.sendRedirect("prescription.jsp");
   }
 }

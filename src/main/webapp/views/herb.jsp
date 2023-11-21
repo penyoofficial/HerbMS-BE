@@ -9,11 +9,11 @@
 <%
   String servletName = "herbServlet";
 
-  boolean needQueryHerb = true;
-  Object oNeedQueryHerb = session.getAttribute("needQueryHerb");
-  session.setAttribute("needQueryHerb", null);
-  if (oNeedQueryHerb != null)
-    needQueryHerb = (Boolean) oNeedQueryHerb;
+  boolean needQueryA = true;
+  Object oNeedQueryA = session.getAttribute("needQueryA");
+  session.setAttribute("needQueryA", null);
+  if (oNeedQueryA != null)
+    needQueryA = (Boolean) oNeedQueryA;
   
   List<?> list = new ArrayList<>();
   Object oList = session.getAttribute("list");
@@ -49,14 +49,14 @@
         ['出处', 'derivation'],
         ['心得内容', 'content'],
       ]])
-      const needQueryHerb = ref(<%= needQueryHerb %>)
+      const needQueryA = ref(<%= needQueryA %>)
       const objs = ref(JSON.parse('<%= list %>'))
       const servletName = ref('<%= servletName %>')
 
       return {
         isNewingFormPoped,
         columnHeads,
-        needQueryHerb,
+        needQueryA,
         objs,
         servletName,
       }
@@ -83,7 +83,7 @@
       },
       handleDeleteOP(id) {
         const path = `${window.location.origin}${window.location.pathname}`
-        const url = `${path.substring(0, path.lastIndexOf('/'))}/${this.servletName}?opType=delete&needQueryHerb=${this.needQueryHerb ? 1 : 0}&id=${id}`
+        const url = `${path.substring(0, path.lastIndexOf('/'))}/${this.servletName}?opType=delete&needQueryA=${this.needQueryA ? 1 : 0}&id=${id}`
         window.location.href = url
       },
     }
@@ -102,17 +102,17 @@
         <input type="text" name="keyword">
         <input type="checkbox" name="isId" id="isId">
         <label for="isId">ID 查询</label>
-        <button type="submit" name="needQueryHerb" value="1">查询中草药</button>
-        <button type="submit" name="needQueryHerb" value="0">查询心得</button>
+        <button type="submit" name="needQueryA" value="1">查询中草药</button>
+        <button type="submit" name="needQueryA" value="0">查询心得</button>
       </form>
     </div>
     <div class="line"></div>
     <div v-show="isNewingFormPoped" class="dialog">
       <form class="row-edit" :action="servletName">
         <p class="tip">若处于“新增”模式，则对唯一识别码的指定无效。</p>
-        <input class="invisible" type="text" name="needQueryHerb" :value="needQueryHerb ? 1 : 0">
+        <input class="invisible" type="text" name="needQueryA" :value="needQueryA ? 1 : 0">
         <table class="infos">
-          <tr v-for="ch in columnHeads[(needQueryHerb ? 0 : 1)]">
+          <tr v-for="ch in columnHeads[(needQueryA ? 0 : 1)]">
             <td><label class="label" :for="ch[1]">{{ ch[0] }}</label></td>
             <td><input type="text" :name="ch[1]" :id="ch[1]" required></td>
           </tr>
@@ -123,7 +123,7 @@
     <table class="result">
       <thead>
         <tr>
-          <th v-for="ch in columnHeads[(needQueryHerb ? 0 : 1)]" :style="`min-width: ${ch[0].length}rem;`">{{ ch[0] }}</th>
+          <th v-for="ch in columnHeads[(needQueryA ? 0 : 1)]" :style="`min-width: ${ch[0].length}rem;`">{{ ch[0] }}</th>
         </tr>
       </thead>
       <tbody>
