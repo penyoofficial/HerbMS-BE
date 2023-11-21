@@ -4,6 +4,7 @@ import com.penyo.herbms.pojo.ItemDifferentiationInfoBean;
 import com.penyo.herbms.pojo.ItemDifferentiationBean;
 import com.penyo.herbms.service.ItemDifferentiationInfoService;
 import com.penyo.herbms.service.ItemDifferentiationService;
+import com.penyo.herbms.util.NeedRebuild;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @see com.penyo.herbms.pojo.ItemDifferentiationInfoBean
  * @see com.penyo.herbms.pojo.ItemDifferentiationBean
  */
+@NeedRebuild
 @WebServlet(name = "ItemDifferentiationServlet", urlPatterns = "/views/itemDifferentiationServlet")
 public class ItemDifferentiationServlet extends HttpServlet {
   @Override

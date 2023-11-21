@@ -4,6 +4,7 @@ import com.penyo.herbms.pojo.PrescriptionInfoBean;
 import com.penyo.herbms.pojo.PrescriptionBean;
 import com.penyo.herbms.service.PrescriptionInfoService;
 import com.penyo.herbms.service.PrescriptionService;
+import com.penyo.herbms.util.NeedRebuild;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @see com.penyo.herbms.pojo.PrescriptionInfoBean
  * @see com.penyo.herbms.pojo.PrescriptionBean
  */
+@NeedRebuild
 @WebServlet(name = "PrescriptionServlet", urlPatterns = "/views/prescriptionServlet")
 public class PrescriptionServlet extends HttpServlet {
   @Override

@@ -1,6 +1,7 @@
 package com.penyo.herbms.service;
 
 import com.penyo.herbms.pojo.PrescriptionInfoBean;
+import com.penyo.herbms.util.NeedRebuild;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
  *
  * @author hawkkie
  */
+@NeedRebuild
 public class PrescriptionInfoService extends AbstractService {
   /**
    * 添加单个元素。
