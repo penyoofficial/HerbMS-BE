@@ -26,7 +26,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @see com.penyo.herbms.pojo.PrescriptionBean
  */
 @NeedRebuild
-@WebServlet(name = "PrescriptionServlet", urlPatterns = "/views/prescriptionServlet")
+@WebServlet(name = "PrescriptionServlet", urlPatterns = "WEB-INF/views/prescriptionServlet")
 public class PrescriptionServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

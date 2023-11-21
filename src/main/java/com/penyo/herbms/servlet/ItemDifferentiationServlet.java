@@ -26,7 +26,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @see com.penyo.herbms.pojo.ItemDifferentiationBean
  */
 @NeedRebuild
-@WebServlet(name = "ItemDifferentiationServlet", urlPatterns = "/views/itemDifferentiationServlet")
+@WebServlet(name = "ItemDifferentiationServlet", urlPatterns = "WEB-INF/views/itemDifferentiationServlet")
 public class ItemDifferentiationServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
