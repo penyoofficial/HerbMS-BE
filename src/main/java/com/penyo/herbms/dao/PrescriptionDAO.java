@@ -26,7 +26,7 @@ public class PrescriptionDAO extends AbstractDAO<PrescriptionBean> {
 
   @Override
   public int add(PrescriptionBean o) {
-    final String SQL = "insert prescriptions(prescriptionId, herbId, dosage, usage) values(?, ?, ?, ?)";
+    final String SQL = "insert prescriptions(prescriptionId, herbId, dosage, `usage`) values(?, ?, ?, ?)";
     return runRawSQLToUpdate(SQL, o.getPrescriptionId(), o.getHerbId(), o.getDosage(), o.getUsage());
   }
 
@@ -55,8 +55,8 @@ public class PrescriptionDAO extends AbstractDAO<PrescriptionBean> {
   public List<PrescriptionBean> select(String... fields) {
     if (fields.length == 1 && fields[0].isEmpty()) return selectAll();
 
-    final String SQL = "select * from prescriptions where " + "concat_ws(dosage, usage) like '%?%' or ".repeat(fields.length);
-    return runRawSQLToQuery(rm, SQL.substring(0, SQL.length() - 4), (Object[]) fields);
+    final String SQL = "select * from prescriptions where " + "concat(dosage, `usage`) like concat('%', ?, '%') and ".repeat(fields.length);
+    return runRawSQLToQuery(rm, SQL.substring(0, SQL.length() - 5), (Object[]) fields);
   }
 
   @Override

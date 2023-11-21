@@ -55,8 +55,8 @@ public class HerbDAO extends AbstractDAO<HerbBean> {
   public List<HerbBean> select(String... fields) {
     if (fields.length == 1 && fields[0].isEmpty()) return selectAll();
 
-    final String SQL = "select * from herbs where " + "concat_ws(name, nickname, type, description, efficacy, taste, origin, dosage, taboo, processing) like '%?%' or ".repeat(fields.length);
-    return runRawSQLToQuery(rm, SQL.substring(0, SQL.length() - 4), (Object[]) fields);
+    final String SQL = "select * from herbs where " + "concat(name, nickname, type, description, efficacy, taste, origin, dosage, taboo, processing) like concat('%', ?, '%') and ".repeat(fields.length);
+    return runRawSQLToQuery(rm, SQL.substring(0, SQL.length() - 5), (Object[]) fields);
   }
 
   @Override

@@ -55,8 +55,8 @@ public class PrescriptionInfoDAO extends AbstractDAO<PrescriptionInfoBean> {
   public List<PrescriptionInfoBean> select(String... fields) {
     if (fields.length == 1 && fields[0].isEmpty()) return selectAll();
 
-    final String SQL = "select * from prescription_infos where " + "concat_ws(name, nickname, description) like '%?%' or ".repeat(fields.length);
-    return runRawSQLToQuery(rm, SQL.substring(0, SQL.length() - 4), (Object[]) fields);
+    final String SQL = "select * from prescription_infos where " + "concat(name, nickname, description) like concat('%', ?, '%') and ".repeat(fields.length);
+    return runRawSQLToQuery(rm, SQL.substring(0, SQL.length() - 5), (Object[]) fields);
   }
 
   @Override

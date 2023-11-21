@@ -55,8 +55,8 @@ public class ItemDifferentiationDAO extends AbstractDAO<ItemDifferentiationBean>
   public List<ItemDifferentiationBean> select(String... fields) {
     if (fields.length == 1 && fields[0].isEmpty()) return selectAll();
 
-    final String SQL = "select * from item_differentiations where " + "concat_ws(type) like '%?%' or ".repeat(fields.length);
-    return runRawSQLToQuery(rm, SQL.substring(0, SQL.length() - 4), (Object[]) fields);
+    final String SQL = "select * from item_differentiations where " + "concat(type) like concat('%', ?, '%') and ".repeat(fields.length);
+    return runRawSQLToQuery(rm, SQL.substring(0, SQL.length() - 5), (Object[]) fields);
   }
 
   @Override

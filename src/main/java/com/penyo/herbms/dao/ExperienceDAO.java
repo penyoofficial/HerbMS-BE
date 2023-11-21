@@ -55,8 +55,8 @@ public class ExperienceDAO extends AbstractDAO<ExperienceBean> {
   public List<ExperienceBean> select(String... fields) {
     if (fields.length == 1 && fields[0].isEmpty()) return selectAll();
 
-    final String SQL = "select * from experiences where " + "concat_ws(derivation, content) like '%?%' or ".repeat(fields.length);
-    return runRawSQLToQuery(rm, SQL.substring(0, SQL.length() - 4), (Object[]) fields);
+    final String SQL = "select * from experiences where " + "concat(derivation, content) like concat('%', ?, '%') and ".repeat(fields.length);
+    return runRawSQLToQuery(rm, SQL.substring(0, SQL.length() - 5), (Object[]) fields);
   }
 
   @Override
