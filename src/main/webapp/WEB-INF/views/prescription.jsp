@@ -2,7 +2,7 @@
 
 <head>
   <%@ page pageEncoding="UTF-8" %>
-  <link rel="stylesheet" href="../assets/base.css">
+  <link rel="stylesheet" href="./assets/base.css">
   <%@ page import="java.util.*" %>
 </head>
 
@@ -25,7 +25,7 @@
 %>
 
 <script type="module">
-  import { createApp, ref } from '../assets/vue.esm-browser.prod.js'
+  import { createApp, ref } from './assets/vue.esm-browser.prod.js'
 
   createApp({
     setup() {

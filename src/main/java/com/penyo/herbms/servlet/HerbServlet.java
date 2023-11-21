@@ -19,12 +19,12 @@ import jakarta.servlet.http.HttpServletResponse;
  * @see com.penyo.herbms.pojo.HerbBean
  * @see com.penyo.herbms.pojo.ExperienceBean
  */
-@WebServlet(name = "HerbServlet", urlPatterns = "/WEB-INF/views/herbServlet")
+@WebServlet(name = "HerbServlet", urlPatterns = "/herbServlet")
 public class HerbServlet extends AbstractServlet<HerbBean, ExperienceBean, HerbService, ExperienceService> {
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     doProcess(req, new HerbService(), new ExperienceService());
-    resp.sendRedirect("herb.jsp");
+    resp.sendRedirect("herb");
   }
 
   @Override

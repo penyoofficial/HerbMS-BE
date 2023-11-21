@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HerbMS：中药处方管理系统</title>
-  <link rel="stylesheet" href="assets/base.css">
+  <link rel="stylesheet" href="./assets/base.css">
 </head>
 
 <script type="module">
-  import { createApp, ref } from 'WEB-INF/assets/vue.esm-browser.prod.js'
+  import { createApp, ref } from './assets/vue.esm-browser.prod.js'
 
   createApp({
     setup() {
@@ -53,7 +53,7 @@
         </li>
         <li class="tip">小提示：{{ getTip() }}</li>
       </ul>
-      <iframe class="view" :src="'WEB-INF/views/' + view + '.jsp'" frameborder="0">
+      <iframe class="view" :src="view" frameborder="0">
       </iframe>
     </div>
   </div>

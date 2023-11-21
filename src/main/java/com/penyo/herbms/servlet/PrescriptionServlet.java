@@ -19,12 +19,12 @@ import jakarta.servlet.http.HttpServletResponse;
  * @see com.penyo.herbms.pojo.PrescriptionInfoBean
  * @see com.penyo.herbms.pojo.PrescriptionBean
  */
-@WebServlet(name = "PrescriptionServlet", urlPatterns = "/WEB-INF/views/prescriptionServlet")
+@WebServlet(name = "PrescriptionServlet", urlPatterns = "/prescriptionServlet")
 public class PrescriptionServlet extends AbstractServlet<PrescriptionInfoBean, PrescriptionBean, PrescriptionInfoService, PrescriptionService> {
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     doProcess(req, new PrescriptionInfoService(), new PrescriptionService());
-    resp.sendRedirect("prescription.jsp");
+    resp.sendRedirect("prescription");
   }
 
   @Override

@@ -1,7 +1,33 @@
 <!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+    "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
+  <display-name>Herb Management System</display-name>
+
+  <servlet>
+    <servlet-name>herb</servlet-name>
+    <jsp-file>/WEB-INF/views/herb.jsp</jsp-file>
+  </servlet>
+  <servlet>
+    <servlet-name>prescription</servlet-name>
+    <jsp-file>/WEB-INF/views/prescription.jsp</jsp-file>
+  </servlet>
+  <servlet>
+    <servlet-name>item-differentiation</servlet-name>
+    <jsp-file>/WEB-INF/views/item-differentiation.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>herb</servlet-name>
+    <url-pattern>/herb</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>prescription</servlet-name>
+    <url-pattern>/prescription</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>item-differentiation</servlet-name>
+    <url-pattern>/item-differentiation</url-pattern>
+  </servlet-mapping>
 </web-app>
