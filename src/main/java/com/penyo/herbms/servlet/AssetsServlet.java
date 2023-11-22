@@ -21,8 +21,9 @@ public class AssetsServlet extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     String assetPath = req.getPathInfo();
     if (assetPath != null) {
-      Path path = Paths.get("/WEB-INF/assets" + assetPath);
+      Path path = Paths.get(getServletContext().getRealPath("/") + "/WEB-INF/assets" + assetPath);
       byte[] assetBytes = Files.readAllBytes(path);
+      resp.setContentType(assetPath.contains("css") ? "text/css" : "text/javascript");
       resp.getOutputStream().write(assetBytes);
     } else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
   }
