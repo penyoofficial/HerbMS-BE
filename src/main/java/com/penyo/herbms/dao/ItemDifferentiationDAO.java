@@ -26,6 +26,8 @@ public class ItemDifferentiationDAO extends AbstractDAO<ItemDifferentiationBean>
 
   @Override
   public int add(ItemDifferentiationBean o) {
+    if (select(o.getId()) != null) return 0;
+
     final String SQL = "insert item_differentiations(itemDifferentionId, prescriptionId, type) values(?, ?, ?)";
     return runRawSQLToUpdate(SQL, o.getItemDifferentionId(), o.getPrescriptionId(), o.getType());
   }
@@ -38,6 +40,8 @@ public class ItemDifferentiationDAO extends AbstractDAO<ItemDifferentiationBean>
 
   @Override
   public int update(ItemDifferentiationBean o) {
+    if (select(o.getId()) == null) return 0;
+
     final String SQL = "update item_differentiations set itemDifferentionId=?, prescriptionId=?, type=? where id=?";
     return runRawSQLToUpdate(SQL, o.getItemDifferentionId(), o.getPrescriptionId(), o.getType(), o.getId());
   }

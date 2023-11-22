@@ -26,6 +26,8 @@ public class PrescriptionInfoDAO extends AbstractDAO<PrescriptionInfoBean> {
 
   @Override
   public int add(PrescriptionInfoBean o) {
+    if (select(o.getId()) != null) return 0;
+
     final String SQL = "insert prescription_infos(name, nickname, description) values(?, ?, ?)";
     return runRawSQLToUpdate(SQL, o.getName(), o.getNickname(), o.getDescription());
   }
@@ -38,6 +40,8 @@ public class PrescriptionInfoDAO extends AbstractDAO<PrescriptionInfoBean> {
 
   @Override
   public int update(PrescriptionInfoBean o) {
+    if (select(o.getId()) == null) return 0;
+
     final String SQL = "update prescription_infos set name=?, nickname=?, description=? where id=?";
     return runRawSQLToUpdate(SQL, o.getName(), o.getNickname(), o.getDescription(), o.getId());
   }

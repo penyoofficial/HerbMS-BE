@@ -6,7 +6,6 @@ import com.penyo.herbms.service.HerbService;
 import com.penyo.herbms.service.ExperienceService;
 
 import java.io.IOException;
-import java.util.Map;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,12 +27,12 @@ public class HerbServlet extends AbstractServlet<HerbBean, ExperienceBean, HerbS
   }
 
   @Override
-  protected HerbBean getAInstance(Map<String, String> params) {
+  protected HerbBean getAInstance() {
     return new HerbBean(Integer.parseInt(params.get("id")), Integer.parseInt(params.get("code")), params.get("name"), params.get("nickname"), params.get("type"), params.get("description"), params.get("efficacy"), params.get("taste"), params.get("origin"), params.get("dosage"), params.get("taboo"), params.get("processing"));
   }
 
   @Override
-  protected ExperienceBean getBInstance(Map<String, String> params) {
+  protected ExperienceBean getBInstance() {
     return new ExperienceBean(Integer.parseInt(params.get("id")), Integer.parseInt(params.get("herbId")), params.get("derivation"), params.get("content"));
   }
 }

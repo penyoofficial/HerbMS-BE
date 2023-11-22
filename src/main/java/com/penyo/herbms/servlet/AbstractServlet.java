@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * 请求处理层
@@ -17,6 +18,11 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author Penyo
  */
 public abstract class AbstractServlet<UncertainBeanA extends AbstractBean, UncertainBeanB extends AbstractBean, UncertainServiceA extends AbstractService<UncertainBeanA>, UncertainServiceB extends AbstractService<UncertainBeanB>> extends HttpServlet {
+  /**
+   * 请求参数列
+   */
+  protected final Map<String, String> params = new HashMap<>();
+
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
     doPost(req, resp);
@@ -30,7 +36,6 @@ public abstract class AbstractServlet<UncertainBeanA extends AbstractBean, Uncer
     List<UncertainBeanB> objsB = new ArrayList<>();
 
     Enumeration<String> paramNames = req.getParameterNames();
-    Map<String, String> params = new HashMap<>();
     while (paramNames.hasMoreElements()) {
       String key = paramNames.nextElement();
       params.put(key, req.getParameter(key));
@@ -49,26 +54,32 @@ public abstract class AbstractServlet<UncertainBeanA extends AbstractBean, Uncer
     String oNeedQueryA = params.get("needQueryA");
     if (oNeedQueryA != null) needQueryA = oNeedQueryA.equals("1");
 
-    // Update Part
+    // Operate Part
+
+    int affectedRows = -1;
 
     String oId = params.get("id");
     if (oId != null) {
       String opType = params.get("opType");
       try {
-        int id = Integer.parseInt(oId);
-        if (opType == null) {
-          if (needQueryA) {
-            UncertainBeanA obj = getAInstance(params);
-            if (serviceA.selectById(id) == null) serviceA.add(obj);
-            else serviceA.update(obj);
+        if (needQueryA) {
+          if (opType.equals("delete")) {
+            int id = Integer.parseInt(oId);
+            affectedRows = serviceA.deleteById(id);
           } else {
-            UncertainBeanB obj = getBInstance(params);
-            if (serviceB.selectById(id) == null) serviceB.add(obj);
-            else serviceB.update(obj);
+            UncertainBeanA objA = getAInstance();
+            if (opType.equals("add")) affectedRows = serviceA.add(objA);
+            else affectedRows = serviceA.update(objA);
           }
-        } else if (opType.equals("delete")) {
-          if (needQueryA) serviceA.deleteById(id);
-          else serviceB.deleteById(id);
+        } else {
+          if (opType.equals("delete")) {
+            int id = Integer.parseInt(oId);
+            affectedRows = serviceB.deleteById(id);
+          } else {
+            UncertainBeanB objB = getBInstance();
+            if (opType.equals("add")) affectedRows = serviceB.add(objB);
+            else affectedRows = serviceB.update(objB);
+          }
         }
       } catch (Exception e) {
         e.printStackTrace();
@@ -87,17 +98,19 @@ public abstract class AbstractServlet<UncertainBeanA extends AbstractBean, Uncer
 
     // Transport Time
 
-    req.getSession().setAttribute("needQueryA", needQueryA);
-    req.getSession().setAttribute("list", needQueryA ? objsA : objsB);
+    HttpSession s = req.getSession();
+    s.setAttribute("needQueryA", needQueryA);
+    s.setAttribute("affectedRows", affectedRows);
+    s.setAttribute("list", needQueryA ? objsA : objsB);
   }
 
   /**
    * 从参数图中获取值并构造数据容器。
    */
-  protected abstract UncertainBeanA getAInstance(Map<String, String> params);
+  protected abstract UncertainBeanA getAInstance();
 
   /**
    * 从参数图中获取值并构造数据容器。
    */
-  protected abstract UncertainBeanB getBInstance(Map<String, String> params);
+  protected abstract UncertainBeanB getBInstance();
 }

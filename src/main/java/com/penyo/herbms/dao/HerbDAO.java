@@ -26,6 +26,8 @@ public class HerbDAO extends AbstractDAO<HerbBean> {
 
   @Override
   public int add(HerbBean o) {
+    if (select(o.getId()) != null) return 0;
+
     final String SQL = "insert herbs(code, name, nickname, type, description, efficacy, taste, origin, dosage, taboo, processing) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     return runRawSQLToUpdate(SQL, o.getCode(), o.getName(), o.getNickname(), o.getType(), o.getDescription(), o.getEfficacy(), o.getTaste(), o.getOrigin(), o.getDosage(), o.getTaboo(), o.getProcessing());
   }
@@ -38,6 +40,8 @@ public class HerbDAO extends AbstractDAO<HerbBean> {
 
   @Override
   public int update(HerbBean o) {
+    if (select(o.getId()) == null) return 0;
+
     final String SQL = "update herbs set code=?, name=?, nickname=?, type=?, description=?, efficacy=?, taste=?, origin=?, dosage=?, taboo=?, processing=? where id=?";
     return runRawSQLToUpdate(SQL, o.getCode(), o.getName(), o.getNickname(), o.getType(), o.getDescription(), o.getEfficacy(), o.getTaste(), o.getOrigin(), o.getDosage(), o.getTaboo(), o.getProcessing(), o.getId());
   }

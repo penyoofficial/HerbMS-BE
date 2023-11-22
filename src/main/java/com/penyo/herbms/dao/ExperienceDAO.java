@@ -26,6 +26,8 @@ public class ExperienceDAO extends AbstractDAO<ExperienceBean> {
 
   @Override
   public int add(ExperienceBean o) {
+    if (select(o.getId()) != null) return 0;
+
     final String SQL = "insert experiences(herbId, derivation, content) values(?, ?, ?)";
     return runRawSQLToUpdate(SQL, o.getHerbId(), o.getDerivation(), o.getContent());
   }
@@ -38,6 +40,8 @@ public class ExperienceDAO extends AbstractDAO<ExperienceBean> {
 
   @Override
   public int update(ExperienceBean o) {
+    if (select(o.getId()) == null) return 0;
+
     final String SQL = "update experiences set herbId=?, derivation=?, content=? where id=?";
     return runRawSQLToUpdate(SQL, o.getHerbId(), o.getDerivation(), o.getContent(), o.getId());
   }

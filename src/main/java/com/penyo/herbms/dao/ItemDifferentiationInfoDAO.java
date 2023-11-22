@@ -26,6 +26,8 @@ public class ItemDifferentiationInfoDAO extends AbstractDAO<ItemDifferentiationI
 
   @Override
   public int add(ItemDifferentiationInfoBean o) {
+    if (select(o.getId()) != null) return 0;
+
     final String SQL = "insert item_differentiation_infos(code, content, annotation) values(?, ?, ?)";
     return runRawSQLToUpdate(SQL, o.getCode(), o.getContent(), o.getAnnotation());
   }
@@ -38,6 +40,8 @@ public class ItemDifferentiationInfoDAO extends AbstractDAO<ItemDifferentiationI
 
   @Override
   public int update(ItemDifferentiationInfoBean o) {
+    if (select(o.getId()) == null) return 0;
+
     final String SQL = "update item_differentiation_infos set code=?, content=?, annotation=? where id=?";
     return runRawSQLToUpdate(SQL, o.getCode(), o.getContent(), o.getAnnotation(), o.getId());
   }

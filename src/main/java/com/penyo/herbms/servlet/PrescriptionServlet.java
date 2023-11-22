@@ -6,7 +6,6 @@ import com.penyo.herbms.service.PrescriptionInfoService;
 import com.penyo.herbms.service.PrescriptionService;
 
 import java.io.IOException;
-import java.util.Map;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,12 +27,12 @@ public class PrescriptionServlet extends AbstractServlet<PrescriptionInfoBean, P
   }
 
   @Override
-  protected PrescriptionInfoBean getAInstance(Map<String, String> params) {
+  protected PrescriptionInfoBean getAInstance() {
     return new PrescriptionInfoBean(Integer.parseInt(params.get("id")), params.get("name"), params.get("nickname"), params.get("description"));
   }
 
   @Override
-  protected PrescriptionBean getBInstance(Map<String, String> params) {
+  protected PrescriptionBean getBInstance() {
     return new PrescriptionBean(Integer.parseInt(params.get("id")), Integer.parseInt(params.get("prescriptionId")), Integer.parseInt("herbId"), params.get("dosage"), params.get("usage"));
   }
 }

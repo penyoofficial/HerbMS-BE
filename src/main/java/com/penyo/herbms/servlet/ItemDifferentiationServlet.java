@@ -6,7 +6,6 @@ import com.penyo.herbms.service.ItemDifferentiationInfoService;
 import com.penyo.herbms.service.ItemDifferentiationService;
 
 import java.io.IOException;
-import java.util.Map;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,12 +27,12 @@ public class ItemDifferentiationServlet extends AbstractServlet<ItemDifferentiat
   }
 
   @Override
-  protected ItemDifferentiationInfoBean getAInstance(Map<String, String> params) {
+  protected ItemDifferentiationInfoBean getAInstance() {
     return new ItemDifferentiationInfoBean(Integer.parseInt(params.get("id")), Integer.parseInt(params.get("code")), params.get("content"), params.get("annotation"));
   }
 
   @Override
-  protected ItemDifferentiationBean getBInstance(Map<String, String> params) {
+  protected ItemDifferentiationBean getBInstance() {
     return new ItemDifferentiationBean(Integer.parseInt(params.get("id")), Integer.parseInt(params.get("itemDifferentiationId")), Integer.parseInt(params.get("prescriptionId")), params.get("type"));
   }
 }

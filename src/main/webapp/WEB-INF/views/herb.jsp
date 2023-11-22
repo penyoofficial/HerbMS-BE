@@ -14,6 +14,12 @@
   session.setAttribute("needQueryA", null);
   if (oNeedQueryA != null)
     needQueryA = (Boolean) oNeedQueryA;
+
+  int affectedRows = -1;
+  Object oAffectedRows = session.getAttribute("affectedRows");
+  session.setAttribute("affectedRows", null);
+  if (oAffectedRows != null)
+    affectedRows = (int) oAffectedRows;
   
   List<?> list = new ArrayList<>();
   Object oList = session.getAttribute("list");
@@ -29,7 +35,7 @@
 
   createApp({
     setup() {
-      const isNewingFormPoped = ref(false)
+      const isNewingFormPoped = ref(false);
       const columnHeads = ref([[
         ['唯一识别码', 'id'],
         ['编号', 'code'],
@@ -48,10 +54,14 @@
         ['中草药 ID', 'herbId'],
         ['出处', 'derivation'],
         ['心得内容', 'content'],
-      ]])
-      const needQueryA = ref(<%= needQueryA %>)
-      const objs = ref(JSON.parse('<%= list %>'))
-      const servletName = ref('<%= servletName %>')
+      ]]);
+      const needQueryA = ref(<%= needQueryA %>);
+      const objs = ref(JSON.parse('<%= list %>'));
+      const servletName = ref('<%= servletName %>');
+      const opType = ref('');
+
+      if (!<%= affectedRows %>)
+        alert('操作失败！可能是因为不合法的请求参数。');
 
       return {
         isNewingFormPoped,
@@ -59,32 +69,38 @@
         needQueryA,
         objs,
         servletName,
+        opType,
       }
     },
     methods: {
       handleNewOrCancelOP () {
-        this.isNewingFormPoped = !this.isNewingFormPoped
+        this.opType = 'add';
+        this.isNewingFormPoped = !this.isNewingFormPoped;
+
         document.querySelector('.infos').querySelectorAll('input').forEach((i) => {
-          i.value = ""
-        })
+          i.value = "";
+        });
       },
       handleAlterOP(id) {
-        this.isNewingFormPoped = true
+        this.opType = 'update';
+        this.isNewingFormPoped = true;
 
         let obj = null;
         this.objs.forEach((o) => {
           if (id === o.id)
             obj = Object.values(o);
-        })
+        });
 
         document.querySelector('.infos').querySelectorAll('input').forEach((i, index) => {
-          i.value = obj[index]
-        })
+          i.value = obj[index];
+        });
       },
       handleDeleteOP(id) {
-        const path = `${window.location.origin}${window.location.pathname}`
-        const url = `${path.substring(0, path.lastIndexOf('/'))}/${this.servletName}?opType=delete&needQueryA=${this.needQueryA ? 1 : 0}&id=${id}`
-        window.location.href = url
+        this.opType = 'delete';
+
+        const path = `${window.location.origin}${window.location.pathname}`;
+        const url = `${path.substring(0, path.lastIndexOf('/'))}/${this.servletName}?opType=${this.opType}&needQueryA=${this.needQueryA ? 1 : 0}&id=${id}`;
+        window.location.href = url;
       },
     }
   }).mount('#subapp')
@@ -109,8 +125,9 @@
     <div class="line"></div>
     <div v-show="isNewingFormPoped" class="dialog">
       <form class="row-edit" :action="servletName">
-        <p class="tip">若处于“新增”模式，则对唯一识别码的指定无效。</p>
         <input class="invisible" type="text" name="needQueryA" :value="needQueryA ? 1 : 0">
+        <input class="invisible" type="text" name="opType" :value="opType">
+        <p class="tip">若处于“新增”模式，则对唯一识别码的指定无效。</p>
         <table class="infos">
           <tr v-for="ch in columnHeads[(needQueryA ? 0 : 1)]">
             <td><label class="label" :for="ch[1]">{{ ch[0] }}</label></td>
