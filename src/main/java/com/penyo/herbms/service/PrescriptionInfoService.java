@@ -1,6 +1,8 @@
 package com.penyo.herbms.service;
 
+import com.penyo.herbms.pojo.HerbBean;
 import com.penyo.herbms.pojo.PrescriptionInfoBean;
+import com.penyo.herbms.pojo.PrescriptionBean;
 
 import java.util.List;
 
@@ -33,5 +35,16 @@ public class PrescriptionInfoService extends AbstractService<PrescriptionInfoBea
   @Override
   public List<PrescriptionInfoBean> selectByFields(String... fields) {
     return piDAO.select(fields);
+  }
+
+  /**
+   * 根据中草药查询元素。
+   */
+  public PrescriptionInfoBean selectByHerbName(String... fields) {
+    int neededId = -1;
+    for (PrescriptionBean o : pDAO.selectAll())
+      for (HerbBean oo : hDAO.select(fields))
+        if (o.getHerbId() == oo.getId()) neededId = pDAO.select(o.getHerbId()).getPrescriptionId();
+    return piDAO.select(neededId);
   }
 }
