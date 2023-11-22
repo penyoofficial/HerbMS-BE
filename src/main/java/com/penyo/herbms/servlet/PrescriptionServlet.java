@@ -23,6 +23,7 @@ public class PrescriptionServlet extends AbstractServlet<PrescriptionInfoBean, P
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     doProcess(req, new PrescriptionInfoService(), new PrescriptionService());
+    params.clear();
     resp.sendRedirect("prescription");
   }
 

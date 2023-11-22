@@ -23,6 +23,7 @@ public class ItemDifferentiationServlet extends AbstractServlet<ItemDifferentiat
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     doProcess(req, new ItemDifferentiationInfoService(), new ItemDifferentiationService());
+    params.clear();
     resp.sendRedirect("item-differentiation");
   }
 

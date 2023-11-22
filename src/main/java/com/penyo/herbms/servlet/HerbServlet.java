@@ -23,6 +23,7 @@ public class HerbServlet extends AbstractServlet<HerbBean, ExperienceBean, HerbS
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     doProcess(req, new HerbService(), new ExperienceService());
+    params.clear();
     resp.sendRedirect("herb");
   }
 
