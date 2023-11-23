@@ -1,7 +1,7 @@
 package com.penyo.herbms.service;
 
 import com.penyo.herbms.dao.*;
-import com.penyo.herbms.pojo.AbstractBean;
+import com.penyo.herbms.pojo.JSONableBean;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author Penyo
  */
-public abstract class AbstractService<UncertainBean extends AbstractBean> {
+public abstract class AbstractService<UncertainBean extends JSONableBean> {
   protected final HerbDAO hDAO = (HerbDAO) AbstractDAO.createDAO("herb");
   protected final ExperienceDAO expDAO = (ExperienceDAO) AbstractDAO.createDAO("experience");
   protected final PrescriptionInfoDAO piDAO = (PrescriptionInfoDAO) AbstractDAO.createDAO("prescription-info");

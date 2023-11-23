@@ -7,7 +7,11 @@ import java.util.Map;
  *
  * @author Penyo
  */
-public class HerbBean extends AbstractBean {
+public class HerbBean extends JSONableBean {
+  /**
+   * 唯一识别码
+   */
+  private int id;
   /**
    * 编号
    */
@@ -57,7 +61,7 @@ public class HerbBean extends AbstractBean {
   }
 
   public HerbBean(int id, int code, String name, String nickname, String type, String description, String efficacy, String taste, String origin, String dosage, String taboo, String processing) {
-    super(id);
+    this.id = id;
     this.code = code;
     this.name = name;
     this.nickname = nickname;
@@ -69,6 +73,14 @@ public class HerbBean extends AbstractBean {
     this.dosage = dosage;
     this.taboo = taboo;
     this.processing = processing;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
   }
 
   public int getCode() {
@@ -109,7 +121,7 @@ public class HerbBean extends AbstractBean {
     try {
       if (!HerbBean.isTypeValid(type)) throw new TypeNotPresentException(type, null);
       this.type = type;
-    } catch (Exception e) {
+    } catch (TypeNotPresentException e) {
       this.type = "上经";
       e.printStackTrace();
     }

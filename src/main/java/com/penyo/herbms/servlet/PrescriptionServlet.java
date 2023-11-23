@@ -22,9 +22,8 @@ import jakarta.servlet.http.HttpServletResponse;
 public class PrescriptionServlet extends AbstractServlet<PrescriptionInfoBean, PrescriptionBean, PrescriptionInfoService, PrescriptionService> {
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    doProcess(req, new PrescriptionInfoService(), new PrescriptionService());
+    doProcess(req, resp, new PrescriptionInfoService(), new PrescriptionService());
     params.clear();
-    resp.sendRedirect("prescription");
   }
 
   @Override

@@ -2,6 +2,7 @@ package com.penyo.herbms.dao;
 
 import com.penyo.herbms.pojo.PrescriptionBean;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ public class PrescriptionDAO extends AbstractDAO<PrescriptionBean> {
     PrescriptionBean p = null;
     try {
       p = new PrescriptionBean(rs.getInt("id"), rs.getInt("prescriptionId"), rs.getInt("herbId"), rs.getString("dosage"), rs.getString("usage"));
-    } catch (Exception e) {
+    } catch (SQLException e) {
       e.printStackTrace();
     }
     return p;

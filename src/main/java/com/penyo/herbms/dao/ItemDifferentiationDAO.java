@@ -2,6 +2,7 @@ package com.penyo.herbms.dao;
 
 import com.penyo.herbms.pojo.ItemDifferentiationBean;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ public class ItemDifferentiationDAO extends AbstractDAO<ItemDifferentiationBean>
     ItemDifferentiationBean idt = null;
     try {
       idt = new ItemDifferentiationBean(rs.getInt("id"), rs.getInt("itemDifferentionId"), rs.getInt("prescriptionId"), rs.getString("type"));
-    } catch (Exception e) {
+    } catch (SQLException e) {
       e.printStackTrace();
     }
     return idt;

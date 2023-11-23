@@ -2,6 +2,7 @@ package com.penyo.herbms.dao;
 
 import com.penyo.herbms.pojo.HerbBean;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ public class HerbDAO extends AbstractDAO<HerbBean> {
     HerbBean h = null;
     try {
       h = new HerbBean(rs.getInt("id"), rs.getInt("code"), rs.getString("name"), rs.getString("nickname"), rs.getString("type"), rs.getString("description"), rs.getString("efficacy"), rs.getString("taste"), rs.getString("origin"), rs.getString("dosage"), rs.getString("taboo"), rs.getString("processing"));
-    } catch (Exception e) {
+    } catch (SQLException e) {
       e.printStackTrace();
     }
     return h;

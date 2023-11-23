@@ -22,9 +22,8 @@ import jakarta.servlet.http.HttpServletResponse;
 public class ItemDifferentiationServlet extends AbstractServlet<ItemDifferentiationInfoBean, ItemDifferentiationBean, ItemDifferentiationInfoService, ItemDifferentiationService> {
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    doProcess(req, new ItemDifferentiationInfoService(), new ItemDifferentiationService());
+    doProcess(req, resp, new ItemDifferentiationInfoService(), new ItemDifferentiationService());
     params.clear();
-    resp.sendRedirect("item-differentiation");
   }
 
   @Override

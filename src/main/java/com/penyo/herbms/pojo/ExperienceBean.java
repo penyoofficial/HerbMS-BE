@@ -5,7 +5,11 @@ package com.penyo.herbms.pojo;
  *
  * @author Penyo
  */
-public class ExperienceBean extends AbstractBean {
+public class ExperienceBean extends JSONableBean {
+  /**
+   * 唯一识别码
+   */
+  private int id;
   /**
    * 中草药 ID（外键）
    */
@@ -23,10 +27,18 @@ public class ExperienceBean extends AbstractBean {
   }
 
   public ExperienceBean(int id, int herbId, String derivation, String content) {
-    super(id);
+    this.id = id;
     this.herbId = herbId;
     this.derivation = derivation;
     this.content = content;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
   }
 
   public int getHerbId() {

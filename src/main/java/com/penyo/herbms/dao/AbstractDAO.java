@@ -1,11 +1,12 @@
 package com.penyo.herbms.dao;
 
-import com.penyo.herbms.pojo.AbstractBean;
+import com.penyo.herbms.pojo.JSONableBean;
 import com.penyo.herbms.util.DBUtil;
 import com.penyo.tsington.v0.ConnectionShell;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
  *
  * @author Penyo
  */
-public abstract class AbstractDAO<UncertainBean extends AbstractBean> {
+public abstract class AbstractDAO<UncertainBean extends JSONableBean> {
   /**
    * 命令缓存
    */
@@ -50,7 +51,7 @@ public abstract class AbstractDAO<UncertainBean extends AbstractBean> {
       for (int i = 0; i < params.length; i++)
         ps.setObject(i + 1, params[i]);
       num = ps.executeUpdate();
-    } catch (Exception e) {
+    } catch (SQLException e) {
       e.printStackTrace();
     } finally {
       DBUtil.close(ps, rs);
@@ -63,21 +64,21 @@ public abstract class AbstractDAO<UncertainBean extends AbstractBean> {
    * 运行指定 SQL 语句并使用指定参数列填充。目的主要在于获取。
    */
   public List<UncertainBean> runRawSQLToQuery(RowMapper<UncertainBean> rm, String sql, Object... params) {
-    List<UncertainBean> list = new ArrayList<>();
+    List<UncertainBean> objs = new ArrayList<>();
     ConnectionShell cs = DBUtil.pool.lendShell();
     if (cs != null) try {
       ps = cs.getUsufruct().prepareStatement(sql);
       for (int i = 0; i < params.length; i++)
         ps.setObject(i + 1, params[i]);
       rs = ps.executeQuery();
-      while (rs.next()) list.add(rm.mapRow(rs));
-    } catch (Exception e) {
+      while (rs.next()) objs.add(rm.mapRow(rs));
+    } catch (SQLException e) {
       e.printStackTrace();
     } finally {
       DBUtil.close(ps, rs);
     }
     DBUtil.pool.returnShell(cs);
-    return list;
+    return objs;
   }
 
   /**

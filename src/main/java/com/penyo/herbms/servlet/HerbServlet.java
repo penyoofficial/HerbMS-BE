@@ -22,9 +22,8 @@ import jakarta.servlet.http.HttpServletResponse;
 public class HerbServlet extends AbstractServlet<HerbBean, ExperienceBean, HerbService, ExperienceService> {
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    doProcess(req, new HerbService(), new ExperienceService());
+    doProcess(req, resp, new HerbService(), new ExperienceService());
     params.clear();
-    resp.sendRedirect("herb");
   }
 
   @Override

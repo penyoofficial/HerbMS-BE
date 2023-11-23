@@ -2,6 +2,7 @@ package com.penyo.herbms.dao;
 
 import com.penyo.herbms.pojo.ExperienceBean;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ public class ExperienceDAO extends AbstractDAO<ExperienceBean> {
     ExperienceBean exp = null;
     try {
       exp = new ExperienceBean(rs.getInt("id"), rs.getInt("herbId"), rs.getString("derivation"), rs.getString("content"));
-    } catch (Exception e) {
+    } catch (SQLException e) {
       e.printStackTrace();
     }
     return exp;

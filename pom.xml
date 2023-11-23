@@ -6,7 +6,7 @@
 
   <groupId>com.penyo</groupId>
   <artifactId>herbms</artifactId>
-  <version>0.2.0</version>
+  <version>0.3.0-INDEV</version>
   <packaging>war</packaging>
 
   <name>Herb Management System</name>

@@ -1,6 +1,7 @@
 package com.penyo.herbms.servlet;
 
-import com.penyo.herbms.pojo.AbstractBean;
+import com.penyo.herbms.pojo.JSONableBean;
+import com.penyo.herbms.pojo.ReturnDataPack;
 import com.penyo.herbms.service.AbstractService;
 
 import java.io.IOException;
@@ -10,14 +11,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 /**
  * 请求处理层
  *
  * @author Penyo
  */
-public abstract class AbstractServlet<UncertainBeanA extends AbstractBean, UncertainBeanB extends AbstractBean, UncertainServiceA extends AbstractService<UncertainBeanA>, UncertainServiceB extends AbstractService<UncertainBeanB>> extends HttpServlet {
+public abstract class AbstractServlet<UncertainBeanA extends JSONableBean, UncertainBeanB extends JSONableBean, UncertainServiceA extends AbstractService<UncertainBeanA>, UncertainServiceB extends AbstractService<UncertainBeanB>> extends HttpServlet {
   /**
    * 请求参数列
    */
@@ -31,7 +31,7 @@ public abstract class AbstractServlet<UncertainBeanA extends AbstractBean, Uncer
   /**
    * 处理请求。
    */
-  protected void doProcess(HttpServletRequest req, UncertainServiceA serviceA, UncertainServiceB serviceB) {
+  protected void doProcess(HttpServletRequest req, HttpServletResponse resp, UncertainServiceA serviceA, UncertainServiceB serviceB) {
     List<UncertainBeanA> objsA = new ArrayList<>();
     List<UncertainBeanB> objsB = new ArrayList<>();
 
@@ -52,7 +52,7 @@ public abstract class AbstractServlet<UncertainBeanA extends AbstractBean, Uncer
 
     boolean needQueryA = true;
     String oNeedQueryA = params.get("needQueryA");
-    if (oNeedQueryA != null) needQueryA = oNeedQueryA.equals("1");
+    if (oNeedQueryA != null) needQueryA = oNeedQueryA.equals("true");
 
     // Operate Part
 
@@ -62,9 +62,9 @@ public abstract class AbstractServlet<UncertainBeanA extends AbstractBean, Uncer
     if (oId != null) {
       String opType = params.get("opType");
       try {
+        int id = Integer.parseInt(oId);
         if (needQueryA) {
           if (opType.equals("delete")) {
-            int id = Integer.parseInt(oId);
             affectedRows = serviceA.deleteById(id);
           } else {
             UncertainBeanA objA = getAInstance();
@@ -73,7 +73,6 @@ public abstract class AbstractServlet<UncertainBeanA extends AbstractBean, Uncer
           }
         } else {
           if (opType.equals("delete")) {
-            int id = Integer.parseInt(oId);
             affectedRows = serviceB.deleteById(id);
           } else {
             UncertainBeanB objB = getBInstance();
@@ -81,7 +80,7 @@ public abstract class AbstractServlet<UncertainBeanA extends AbstractBean, Uncer
             else affectedRows = serviceB.update(objB);
           }
         }
-      } catch (Exception e) {
+      } catch (NumberFormatException e) {
         e.printStackTrace();
       }
     }
@@ -98,10 +97,13 @@ public abstract class AbstractServlet<UncertainBeanA extends AbstractBean, Uncer
 
     // Transport Time
 
-    HttpSession s = req.getSession();
-    s.setAttribute("needQueryA", needQueryA);
-    s.setAttribute("affectedRows", affectedRows);
-    s.setAttribute("list", needQueryA ? objsA : objsB);
+    try {
+      ReturnDataPack<UncertainBeanA> rdpA = new ReturnDataPack<>(needQueryA, affectedRows, objsA);
+      ReturnDataPack<UncertainBeanB> rdpB = new ReturnDataPack<>(needQueryA, affectedRows, objsB);
+      resp.getWriter().write((needQueryA ? rdpA : rdpB).toString());
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   /**

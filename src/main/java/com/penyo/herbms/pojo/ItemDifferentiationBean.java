@@ -7,7 +7,11 @@ import java.util.Map;
  *
  * @author Penyo
  */
-public class ItemDifferentiationBean extends AbstractBean {
+public class ItemDifferentiationBean extends JSONableBean {
+  /**
+   * 唯一识别码
+   */
+  private int id;
   /**
    * 条辨 ID（外键）
    */
@@ -25,10 +29,18 @@ public class ItemDifferentiationBean extends AbstractBean {
   }
 
   public ItemDifferentiationBean(int id, int itemDifferentionId, int prescriptionId, String type) {
-    super(id);
+    this.id = id;
     this.itemDifferentionId = itemDifferentionId;
     this.prescriptionId = prescriptionId;
     setType(type);
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
   }
 
   public int getItemDifferentionId() {
@@ -61,7 +73,7 @@ public class ItemDifferentiationBean extends AbstractBean {
     try {
       if (!ItemDifferentiationBean.isTypeValid(type)) throw new TypeNotPresentException(type, null);
       this.type = type;
-    } catch (Exception e) {
+    } catch (TypeNotPresentException e) {
       this.type = "对症";
       e.printStackTrace();
     }

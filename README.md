@@ -15,6 +15,7 @@ Herb Management System：中药处方管理系统，基于灵活架构构建的 
 | [MySQL](https://dev.mysql.com/downloads/mysql/)               | 数据库        | 8.0.0 |
 | [Git](https://git-scm.com/download/)                          | 版本控制器      | N/A   |
 | [Tsington](https://github.com/penyoofficial/Tsington)         | 连接池        | N/A   |
+| [HerbMS-Vue](https://github.com/penyoofficial/HerbMS)         | 前端         | N/A   |
 
 下图较好地概述了流程核心：
 
@@ -27,7 +28,7 @@ graph
   -->s5["部署 Tsington"]
   -->s6["Maven 打包"]
   -->s7["添加本地 Tomcat、添加部署并发布服务器"]
-  -->s8["启动 Tomcat，访问 localhost/herbms/"]
+  -->s8["启动 Tomcat，启动前端"]
   subgraph s3["在 VS Code 中安装插件"]
     s3.1["Extension for Java"]
     s3.2["Community Server Connector"]
