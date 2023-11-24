@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Penyo
  */
-@WebServlet(name = "AssetsServlet", urlPatterns = "/assets/*")
+@WebServlet("/assets/*")
 public class AssetsServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

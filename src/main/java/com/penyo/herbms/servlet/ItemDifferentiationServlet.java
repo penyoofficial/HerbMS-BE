@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @see com.penyo.herbms.pojo.ItemDifferentiationInfoBean
  * @see com.penyo.herbms.pojo.ItemDifferentiationBean
  */
-@WebServlet(name = "ItemDifferentiationServlet", urlPatterns = "/itemDifferentiationServlet")
+@WebServlet("/itemDifferentiationServlet")
 public class ItemDifferentiationServlet extends AbstractServlet<ItemDifferentiationInfoBean, ItemDifferentiationBean, ItemDifferentiationInfoService, ItemDifferentiationService> {
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
