@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.penyo.herbms.mapper.ItemDifferentiationInfoMapper">
+
+  <insert id="add" parameterType="ItemDifferentiationInfoBean">
+    INSERT item_differentiation_infos (code, content, annotation)
+    VALUES (#{code}, #{content}, #{annotation})
+  </insert>
+
+  <delete id="delete" parameterType="int">
+    DELETE
+    FROM item_differentiation_infos
+    WHERE id = #{id}
+  </delete>
+
+  <update id="update" parameterType="ItemDifferentiationInfoBean">
+    UPDATE item_differentiation_infos
+    SET code       = #{code},
+        content    = #{content},
+        annotation = #{annotation}
+    WHERE id = #{id}
+  </update>
+
+  <select id="selectById" resultType="ItemDifferentiationInfoBean" parameterType="int">
+    SELECT *
+    FROM item_differentiation_infos
+    WHERE id = #{id}
+  </select>
+
+  <select id="selectByFields" resultType="ItemDifferentiationInfoBean" parameterType="java.util.List">
+    SELECT * FROM item_differentiation_infos
+    WHERE
+    <foreach collection="list" item="item" separator="AND">
+      CONCAT_WS(content, annotation)
+      LIKE CONCAT('%', #{item}, '%')
+    </foreach>
+  </select>
+
+  <select id="selectAll" resultType="ItemDifferentiationInfoBean">
+    SELECT *
+    FROM item_differentiation_infos
+  </select>
+
+</mapper>

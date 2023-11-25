@@ -5,23 +5,21 @@ import com.penyo.herbms.pojo.ItemDifferentiationBean;
 import com.penyo.herbms.service.ItemDifferentiationInfoService;
 import com.penyo.herbms.service.ItemDifferentiationService;
 
-import java.io.IOException;
-
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * 条辩和条辩概要的请求处理层
+ * 条辩和条辩概要的请求处理代理
  *
- * @author lyh
+ * @author Penyo
  * @see com.penyo.herbms.pojo.ItemDifferentiationInfoBean
  * @see com.penyo.herbms.pojo.ItemDifferentiationBean
  */
 @WebServlet("/itemDifferentiationServlet")
-public class ItemDifferentiationServlet extends AbstractServlet<ItemDifferentiationInfoBean, ItemDifferentiationBean, ItemDifferentiationInfoService, ItemDifferentiationService> {
+public class ItemDifferentiationServlet extends GenericServlet<ItemDifferentiationInfoBean, ItemDifferentiationBean, ItemDifferentiationInfoService, ItemDifferentiationService> {
   @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
     doProcess(req, resp, new ItemDifferentiationInfoService(), new ItemDifferentiationService());
     params.clear();
   }

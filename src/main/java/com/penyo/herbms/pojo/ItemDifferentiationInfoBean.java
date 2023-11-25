@@ -5,7 +5,7 @@ package com.penyo.herbms.pojo;
  *
  * @author Penyo
  */
-public class ItemDifferentiationInfoBean extends JSONableBean {
+public class ItemDifferentiationInfoBean extends GenericBean {
   /**
    * 唯一识别码
    */
@@ -33,6 +33,7 @@ public class ItemDifferentiationInfoBean extends JSONableBean {
     this.annotation = annotation;
   }
 
+  @Override
   public int getId() {
     return id;
   }

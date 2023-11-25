@@ -7,18 +7,18 @@ import com.penyo.herbms.pojo.PrescriptionBean;
 import java.util.List;
 
 /**
- * 经方概要的业务层
+ * 经方概要的业务代理
  *
- * @author hawkkie
+ * @author Penyo
  */
-public class PrescriptionInfoService extends AbstractService<PrescriptionInfoBean> {
+public class PrescriptionInfoService extends GenericService<PrescriptionInfoBean> {
   @Override
   public int add(PrescriptionInfoBean o) {
     return piDAO.add(o);
   }
 
   @Override
-  public int deleteById(int id) {
+  public int delete(int id) {
     return piDAO.delete(id);
   }
 
@@ -29,22 +29,22 @@ public class PrescriptionInfoService extends AbstractService<PrescriptionInfoBea
 
   @Override
   public PrescriptionInfoBean selectById(int id) {
-    return piDAO.select(id);
+    return piDAO.selectById(id);
   }
 
   @Override
-  public List<PrescriptionInfoBean> selectByFields(String... fields) {
-    return piDAO.select(fields);
+  public List<PrescriptionInfoBean> selectByFields(List<String> fields) {
+    return piDAO.selectByFields(fields);
   }
 
   /**
    * 根据中草药查询元素。
    */
-  public PrescriptionInfoBean selectByHerbName(String... fields) {
+  public PrescriptionInfoBean selectByHerbName(List<String> fields) {
     int neededId = -1;
     for (PrescriptionBean o : pDAO.selectAll())
-      for (HerbBean oo : hDAO.select(fields))
-        if (o.getHerbId() == oo.getId()) neededId = pDAO.select(o.getHerbId()).getPrescriptionId();
-    return piDAO.select(neededId);
+      for (HerbBean oo : hDAO.selectByFields(fields))
+        if (o.getHerbId() == oo.getId()) neededId = pDAO.selectById(o.getHerbId()).getPrescriptionId();
+    return piDAO.selectById(neededId);
   }
 }

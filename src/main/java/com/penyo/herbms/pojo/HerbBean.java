@@ -7,7 +7,7 @@ import java.util.Map;
  *
  * @author Penyo
  */
-public class HerbBean extends JSONableBean {
+public class HerbBean extends GenericBean {
   /**
    * 唯一识别码
    */
@@ -75,6 +75,7 @@ public class HerbBean extends JSONableBean {
     this.processing = processing;
   }
 
+  @Override
   public int getId() {
     return id;
   }

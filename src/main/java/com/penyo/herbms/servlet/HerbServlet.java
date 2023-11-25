@@ -5,23 +5,21 @@ import com.penyo.herbms.pojo.ExperienceBean;
 import com.penyo.herbms.service.HerbService;
 import com.penyo.herbms.service.ExperienceService;
 
-import java.io.IOException;
-
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * 中药和中药使用心得的请求处理层
+ * 中药和中药使用心得的请求处理代理
  *
  * @author Penyo
  * @see com.penyo.herbms.pojo.HerbBean
  * @see com.penyo.herbms.pojo.ExperienceBean
  */
 @WebServlet("/herbServlet")
-public class HerbServlet extends AbstractServlet<HerbBean, ExperienceBean, HerbService, ExperienceService> {
+public class HerbServlet extends GenericServlet<HerbBean, ExperienceBean, HerbService, ExperienceService> {
   @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
     doProcess(req, resp, new HerbService(), new ExperienceService());
     params.clear();
   }

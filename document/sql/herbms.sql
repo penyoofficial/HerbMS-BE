@@ -11,7 +11,7 @@
  Target Server Version : 80018 (8.0.18)
  File Encoding         : 65001
 
- Date: 14/11/2023 21:36:34
+ Date: 25/11/2023 22:36:13
 */
 
 SET NAMES utf8mb4;
@@ -103,13 +103,13 @@ INSERT INTO `item_differentiation_infos` VALUES (3, 102, '健脾胃，燥湿化�
 DROP TABLE IF EXISTS `item_differentiations`;
 CREATE TABLE `item_differentiations`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '唯一识别码',
-  `itemDifferentionId` int(11) NOT NULL COMMENT '条辨 ID',
+  `itemDifferentiationId` int(11) NOT NULL COMMENT '条辨 ID',
   `prescriptionId` int(11) NOT NULL COMMENT '处方 ID',
   `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '类型',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `item_differentiations::itemDifferentionId`(`itemDifferentionId` ASC) USING BTREE,
+  INDEX `item_differentiations::itemDifferentiationId`(`itemDifferentiationId` ASC) USING BTREE,
   INDEX `item_differentiations::prescriptionId`(`prescriptionId` ASC) USING BTREE,
-  CONSTRAINT `item_differentiations::itemDifferentionId` FOREIGN KEY (`itemDifferentionId`) REFERENCES `item_differentiation_infos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `item_differentiations::itemDifferentiationId` FOREIGN KEY (`itemDifferentiationId`) REFERENCES `item_differentiation_infos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `item_differentiations::prescriptionId` FOREIGN KEY (`prescriptionId`) REFERENCES `prescription_infos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '条辨' ROW_FORMAT = DYNAMIC;
 

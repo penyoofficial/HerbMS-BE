@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * 资源的请求处理层
+ * 资源的请求处理代理
  *
  * @author Penyo
  */

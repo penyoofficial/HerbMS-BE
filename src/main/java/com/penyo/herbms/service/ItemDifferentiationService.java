@@ -6,18 +6,18 @@ import com.penyo.herbms.pojo.PrescriptionBean;
 import java.util.List;
 
 /**
- * 条辩的业务层
+ * 条辩的业务代理
  *
- * @author lyh
+ * @author Penyo
  */
-public class ItemDifferentiationService extends AbstractService<ItemDifferentiationBean> {
+public class ItemDifferentiationService extends GenericService<ItemDifferentiationBean> {
   @Override
   public int add(ItemDifferentiationBean o) {
     return idtDAO.add(o);
   }
 
   @Override
-  public int deleteById(int id) {
+  public int delete(int id) {
     return idtDAO.delete(id);
   }
 
@@ -28,22 +28,22 @@ public class ItemDifferentiationService extends AbstractService<ItemDifferentiat
 
   @Override
   public ItemDifferentiationBean selectById(int id) {
-    return idtDAO.select(id);
+    return idtDAO.selectById(id);
   }
 
   @Override
-  public List<ItemDifferentiationBean> selectByFields(String... fields) {
-    return idtDAO.select(fields);
+  public List<ItemDifferentiationBean> selectByFields(List<String> fields) {
+    return idtDAO.selectByFields(fields);
   }
 
   /**
    * 根据处方返回条辩。
    */
-  public ItemDifferentiationBean selectByPrescription(String... fields) {
+  public ItemDifferentiationBean selectByPrescription(List<String> fields) {
     int neededId = -1;
     for (PrescriptionBean o : pDAO.selectAll())
-      for (ItemDifferentiationBean oo : idtDAO.select(fields))
-        if (o.getId() == oo.getPrescriptionId()) neededId = idtDAO.select(o.getPrescriptionId()).getId();
-    return idtDAO.select(neededId);
+      for (ItemDifferentiationBean oo : idtDAO.selectByFields(fields))
+        if (o.getId() == oo.getPrescriptionId()) neededId = idtDAO.selectById(o.getPrescriptionId()).getId();
+    return idtDAO.selectById(neededId);
   }
 }

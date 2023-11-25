@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.penyo.herbms.mapper.ExperienceMapper">
+
+  <insert id="add" parameterType="ExperienceBean">
+    INSERT experiences (herbId, derivation, content)
+    VALUES (#{herbId}, #{derivation}, #{content})
+  </insert>
+
+  <delete id="delete" parameterType="int">
+    DELETE
+    FROM experiences
+    WHERE id = #{id}
+  </delete>
+
+  <update id="update" parameterType="ExperienceBean">
+    UPDATE experiences
+    SET herbId     = #{herbId},
+        derivation = #{derivation},
+        content    = #{content}
+    WHERE id = #{id}
+  </update>
+
+  <select id="selectById" resultType="ExperienceBean" parameterType="int">
+    SELECT *
+    FROM experiences
+    WHERE id = #{id}
+  </select>
+
+  <select id="selectByFields" resultType="ExperienceBean" parameterType="java.util.List">
+    SELECT * FROM experiences
+    WHERE
+    <foreach collection="list" item="item" separator="AND">
+      CONCAT_WS(derivation, content)
+      LIKE CONCAT('%', #{item}, '%')
+    </foreach>
+  </select>
+
+  <select id="selectAll" resultType="ExperienceBean">
+    SELECT *
+    FROM experiences
+  </select>
+
+</mapper>

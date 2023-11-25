@@ -7,7 +7,7 @@ import java.util.Map;
  *
  * @author Penyo
  */
-public class ItemDifferentiationBean extends JSONableBean {
+public class ItemDifferentiationBean extends GenericBean {
   /**
    * 唯一识别码
    */
@@ -15,7 +15,7 @@ public class ItemDifferentiationBean extends JSONableBean {
   /**
    * 条辨 ID（外键）
    */
-  private int itemDifferentionId;
+  private int itemDifferentiationId;
   /**
    * 处方 ID（外键）
    */
@@ -28,13 +28,14 @@ public class ItemDifferentiationBean extends JSONableBean {
   public ItemDifferentiationBean() {
   }
 
-  public ItemDifferentiationBean(int id, int itemDifferentionId, int prescriptionId, String type) {
+  public ItemDifferentiationBean(int id, int itemDifferentiationId, int prescriptionId, String type) {
     this.id = id;
-    this.itemDifferentionId = itemDifferentionId;
+    this.itemDifferentiationId = itemDifferentiationId;
     this.prescriptionId = prescriptionId;
     setType(type);
   }
 
+  @Override
   public int getId() {
     return id;
   }
@@ -43,12 +44,12 @@ public class ItemDifferentiationBean extends JSONableBean {
     this.id = id;
   }
 
-  public int getItemDifferentionId() {
-    return itemDifferentionId;
+  public int getItemDifferentiationId() {
+    return itemDifferentiationId;
   }
 
-  public void setItemDifferentionId(int itemDifferentionId) {
-    this.itemDifferentionId = itemDifferentionId;
+  public void setItemDifferentiationId(int itemDifferentiationId) {
+    this.itemDifferentiationId = itemDifferentiationId;
   }
 
   public int getPrescriptionId() {

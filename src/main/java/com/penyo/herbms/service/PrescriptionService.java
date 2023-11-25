@@ -5,18 +5,18 @@ import com.penyo.herbms.pojo.PrescriptionBean;
 import java.util.List;
 
 /**
- * 经方的业务层
+ * 经方的业务代理
  *
- * @author hawkkie
+ * @author Penyo
  */
-public class PrescriptionService extends AbstractService<PrescriptionBean> {
+public class PrescriptionService extends GenericService<PrescriptionBean> {
   @Override
   public int add(PrescriptionBean o) {
     return pDAO.add(o);
   }
 
   @Override
-  public int deleteById(int id) {
+  public int delete(int id) {
     return pDAO.delete(id);
   }
 
@@ -27,11 +27,11 @@ public class PrescriptionService extends AbstractService<PrescriptionBean> {
 
   @Override
   public PrescriptionBean selectById(int id) {
-    return pDAO.select(id);
+    return pDAO.selectById(id);
   }
 
   @Override
-  public List<PrescriptionBean> selectByFields(String... fields) {
-    return pDAO.select(fields);
+  public List<PrescriptionBean> selectByFields(List<String> fields) {
+    return pDAO.selectByFields(fields);
   }
 }

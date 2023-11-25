@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.penyo.herbms.mapper.PrescriptionInfoMapper">
+
+  <insert id="add" parameterType="PrescriptionInfoBean">
+    INSERT prescription_infos (name, nickname, description)
+    VALUES (#{name}, #{nickname}, #{description})
+  </insert>
+
+  <delete id="delete" parameterType="int">
+    DELETE
+    FROM prescription_infos
+    WHERE id = #{id}
+  </delete>
+
+  <update id="update" parameterType="PrescriptionInfoBean">
+    UPDATE prescription_infos
+    SET name        = #{name},
+        nickname    = #{nickname},
+        description = #{description}
+    WHERE id = #{id}
+  </update>
+
+  <select id="selectById" resultType="PrescriptionInfoBean" parameterType="int">
+    SELECT *
+    FROM prescription_infos
+    WHERE id = #{id}
+  </select>
+
+  <select id="selectByFields" resultType="PrescriptionInfoBean" parameterType="java.util.List">
+    SELECT * FROM prescription_infos
+    WHERE
+    <foreach collection="list" item="item" separator="AND">
+      CONCAT_WS(name, nickname, description)
+      LIKE CONCAT('%', #{item}, '%')
+    </foreach>
+  </select>
+
+  <select id="selectAll" resultType="PrescriptionInfoBean">
+    SELECT *
+    FROM prescription_infos
+  </select>
+
+</mapper>

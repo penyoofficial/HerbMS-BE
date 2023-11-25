@@ -5,23 +5,21 @@ import com.penyo.herbms.pojo.PrescriptionBean;
 import com.penyo.herbms.service.PrescriptionInfoService;
 import com.penyo.herbms.service.PrescriptionService;
 
-import java.io.IOException;
-
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * 经方和经方概要的请求处理层
+ * 经方和经方概要的请求处理代理
  *
- * @author hawkkie
+ * @author Penyo
  * @see com.penyo.herbms.pojo.PrescriptionInfoBean
  * @see com.penyo.herbms.pojo.PrescriptionBean
  */
 @WebServlet("/prescriptionServlet")
-public class PrescriptionServlet extends AbstractServlet<PrescriptionInfoBean, PrescriptionBean, PrescriptionInfoService, PrescriptionService> {
+public class PrescriptionServlet extends GenericServlet<PrescriptionInfoBean, PrescriptionBean, PrescriptionInfoService, PrescriptionService> {
   @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
     doProcess(req, resp, new PrescriptionInfoService(), new PrescriptionService());
     params.clear();
   }

@@ -6,18 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 中药使用心得的业务层
+ * 中药使用心得的业务代理
  *
  * @author Penyo
  */
-public class ExperienceService extends AbstractService<ExperienceBean> {
+public class ExperienceService extends GenericService<ExperienceBean> {
   @Override
   public int add(ExperienceBean o) {
     return expDAO.add(o);
   }
 
   @Override
-  public int deleteById(int id) {
+  public int delete(int id) {
     return expDAO.delete(id);
   }
 
@@ -28,12 +28,12 @@ public class ExperienceService extends AbstractService<ExperienceBean> {
 
   @Override
   public ExperienceBean selectById(int id) {
-    return expDAO.select(id);
+    return expDAO.selectById(id);
   }
 
   @Override
-  public List<ExperienceBean> selectByFields(String... fields) {
-    return expDAO.select(fields);
+  public List<ExperienceBean> selectByFields(List<String> fields) {
+    return expDAO.selectByFields(fields);
   }
 
   /**

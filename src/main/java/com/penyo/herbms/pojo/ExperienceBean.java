@@ -5,7 +5,7 @@ package com.penyo.herbms.pojo;
  *
  * @author Penyo
  */
-public class ExperienceBean extends JSONableBean {
+public class ExperienceBean extends GenericBean {
   /**
    * 唯一识别码
    */
@@ -33,6 +33,7 @@ public class ExperienceBean extends JSONableBean {
     this.content = content;
   }
 
+  @Override
   public int getId() {
     return id;
   }

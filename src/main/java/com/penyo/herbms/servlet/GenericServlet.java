@@ -1,8 +1,8 @@
 package com.penyo.herbms.servlet;
 
-import com.penyo.herbms.pojo.JSONableBean;
+import com.penyo.herbms.pojo.GenericBean;
 import com.penyo.herbms.pojo.ReturnDataPack;
-import com.penyo.herbms.service.AbstractService;
+import com.penyo.herbms.service.GenericService;
 
 import java.io.IOException;
 import java.util.*;
@@ -13,19 +13,19 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * 请求处理层
+ * 通用请求处理代理
  *
  * @author Penyo
  */
-public abstract class AbstractServlet<UncertainBeanA extends JSONableBean, UncertainBeanB extends JSONableBean, UncertainServiceA extends AbstractService<UncertainBeanA>, UncertainServiceB extends AbstractService<UncertainBeanB>> extends HttpServlet {
+public abstract class GenericServlet<UncertainBeanA extends GenericBean, UncertainBeanB extends GenericBean, UncertainServiceA extends GenericService<UncertainBeanA>, UncertainServiceB extends GenericService<UncertainBeanB>> extends HttpServlet {
   /**
-   * 请求参数列
+   * 请求参数图
    */
   protected final Map<String, String> params = new HashMap<>();
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-    doPost(req, resp);
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    doGet(req, resp);
   }
 
   /**
@@ -65,7 +65,7 @@ public abstract class AbstractServlet<UncertainBeanA extends JSONableBean, Uncer
         int id = Integer.parseInt(oId);
         if (needQueryA) {
           if (opType.equals("delete")) {
-            affectedRows = serviceA.deleteById(id);
+            affectedRows = serviceA.delete(id);
           } else {
             UncertainBeanA objA = getAInstance();
             if (opType.equals("add")) affectedRows = serviceA.add(objA);
@@ -73,7 +73,7 @@ public abstract class AbstractServlet<UncertainBeanA extends JSONableBean, Uncer
           }
         } else {
           if (opType.equals("delete")) {
-            affectedRows = serviceB.deleteById(id);
+            affectedRows = serviceB.delete(id);
           } else {
             UncertainBeanB objB = getBInstance();
             if (opType.equals("add")) affectedRows = serviceB.add(objB);
@@ -91,8 +91,8 @@ public abstract class AbstractServlet<UncertainBeanA extends JSONableBean, Uncer
       if (needQueryA) objsA.add(serviceA.selectById(Integer.parseInt(keyword)));
       else objsB.add(serviceB.selectById(Integer.parseInt(keyword)));
     } else {
-      if (needQueryA) objsA = serviceA.selectByFields(keyword.split(","));
-      else objsB = serviceB.selectByFields(keyword.split(","));
+      if (needQueryA) objsA = serviceA.selectByFields(Arrays.asList(keyword.split(",")));
+      else objsB = serviceB.selectByFields(Arrays.asList(keyword.split(",")));
     }
 
     // Transport Time

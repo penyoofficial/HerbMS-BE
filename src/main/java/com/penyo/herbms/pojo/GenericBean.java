@@ -1,17 +1,20 @@
 package com.penyo.herbms.pojo;
 
-import java.beans.JavaBean;
-import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.List;
 
 /**
- * 可 JSON 化的数据容器
+ * 通用数据容器
  *
  * @author Penyo
+ * @see com.penyo.herbms.pojo.AbstractBean
  */
-@JavaBean
-public abstract class JSONableBean implements Serializable {
+public abstract class GenericBean implements AbstractBean {
+  /**
+   * 获取唯一识别码。
+   */
+  public abstract int getId();
+
   @Override
   public String toString() {
     StringBuilder jsonT1 = new StringBuilder();
@@ -23,13 +26,13 @@ public abstract class JSONableBean implements Serializable {
 
         StringBuilder valueJSON = new StringBuilder();
         Object value = f.get(this);
-        if (value instanceof Integer) valueJSON = new StringBuilder(((Integer) value).toString());
-        else if (value instanceof Double) valueJSON = new StringBuilder(((Double) value).toString());
-        else if (value instanceof Boolean) valueJSON = new StringBuilder(((Boolean) value).toString());
-        else if (value instanceof String) valueJSON = new StringBuilder("\"" + value + "\"");
-        else if (value instanceof List) {
+        if (value instanceof Integer v) valueJSON = new StringBuilder(v.toString());
+        else if (value instanceof Double v) valueJSON = new StringBuilder(v.toString());
+        else if (value instanceof Boolean v) valueJSON = new StringBuilder(v.toString());
+        else if (value instanceof String v) valueJSON = new StringBuilder("\"" + v + "\"");
+        else if (value instanceof List<?> v) {
           StringBuilder jsonT2 = new StringBuilder();
-          for (JSONableBean o : (List<JSONableBean>) value)
+          for (var o : v)
             jsonT2.append(o.toString()).append(", ");
 
           String s = jsonT2.toString();

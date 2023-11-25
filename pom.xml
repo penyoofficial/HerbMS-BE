@@ -20,9 +20,9 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.penyo</groupId>
-      <artifactId>tsington</artifactId>
-      <version>1.0.0-INDEV</version>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis</artifactId>
+      <version>3.5.14</version>
     </dependency>
     <dependency>
       <groupId>jakarta.servlet</groupId>

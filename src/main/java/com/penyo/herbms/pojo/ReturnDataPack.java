@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @author Penyo
  */
-public class ReturnDataPack<UncertainBean extends JSONableBean> extends JSONableBean {
+public class ReturnDataPack<UncertainBean extends GenericBean> extends GenericBean {
   /**
    * 所查询表
    */
@@ -28,6 +28,11 @@ public class ReturnDataPack<UncertainBean extends JSONableBean> extends JSONable
     this.needQueryA = needQueryA;
     this.affectedRows = affectedRows;
     this.objs = objs;
+  }
+
+  @Override
+  public int getId() {
+    return -1;
   }
 
   public boolean isNeedQueryA() {

@@ -7,18 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 中药的业务层
+ * 中药的业务代理
  *
  * @author Penyo
  */
-public class HerbService extends AbstractService<HerbBean> {
+public class HerbService extends GenericService<HerbBean> {
   @Override
   public int add(HerbBean o) {
     return hDAO.add(o);
   }
 
   @Override
-  public int deleteById(int id) {
+  public int delete(int id) {
     return hDAO.delete(id);
   }
 
@@ -29,12 +29,12 @@ public class HerbService extends AbstractService<HerbBean> {
 
   @Override
   public HerbBean selectById(int id) {
-    return hDAO.select(id);
+    return hDAO.selectById(id);
   }
 
   @Override
-  public List<HerbBean> selectByFields(String... fields) {
-    return hDAO.select(fields);
+  public List<HerbBean> selectByFields(List<String> fields) {
+    return hDAO.selectByFields(fields);
   }
 
   /**
@@ -43,7 +43,7 @@ public class HerbService extends AbstractService<HerbBean> {
   public List<HerbBean> selectByExperience(String exp) {
     List<HerbBean> hs = new ArrayList<>();
     for (ExperienceBean e : expDAO.selectAll())
-      if (e.getContent().equals(exp)) hs.add(hDAO.select(e.getHerbId()));
+      if (e.getContent().equals(exp)) hs.add(hDAO.selectById(e.getHerbId()));
     return hs;
   }
 }

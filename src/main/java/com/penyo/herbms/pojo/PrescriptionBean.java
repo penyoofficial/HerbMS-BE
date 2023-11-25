@@ -5,7 +5,7 @@ package com.penyo.herbms.pojo;
  *
  * @author Penyo
  */
-public class PrescriptionBean extends JSONableBean {
+public class PrescriptionBean extends GenericBean {
   /**
    * 唯一识别码
    */
@@ -38,6 +38,7 @@ public class PrescriptionBean extends JSONableBean {
     this.usage = usage;
   }
 
+  @Override
   public int getId() {
     return id;
   }
