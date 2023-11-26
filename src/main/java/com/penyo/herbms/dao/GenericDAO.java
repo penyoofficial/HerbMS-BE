@@ -25,17 +25,28 @@ public abstract class GenericDAO<UncertainBean extends GenericBean> implements A
   }
 
   /**
+   * DAO 实例类型
+   */
+  public enum DAOType {
+    HERB,
+    EXPERIENCE,
+    PRESCRIPTION_INFO,
+    PRESCRIPTION,
+    ITEM_DIFFERENTIATION_INFO,
+    ITEM_DIFFERENTIATION,
+  }
+
+  /**
    * 创建具体 DAO 实例。
    */
-  public static GenericDAO<?> createDAO(String daoName) {
-    return switch (daoName) {
-      case "herb" -> new HerbDAO();
-      case "experience" -> new ExperienceDAO();
-      case "prescription-info" -> new PrescriptionInfoDAO();
-      case "prescription" -> new PrescriptionDAO();
-      case "item-differentiation-info" -> new ItemDifferentiationInfoDAO();
-      case "item-differentiation" -> new ItemDifferentiationDAO();
-      default -> null;
+  public static GenericDAO<?> createDAO(DAOType daoType) {
+    return switch (daoType) {
+      case HERB -> new HerbDAO();
+      case EXPERIENCE -> new ExperienceDAO();
+      case PRESCRIPTION_INFO -> new PrescriptionInfoDAO();
+      case PRESCRIPTION -> new PrescriptionDAO();
+      case ITEM_DIFFERENTIATION_INFO -> new ItemDifferentiationInfoDAO();
+      case ITEM_DIFFERENTIATION -> new ItemDifferentiationDAO();
     };
   }
 

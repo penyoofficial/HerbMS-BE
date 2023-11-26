@@ -10,10 +10,10 @@ import com.penyo.herbms.pojo.GenericBean;
  * @see com.penyo.herbms.service.AbstractService
  */
 public abstract class GenericService<UncertainBean extends GenericBean> implements AbstractService<UncertainBean> {
-  protected final HerbDAO hDAO = (HerbDAO) GenericDAO.createDAO("herb");
-  protected final ExperienceDAO expDAO = (ExperienceDAO) GenericDAO.createDAO("experience");
-  protected final PrescriptionInfoDAO piDAO = (PrescriptionInfoDAO) GenericDAO.createDAO("prescription-info");
-  protected final PrescriptionDAO pDAO = (PrescriptionDAO) GenericDAO.createDAO("prescription");
-  protected final ItemDifferentiationInfoDAO idtiDAO = (ItemDifferentiationInfoDAO) GenericDAO.createDAO("item-differentiation-info");
-  protected final ItemDifferentiationDAO idtDAO = (ItemDifferentiationDAO) GenericDAO.createDAO("item-differentiation");
+  protected final HerbDAO hDAO = (HerbDAO) GenericDAO.createDAO(GenericDAO.DAOType.HERB);
+  protected final ExperienceDAO expDAO = (ExperienceDAO) GenericDAO.createDAO(GenericDAO.DAOType.EXPERIENCE);
+  protected final PrescriptionInfoDAO piDAO = (PrescriptionInfoDAO) GenericDAO.createDAO(GenericDAO.DAOType.PRESCRIPTION_INFO);
+  protected final PrescriptionDAO pDAO = (PrescriptionDAO) GenericDAO.createDAO(GenericDAO.DAOType.PRESCRIPTION);
+  protected final ItemDifferentiationInfoDAO idtiDAO = (ItemDifferentiationInfoDAO) GenericDAO.createDAO(GenericDAO.DAOType.ITEM_DIFFERENTIATION_INFO);
+  protected final ItemDifferentiationDAO idtDAO = (ItemDifferentiationDAO) GenericDAO.createDAO(GenericDAO.DAOType.ITEM_DIFFERENTIATION);
 }

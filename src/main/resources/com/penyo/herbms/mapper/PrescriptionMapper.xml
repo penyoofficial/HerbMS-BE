@@ -3,8 +3,13 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.penyo.herbms.mapper.PrescriptionMapper">
 
+  <resultMap id="PrescriptionBean" type="PrescriptionBean">
+    <id property="prescriptionId" column="prescription_id"/>
+    <id property="herbId" column="herb_id"/>
+  </resultMap>
+
   <insert id="add" parameterType="PrescriptionBean">
-    INSERT prescriptions (prescriptionId, herbId, dosage, `usage`)
+    INSERT prescriptions (prescription_id, herb_id, dosage, `usage`)
     VALUES (#{prescriptionId}, #{herbId}, #{dosage}, #{usage})
   </insert>
 
@@ -16,20 +21,20 @@
 
   <update id="update" parameterType="PrescriptionBean">
     UPDATE prescriptions
-    SET prescriptionId = #{prescriptionId},
-        herbId         = #{herbId},
-        dosage         = #{dosage},
-        `usage`        = #{usage}
+    SET prescription_id = #{prescriptionId},
+        herb_id         = #{herbId},
+        dosage          = #{dosage},
+        `usage`         = #{usage}
     WHERE id = #{id}
   </update>
 
-  <select id="selectById" resultType="PrescriptionBean" parameterType="int">
+  <select id="selectById" resultMap="PrescriptionBean" parameterType="int">
     SELECT *
     FROM prescriptions
     WHERE id = #{id}
   </select>
 
-  <select id="selectByFields" resultType="PrescriptionBean" parameterType="java.util.List">
+  <select id="selectByFields" resultMap="PrescriptionBean" parameterType="java.util.List">
     SELECT * FROM prescriptions
     WHERE
     <foreach collection="list" item="item" separator="AND">
@@ -38,7 +43,7 @@
     </foreach>
   </select>
 
-  <select id="selectAll" resultType="PrescriptionBean">
+  <select id="selectAll" resultMap="PrescriptionBean">
     SELECT *
     FROM prescriptions
   </select>

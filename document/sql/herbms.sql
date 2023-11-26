@@ -23,12 +23,12 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `experiences`;
 CREATE TABLE `experiences`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '唯一识别码',
-  `herbId` int(11) NOT NULL COMMENT '中草药 ID',
+  `herb_id` int(11) NOT NULL COMMENT '中草药 ID',
   `derivation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '出处',
   `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '心得内容',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `experiences::herbId`(`herbId` ASC) USING BTREE,
-  CONSTRAINT `experiences::herbId` FOREIGN KEY (`herbId`) REFERENCES `herbs` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  INDEX `experiences::herb_id`(`herb_id` ASC) USING BTREE,
+  CONSTRAINT `experiences::herb_id` FOREIGN KEY (`herb_id`) REFERENCES `herbs` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '中药使用心得' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -103,14 +103,14 @@ INSERT INTO `item_differentiation_infos` VALUES (3, 102, '健脾胃，燥湿化�
 DROP TABLE IF EXISTS `item_differentiations`;
 CREATE TABLE `item_differentiations`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '唯一识别码',
-  `itemDifferentiationId` int(11) NOT NULL COMMENT '条辨 ID',
-  `prescriptionId` int(11) NOT NULL COMMENT '处方 ID',
+  `item_differentiation_id` int(11) NOT NULL COMMENT '条辨 ID',
+  `prescription_id` int(11) NOT NULL COMMENT '处方 ID',
   `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '类型',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `item_differentiations::itemDifferentiationId`(`itemDifferentiationId` ASC) USING BTREE,
-  INDEX `item_differentiations::prescriptionId`(`prescriptionId` ASC) USING BTREE,
-  CONSTRAINT `item_differentiations::itemDifferentiationId` FOREIGN KEY (`itemDifferentiationId`) REFERENCES `item_differentiation_infos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `item_differentiations::prescriptionId` FOREIGN KEY (`prescriptionId`) REFERENCES `prescription_infos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  INDEX `item_differentiations::item_differentiation_id`(`item_differentiation_id` ASC) USING BTREE,
+  INDEX `item_differentiations::prescription_id`(`prescription_id` ASC) USING BTREE,
+  CONSTRAINT `item_differentiations::item_differentiation_id` FOREIGN KEY (`item_differentiation_id`) REFERENCES `item_differentiation_infos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `item_differentiations::prescription_id` FOREIGN KEY (`prescription_id`) REFERENCES `prescription_infos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '条辨' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -146,15 +146,15 @@ INSERT INTO `prescription_infos` VALUES (3, '调经止痛方', '无', '活血调
 DROP TABLE IF EXISTS `prescriptions`;
 CREATE TABLE `prescriptions`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '唯一识别码',
-  `prescriptionId` int(11) NOT NULL COMMENT '中药处方 ID',
-  `herbId` int(11) NOT NULL COMMENT '中药 ID',
+  `prescription_id` int(11) NOT NULL COMMENT '中药处方 ID',
+  `herb_id` int(11) NOT NULL COMMENT '中药 ID',
   `dosage` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用量',
   `usage` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用法',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `prescriptions::prescriptionId`(`prescriptionId` ASC) USING BTREE,
-  INDEX `prescriptions::herbId`(`herbId` ASC) USING BTREE,
-  CONSTRAINT `prescriptions::herbId` FOREIGN KEY (`herbId`) REFERENCES `herbs` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `prescriptions::prescriptionId` FOREIGN KEY (`prescriptionId`) REFERENCES `prescription_infos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  INDEX `prescriptions::prescription_id`(`prescription_id` ASC) USING BTREE,
+  INDEX `prescriptions::herb_id`(`herb_id` ASC) USING BTREE,
+  CONSTRAINT `prescriptions::herb_id` FOREIGN KEY (`herb_id`) REFERENCES `herbs` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `prescriptions::prescription_id` FOREIGN KEY (`prescription_id`) REFERENCES `prescription_infos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '处方' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------

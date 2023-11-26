@@ -3,9 +3,19 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.penyo.herbms.mapper.ItemDifferentiationMapper">
 
+  <resultMap id="ItemDifferentiationBean" type="ItemDifferentiationBean">
+    <id property="itemDifferentiationId" column="item_differentiation_id"/>
+    <id property="prescriptionId" column="prescription_id"/>
+  </resultMap>
+
   <insert id="add" parameterType="ItemDifferentiationBean">
-    INSERT item_differentiations (itemDifferentiationId, prescriptionId, type)
-    VALUES (#{itemDifferentiationId}, #{prescriptionId}, #{type})
+    INSERT
+    item_differentiations (item_differentiation_id, prescription_id, type)
+    VALUES (
+    #{itemDifferentiationId},
+    #{prescriptionId},
+    #{type}
+    )
   </insert>
 
   <delete id="delete" parameterType="int">
@@ -16,19 +26,19 @@
 
   <update id="update" parameterType="ItemDifferentiationBean">
     UPDATE item_differentiations
-    SET itemDifferentiationId = #{itemDifferentiationId},
-        prescriptionId        = #{prescriptionId},
-        type                  = #{type}
+    SET itemDifferentiation_id = #{itemDifferentiationId},
+        prescription_id        = #{prescriptionId},
+        type                   = #{type}
     WHERE id = #{id}
   </update>
 
-  <select id="selectById" resultType="ItemDifferentiationBean" parameterType="int">
+  <select id="selectById" resultMap="ItemDifferentiationBean" parameterType="int">
     SELECT *
     FROM item_differentiations
     WHERE id = #{id}
   </select>
 
-  <select id="selectByFields" resultType="ItemDifferentiationBean" parameterType="java.util.List">
+  <select id="selectByFields" resultMap="ItemDifferentiationBean" parameterType="java.util.List">
     SELECT * FROM item_differentiations
     WHERE
     <foreach collection="list" item="item" separator="AND">
@@ -37,7 +47,7 @@
     </foreach>
   </select>
 
-  <select id="selectAll" resultType="ItemDifferentiationBean">
+  <select id="selectAll" resultMap="ItemDifferentiationBean">
     SELECT *
     FROM item_differentiations
   </select>
