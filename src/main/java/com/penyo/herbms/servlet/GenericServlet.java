@@ -23,52 +23,31 @@ public abstract class GenericServlet<UncertainBeanA extends GenericBean, Uncerta
    */
   protected final Map<String, String> params = new HashMap<>();
 
-  /**
-   * 搜索内容
-   */
-  protected String keyword = "";
-  /**
-   * 是否唯一确定元素
-   */
-  protected boolean isId = false;
-  /**
-   * 是否查询表 A
-   */
-  protected boolean needQueryA = true;
-
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
     doGet(req, resp);
   }
 
   @Override
-  public void doInitParams(HttpServletRequest req) {
+  public synchronized ReturnDataPack<? extends GenericBean> doProcess(HttpServletRequest req, HttpServletResponse resp, UncertainServiceA serviceA, UncertainServiceB serviceB, boolean needBurn) {
     Enumeration<String> paramNames = req.getParameterNames();
     while (paramNames.hasMoreElements()) {
       String key = paramNames.nextElement();
       params.put(key, req.getParameter(key));
     }
 
-    String keyword = params.get("keyword");
-    if (keyword != null) this.keyword = keyword;
+    String keyword = "";
+    String keywordOri = params.get("keyword");
+    if (keywordOri != null) keyword = keywordOri;
 
-    String isId = params.get("isId");
-    if (isId != null) this.isId = isId.equals("on");
+    boolean needQueryA = true;
+    String needQueryAOri = params.get("needQueryA");
+    if (needQueryAOri != null) needQueryA = needQueryAOri.equals("true");
 
-    String needQueryA = params.get("needQueryA");
-    if (needQueryA != null) this.needQueryA = needQueryA.equals("true");
-  }
+    boolean isId = false;
+    String isIdOri = params.get("isId");
+    if (isIdOri != null) isId = isIdOri.equals("on");
 
-  @Override
-  public void doEraseParams() {
-    params.clear();
-    keyword = "";
-    isId = false;
-    needQueryA = true;
-  }
-
-  @Override
-  public ReturnDataPack<? extends GenericBean> doProcess(HttpServletResponse resp, UncertainServiceA serviceA, UncertainServiceB serviceB, boolean needBurn) {
     List<UncertainBeanA> objsA = new ArrayList<>();
     List<UncertainBeanB> objsB = new ArrayList<>();
 

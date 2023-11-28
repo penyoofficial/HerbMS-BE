@@ -24,19 +24,18 @@ import jakarta.servlet.http.HttpServletResponse;
 public class HerbServlet extends GenericServlet<HerbBean, ExperienceBean, HerbService, ExperienceService> {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-    doInitParams(req);
-    if (!req.getServletPath().contains("Specific")) doProcess(resp, new HerbService(), new ExperienceService(), true);
-    else doSpecificProcess(resp, new HerbService(), new ExperienceService());
-    doEraseParams();
+    if (!req.getServletPath().contains("Specific"))
+      doProcess(req, resp, new HerbService(), new ExperienceService(), true);
+    else doSpecificProcess(req, resp, new HerbService(), new ExperienceService());
   }
 
   @Override
   @SuppressWarnings("unchecked")
-  public void doSpecificProcess(HttpServletResponse resp, HerbService hService, ExperienceService expService) {
-    if (needQueryA) {
+  public void doSpecificProcess(HttpServletRequest req, HttpServletResponse resp, HerbService hService, ExperienceService expService) {
+    if (req.getParameter("needQueryA").equals("true")) {
       List<String> exps = new ArrayList<>();
 
-      ReturnDataPack<HerbBean> hs = (ReturnDataPack<HerbBean>) doProcess(resp, hService, expService, false);
+      ReturnDataPack<HerbBean> hs = (ReturnDataPack<HerbBean>) doProcess(req, resp, hService, expService, false);
       for (HerbBean o : hs.getList()) {
         StringBuilder expTemp = new StringBuilder("\"");
         for (ExperienceBean oo : expService.selectByHerbId(o.getId()))
@@ -47,7 +46,7 @@ public class HerbServlet extends GenericServlet<HerbBean, ExperienceBean, HerbSe
     } else {
       List<String> hs = new ArrayList<>();
 
-      ReturnDataPack<ExperienceBean> exps = (ReturnDataPack<ExperienceBean>) doProcess(resp, hService, expService, false);
+      ReturnDataPack<ExperienceBean> exps = (ReturnDataPack<ExperienceBean>) doProcess(req, resp, hService, expService, false);
       for (ExperienceBean o : exps.getList()) {
         StringBuilder hTemp = new StringBuilder("\"");
         hTemp.append(hService.selectByExperienceId(o.getId()).getName());

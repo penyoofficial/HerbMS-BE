@@ -13,27 +13,15 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author Penyo
  */
 public interface AbstractServlet<UncertainBeanA extends GenericBean, UncertainBeanB extends GenericBean, UncertainServiceA extends GenericService<UncertainBeanA>, UncertainServiceB extends GenericService<UncertainBeanB>> {
-  // There should be a `Map<string, string> params` for child object only!
-
-  /**
-   * 初始化参数。
-   */
-  void doInitParams(HttpServletRequest req);
-
-  /**
-   * 擦除参数。
-   */
-  void doEraseParams();
-
   /**
    * 处理请求并决定是否烧录输出流。
    */
-  ReturnDataPack<? extends GenericBean> doProcess(HttpServletResponse resp, UncertainServiceA serviceA, UncertainServiceB serviceB, boolean needBurn);
+  ReturnDataPack<? extends GenericBean> doProcess(HttpServletRequest req, HttpServletResponse resp, UncertainServiceA serviceA, UncertainServiceB serviceB, boolean needBurn);
 
   /**
    * 处理特殊请求。
    */
-  void doSpecificProcess(HttpServletResponse resp, UncertainServiceA serviceA, UncertainServiceB serviceB);
+  void doSpecificProcess(HttpServletRequest req, HttpServletResponse resp, UncertainServiceA serviceA, UncertainServiceB serviceB);
 
   /**
    * 以 JSON 响应请求。

@@ -26,20 +26,18 @@ import jakarta.servlet.http.HttpServletResponse;
 public class ItemDifferentiationServlet extends GenericServlet<ItemDifferentiationInfoBean, ItemDifferentiationBean, ItemDifferentiationInfoService, ItemDifferentiationService> {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-    doInitParams(req);
     if (!req.getServletPath().contains("Specific"))
-      doProcess(resp, new ItemDifferentiationInfoService(), new ItemDifferentiationService(), true);
-    else doSpecificProcess(resp, new ItemDifferentiationInfoService(), new ItemDifferentiationService());
-    doEraseParams();
+      doProcess(req, resp, new ItemDifferentiationInfoService(), new ItemDifferentiationService(), true);
+    else doSpecificProcess(req, resp, new ItemDifferentiationInfoService(), new ItemDifferentiationService());
   }
 
   @Override
   @SuppressWarnings("unchecked")
-  public void doSpecificProcess(HttpServletResponse resp, ItemDifferentiationInfoService idtiService, ItemDifferentiationService idtService) {
-    if (needQueryA) {
+  public void doSpecificProcess(HttpServletRequest req, HttpServletResponse resp, ItemDifferentiationInfoService idtiService, ItemDifferentiationService idtService) {
+    if (req.getParameter("needQueryA").equals("true")) {
       List<String> ps = new ArrayList<>();
 
-      ReturnDataPack<ItemDifferentiationInfoBean> idtis = (ReturnDataPack<ItemDifferentiationInfoBean>) doProcess(resp, idtiService, idtService, false);
+      ReturnDataPack<ItemDifferentiationInfoBean> idtis = (ReturnDataPack<ItemDifferentiationInfoBean>) doProcess(req, resp, idtiService, idtService, false);
       for (ItemDifferentiationInfoBean idti : idtis.getList()) {
         StringBuilder idtiTemp = new StringBuilder("\"");
         for (PrescriptionInfoBean pi : new PrescriptionInfoService().selectByIDTIId(idti.getId()))
