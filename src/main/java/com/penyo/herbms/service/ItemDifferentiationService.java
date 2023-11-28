@@ -1,7 +1,6 @@
 package com.penyo.herbms.service;
 
 import com.penyo.herbms.pojo.ItemDifferentiationBean;
-import com.penyo.herbms.pojo.PrescriptionBean;
 
 import java.util.List;
 
@@ -34,16 +33,5 @@ public class ItemDifferentiationService extends GenericService<ItemDifferentiati
   @Override
   public List<ItemDifferentiationBean> selectByFields(List<String> fields) {
     return idtDAO.selectByFields(fields);
-  }
-
-  /**
-   * 根据处方返回条辩。
-   */
-  public ItemDifferentiationBean selectByPrescription(List<String> fields) {
-    int neededId = -1;
-    for (PrescriptionBean o : pDAO.selectAll())
-      for (ItemDifferentiationBean oo : idtDAO.selectByFields(fields))
-        if (o.getId() == oo.getPrescriptionId()) neededId = idtDAO.selectById(o.getPrescriptionId()).getId();
-    return idtDAO.selectById(neededId);
   }
 }

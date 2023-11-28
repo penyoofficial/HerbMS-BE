@@ -45,16 +45,4 @@ public class ExperienceService extends GenericService<ExperienceBean> {
       if (h.getHerbId() == herbId) hs.add(h);
     return hs;
   }
-
-  /**
-   * 根据字段查找心得。
-   */
-  public List<String> selectExperiencesByField(String field) {
-    List<String> hs = new ArrayList<>();
-    for (ExperienceBean h : expDAO.selectAll()) {
-      String c = h.getContent();
-      if (c.contains(field)) hs.add(c);
-    }
-    return hs;
-  }
 }

@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @author Penyo
  */
-public class ReturnDataPack<UncertainBean extends GenericBean> extends GenericBean {
+public class ReturnDataPack<T> extends GenericBean {
   /**
    * 所查询表
    */
@@ -19,12 +19,16 @@ public class ReturnDataPack<UncertainBean extends GenericBean> extends GenericBe
   /**
    * 结果
    */
-  private List<UncertainBean> objs;
+  private List<T> objs;
 
   public ReturnDataPack() {
   }
 
-  public ReturnDataPack(boolean needQueryA, int affectedRows, List<UncertainBean> objs) {
+  public ReturnDataPack(List<T> objs) {
+    this.objs = objs;
+  }
+
+  public ReturnDataPack(boolean needQueryA, int affectedRows, List<T> objs) {
     this.needQueryA = needQueryA;
     this.affectedRows = affectedRows;
     this.objs = objs;
@@ -51,11 +55,11 @@ public class ReturnDataPack<UncertainBean extends GenericBean> extends GenericBe
     this.affectedRows = affectedRows;
   }
 
-  public List<UncertainBean> getList() {
+  public List<T> getList() {
     return objs;
   }
 
-  public void setList(List<UncertainBean> objs) {
+  public void setList(List<T> objs) {
     this.objs = objs;
   }
 }

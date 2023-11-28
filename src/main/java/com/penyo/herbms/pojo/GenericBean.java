@@ -2,6 +2,7 @@ package com.penyo.herbms.pojo;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 通用数据容器
@@ -50,5 +51,17 @@ public abstract class GenericBean implements AbstractBean {
     String s = jsonT1.toString();
     if (s.length() > 2) return "{ " + s.substring(0, s.length() - 2) + " }";
     return "{ }";
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getId());
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == this) return true;
+    if (!(obj instanceof GenericBean safeObj)) return false;
+    return safeObj.getId() == this.getId();
   }
 }

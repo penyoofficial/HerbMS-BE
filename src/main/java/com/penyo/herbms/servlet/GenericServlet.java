@@ -17,44 +17,60 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Penyo
  */
-public abstract class GenericServlet<UncertainBeanA extends GenericBean, UncertainBeanB extends GenericBean, UncertainServiceA extends GenericService<UncertainBeanA>, UncertainServiceB extends GenericService<UncertainBeanB>> extends HttpServlet {
+public abstract class GenericServlet<UncertainBeanA extends GenericBean, UncertainBeanB extends GenericBean, UncertainServiceA extends GenericService<UncertainBeanA>, UncertainServiceB extends GenericService<UncertainBeanB>> extends HttpServlet implements AbstractServlet<UncertainBeanA, UncertainBeanB, UncertainServiceA, UncertainServiceB> {
   /**
    * 请求参数图
    */
   protected final Map<String, String> params = new HashMap<>();
+
+  /**
+   * 搜索内容
+   */
+  protected String keyword = "";
+  /**
+   * 是否唯一确定元素
+   */
+  protected boolean isId = false;
+  /**
+   * 是否查询表 A
+   */
+  protected boolean needQueryA = true;
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
     doGet(req, resp);
   }
 
-  /**
-   * 处理请求。
-   */
-  protected void doProcess(HttpServletRequest req, HttpServletResponse resp, UncertainServiceA serviceA, UncertainServiceB serviceB) {
-    List<UncertainBeanA> objsA = new ArrayList<>();
-    List<UncertainBeanB> objsB = new ArrayList<>();
-
+  @Override
+  public void doInitParams(HttpServletRequest req) {
     Enumeration<String> paramNames = req.getParameterNames();
     while (paramNames.hasMoreElements()) {
       String key = paramNames.nextElement();
       params.put(key, req.getParameter(key));
     }
 
-    // Query Part
-
     String keyword = params.get("keyword");
-    if (keyword == null) keyword = "";
+    if (keyword != null) this.keyword = keyword;
 
-    boolean isId = false;
-    String oIsId = params.get("isId");
-    if (oIsId != null) isId = oIsId.equals("on");
+    String isId = params.get("isId");
+    if (isId != null) this.isId = isId.equals("on");
 
-    boolean needQueryA = true;
-    String oNeedQueryA = params.get("needQueryA");
-    if (oNeedQueryA != null) needQueryA = oNeedQueryA.equals("true");
+    String needQueryA = params.get("needQueryA");
+    if (needQueryA != null) this.needQueryA = needQueryA.equals("true");
+  }
 
-    // Operate Part
+  @Override
+  public void doEraseParams() {
+    params.clear();
+    keyword = "";
+    isId = false;
+    needQueryA = true;
+  }
+
+  @Override
+  public ReturnDataPack<? extends GenericBean> doProcess(HttpServletResponse resp, UncertainServiceA serviceA, UncertainServiceB serviceB, boolean needBurn) {
+    List<UncertainBeanA> objsA = new ArrayList<>();
+    List<UncertainBeanB> objsB = new ArrayList<>();
 
     int affectedRows = -1;
 
@@ -85,8 +101,6 @@ public abstract class GenericServlet<UncertainBeanA extends GenericBean, Uncerta
       }
     }
 
-    // Arbitrate Time
-
     if (isId) {
       if (needQueryA) objsA.add(serviceA.selectById(Integer.parseInt(keyword)));
       else objsB.add(serviceB.selectById(Integer.parseInt(keyword)));
@@ -95,24 +109,20 @@ public abstract class GenericServlet<UncertainBeanA extends GenericBean, Uncerta
       else objsB = serviceB.selectByFields(Arrays.asList(keyword.split(",")));
     }
 
-    // Transport Time
+    ReturnDataPack<? extends GenericBean> rdp;
+    if (needQueryA) rdp = new ReturnDataPack<>(true, affectedRows, objsA);
+    else rdp = new ReturnDataPack<>(false, affectedRows, objsB);
+    if (needBurn) doResponseInJSON(resp, rdp);
+    return rdp;
+  }
 
+  @Override
+  public void doResponseInJSON(HttpServletResponse resp, ReturnDataPack<?> rdp) {
+    if (rdp == null) return;
     try {
-      ReturnDataPack<UncertainBeanA> rdpA = new ReturnDataPack<>(needQueryA, affectedRows, objsA);
-      ReturnDataPack<UncertainBeanB> rdpB = new ReturnDataPack<>(needQueryA, affectedRows, objsB);
-      resp.getWriter().write((needQueryA ? rdpA : rdpB).toString());
+      resp.getWriter().write(rdp.toString());
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
-
-  /**
-   * 从参数图中获取值并构造数据容器。
-   */
-  protected abstract UncertainBeanA getAInstance();
-
-  /**
-   * 从参数图中获取值并构造数据容器。
-   */
-  protected abstract UncertainBeanB getBInstance();
 }
