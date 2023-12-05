@@ -9,7 +9,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 /**
- * 中药使用心得的数据访问代理
+ * 中草药使用心得的数据访问代理
  *
  * @author Penyo
  * @see com.penyo.herbms.pojo.ExperienceBean

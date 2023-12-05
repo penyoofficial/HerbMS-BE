@@ -5,7 +5,7 @@ import com.penyo.herbms.pojo.PrescriptionBean;
 import java.util.List;
 
 /**
- * 经方的业务代理
+ * 处方的业务代理
  *
  * @author Penyo
  */

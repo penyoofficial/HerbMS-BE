@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 中药的业务代理
+ * 中草药的业务代理
  *
  * @author Penyo
  */
@@ -37,14 +37,14 @@ public class HerbService extends GenericService<HerbBean> {
   }
 
   /**
-   * 根据心得 ID 查找元素。
+   * 根据中草药使用心得 ID 查询单个中草药名称。
    */
   public String selectNameByExperienceId(int id) {
     return hDAO.selectByExperienceId(id).getName();
   }
 
   /**
-   * 根据处方 ID 查找元素。
+   * 根据处方 ID 查找多个中草药名称。
    */
   public List<String> selectNamesByPrescriptionId(int id) {
     List<String> names = new ArrayList<>();

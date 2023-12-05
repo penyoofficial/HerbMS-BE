@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * 中药和中药使用心得的请求处理代理
+ * 中草药的请求处理代理
  *
  * @author Penyo
  * @see com.penyo.herbms.pojo.HerbBean

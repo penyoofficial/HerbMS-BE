@@ -10,7 +10,7 @@
   <packaging>war</packaging>
 
   <name>Herb Management System</name>
-  <url>https://github.com/penyoofficial/HerbMS</url>
+  <url>https://github.com/pen-yo/HerbMS</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

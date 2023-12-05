@@ -1,7 +1,7 @@
 package com.penyo.herbms.pojo;
 
 /**
- * 中药使用心得的数据容器
+ * 中草药使用心得的数据容器
  *
  * @author Penyo
  */
@@ -19,7 +19,7 @@ public class ExperienceBean extends GenericBean {
    */
   private String derivation;
   /**
-   * 心得内容
+   * 内容
    */
   private String content;
 

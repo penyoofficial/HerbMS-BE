@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 经方概要的业务代理
+ * 处方概要的业务代理
  *
  * @author Penyo
  */

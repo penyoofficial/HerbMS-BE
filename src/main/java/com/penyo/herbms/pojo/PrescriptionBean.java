@@ -11,11 +11,11 @@ public class PrescriptionBean extends GenericBean {
    */
   private int id;
   /**
-   * 中药处方 ID（外键）
+   * 中草药处方 ID（外键）
    */
   private int prescriptionId;
   /**
-   * 中药 ID（外键）
+   * 中草药 ID（外键）
    */
   private int herbId;
   /**

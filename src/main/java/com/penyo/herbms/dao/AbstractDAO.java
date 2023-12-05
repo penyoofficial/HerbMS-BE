@@ -31,7 +31,7 @@ public interface AbstractDAO<UncertainBean extends GenericBean> {
   UncertainBean selectById(int id);
 
   /**
-   * 根据关键字集合模糊查找元素。
+   * 根据关键字集合模糊查找多个元素。
    */
   List<UncertainBean> selectByFields(List<String> fields);
 
