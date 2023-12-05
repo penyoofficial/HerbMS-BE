@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Penyo
  */
-public abstract class GenericServlet<UncertainBeanA extends GenericBean, UncertainBeanB extends GenericBean, UncertainServiceA extends GenericService<UncertainBeanA>, UncertainServiceB extends GenericService<UncertainBeanB>> extends HttpServlet implements AbstractServlet<UncertainBeanA, UncertainBeanB, UncertainServiceA, UncertainServiceB> {
+public abstract class GenericServlet<UncertainBean extends GenericBean, UncertainService extends GenericService<UncertainBean>> extends HttpServlet implements AbstractServlet<UncertainBean, UncertainService> {
   /**
    * 请求参数图
    */
@@ -29,7 +29,7 @@ public abstract class GenericServlet<UncertainBeanA extends GenericBean, Uncerta
   }
 
   @Override
-  public synchronized ReturnDataPack<? extends GenericBean> doProcess(HttpServletRequest req, HttpServletResponse resp, UncertainServiceA serviceA, UncertainServiceB serviceB, boolean needBurn) {
+  public synchronized ReturnDataPack<UncertainBean> doProcess(HttpServletRequest req, HttpServletResponse resp, UncertainService serv, boolean needBurn) {
     Enumeration<String> paramNames = req.getParameterNames();
     while (paramNames.hasMoreElements()) {
       String key = paramNames.nextElement();
@@ -40,16 +40,11 @@ public abstract class GenericServlet<UncertainBeanA extends GenericBean, Uncerta
     String keywordOri = params.get("keyword");
     if (keywordOri != null) keyword = keywordOri;
 
-    boolean needQueryA = true;
-    String needQueryAOri = params.get("needQueryA");
-    if (needQueryAOri != null) needQueryA = needQueryAOri.equals("true");
-
     boolean isId = false;
     String isIdOri = params.get("isId");
     if (isIdOri != null) isId = isIdOri.equals("on");
 
-    List<UncertainBeanA> objsA = new ArrayList<>();
-    List<UncertainBeanB> objsB = new ArrayList<>();
+    List<UncertainBean> objs = new ArrayList<>();
 
     int affectedRows = -1;
 
@@ -58,39 +53,22 @@ public abstract class GenericServlet<UncertainBeanA extends GenericBean, Uncerta
       String opType = params.get("opType");
       try {
         int id = Integer.parseInt(oId);
-        if (needQueryA) {
-          if (opType.equals("delete")) {
-            affectedRows = serviceA.delete(id);
-          } else {
-            UncertainBeanA objA = getAInstance();
-            if (opType.equals("add")) affectedRows = serviceA.add(objA);
-            else affectedRows = serviceA.update(objA);
-          }
+        if (opType.equals("delete")) {
+          affectedRows = serv.delete(id);
         } else {
-          if (opType.equals("delete")) {
-            affectedRows = serviceB.delete(id);
-          } else {
-            UncertainBeanB objB = getBInstance();
-            if (opType.equals("add")) affectedRows = serviceB.add(objB);
-            else affectedRows = serviceB.update(objB);
-          }
+          UncertainBean obj = getInstance();
+          if (opType.equals("add")) affectedRows = serv.add(obj);
+          else affectedRows = serv.update(obj);
         }
       } catch (NumberFormatException e) {
         e.printStackTrace();
       }
     }
 
-    if (isId) {
-      if (needQueryA) objsA.add(serviceA.selectById(Integer.parseInt(keyword)));
-      else objsB.add(serviceB.selectById(Integer.parseInt(keyword)));
-    } else {
-      if (needQueryA) objsA = serviceA.selectByFields(Arrays.asList(keyword.split(",")));
-      else objsB = serviceB.selectByFields(Arrays.asList(keyword.split(",")));
-    }
+    if (isId) objs.add(serv.selectById(Integer.parseInt(keyword)));
+    else objs = serv.selectByFields(Arrays.asList(keyword.split(",")));
 
-    ReturnDataPack<? extends GenericBean> rdp;
-    if (needQueryA) rdp = new ReturnDataPack<>(true, affectedRows, objsA);
-    else rdp = new ReturnDataPack<>(false, affectedRows, objsB);
+    ReturnDataPack<UncertainBean> rdp = new ReturnDataPack<>(affectedRows, objs);
     if (needBurn) doResponseInJSON(resp, rdp);
     return rdp;
   }

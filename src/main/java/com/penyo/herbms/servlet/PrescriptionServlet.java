@@ -14,10 +14,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * 经方和经方概要的请求处理代理
+ * 经方的请求处理代理
  *
  * @author Penyo
- * @see com.penyo.herbms.pojo.PrescriptionInfoBean
  * @see com.penyo.herbms.pojo.PrescriptionBean
  */
 @WebServlet({"/prescriptionServlet", "/prescriptionServletSpecific"})

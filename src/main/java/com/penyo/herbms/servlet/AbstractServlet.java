@@ -12,16 +12,16 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Penyo
  */
-public interface AbstractServlet<UncertainBeanA extends GenericBean, UncertainBeanB extends GenericBean, UncertainServiceA extends GenericService<UncertainBeanA>, UncertainServiceB extends GenericService<UncertainBeanB>> {
+public interface AbstractServlet<UncertainBean extends GenericBean, UncertainService extends GenericService<UncertainBean>> {
   /**
    * 处理请求并决定是否烧录输出流。
    */
-  ReturnDataPack<? extends GenericBean> doProcess(HttpServletRequest req, HttpServletResponse resp, UncertainServiceA serviceA, UncertainServiceB serviceB, boolean needBurn);
+  ReturnDataPack<UncertainBean> doProcess(HttpServletRequest req, HttpServletResponse resp, UncertainService serv, boolean needBurn);
 
   /**
    * 处理特殊请求。
    */
-  void doSpecificProcess(HttpServletRequest req, HttpServletResponse resp, UncertainServiceA serviceA, UncertainServiceB serviceB);
+  void doSpecificProcess(HttpServletRequest req, HttpServletResponse resp, UncertainService serv);
 
   /**
    * 以 JSON 响应请求。
@@ -29,12 +29,7 @@ public interface AbstractServlet<UncertainBeanA extends GenericBean, UncertainBe
   void doResponseInJSON(HttpServletResponse resp, ReturnDataPack<?> obj);
 
   /**
-   * 从参数图中获取值并构造 A 型数据容器。
+   * 从参数图中获取值并构造数据容器。
    */
-  UncertainBeanA getAInstance();
-
-  /**
-   * 从参数图中获取值并构造 B 型数据容器。
-   */
-  UncertainBeanB getBInstance();
+  UncertainBean getInstance();
 }

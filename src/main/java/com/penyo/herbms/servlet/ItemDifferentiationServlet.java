@@ -16,10 +16,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * 条辩和条辩概要的请求处理代理
+ * 条辩的请求处理代理
  *
  * @author Penyo
- * @see com.penyo.herbms.pojo.ItemDifferentiationInfoBean
  * @see com.penyo.herbms.pojo.ItemDifferentiationBean
  */
 @WebServlet({"/itemDifferentiationServlet", "/itemDifferentiationServletSpecific"})

@@ -51,4 +51,20 @@
     FROM herbs
   </select>
 
+  <select id="selectByExperienceId" resultType="HerbBean" parameterType="int">
+    SELECT *
+    FROM herbs
+    WHERE id IN (SELECT herb_id
+                 FROM experiences
+                 WHERE id = #{id})
+  </select>
+
+  <select id="selectByPrescriptionId" resultType="HerbBean" parameterType="int">
+    SELECT *
+    FROM herbs
+    WHERE id IN (SELECT herb_id
+                 FROM prescriptions
+                 WHERE id = #{id})
+  </select>
+
 </mapper>

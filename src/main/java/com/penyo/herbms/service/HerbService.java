@@ -1,8 +1,6 @@
 package com.penyo.herbms.service;
 
 import com.penyo.herbms.pojo.HerbBean;
-import com.penyo.herbms.pojo.ExperienceBean;
-import com.penyo.herbms.pojo.PrescriptionBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,19 +39,18 @@ public class HerbService extends GenericService<HerbBean> {
   /**
    * 根据心得 ID 查找元素。
    */
-  public HerbBean selectByExperienceId(int id) {
-    for (ExperienceBean o : expDAO.selectAll())
-      if (o.getId() == id) return hDAO.selectById(o.getHerbId());
-    return null;
+  public String selectNameByExperienceId(int id) {
+    return hDAO.selectByExperienceId(id).getName();
   }
 
   /**
    * 根据处方 ID 查找元素。
    */
-  public List<HerbBean> selectByPrescriptionId(int id) {
-    List<HerbBean> hs = new ArrayList<>();
-    for (PrescriptionBean o : pDAO.selectAll())
-      if (o.getId() == id) hs.add(hDAO.selectById(o.getHerbId()));
-    return hs;
+  public List<String> selectNamesByPrescriptionId(int id) {
+    List<String> names = new ArrayList<>();
+
+    for (HerbBean o : hDAO.selectByPrescriptionId(id))
+      names.add(o.getName());
+    return names;
   }
 }

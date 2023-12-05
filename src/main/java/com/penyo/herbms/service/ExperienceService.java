@@ -39,10 +39,11 @@ public class ExperienceService extends GenericService<ExperienceBean> {
   /**
    * 根据中药 ID 查找元素。
    */
-  public List<ExperienceBean> selectByHerbId(int herbId) {
-    List<ExperienceBean> hs = new ArrayList<>();
-    for (ExperienceBean h : expDAO.selectAll())
-      if (h.getHerbId() == herbId) hs.add(h);
-    return hs;
+  public List<String> selectContentsByHerbId(int id) {
+    List<String> contents = new ArrayList<>();
+
+    for (ExperienceBean h : expDAO.selectByHerbId(id))
+      contents.add(h.getContent());
+    return contents;
   }
 }

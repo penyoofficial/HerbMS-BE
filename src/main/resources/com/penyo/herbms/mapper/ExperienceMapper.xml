@@ -46,4 +46,10 @@
     FROM experiences
   </select>
 
+  <select id="selectByHerbId" resultMap="ExperienceBean" parameterType="int">
+    SELECT *
+    FROM experiences
+    WHERE herb_id = #{id}
+  </select>
+
 </mapper>

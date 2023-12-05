@@ -28,12 +28,7 @@ public abstract class GenericDAO<UncertainBean extends GenericBean> implements A
    * DAO 实例类型
    */
   public enum DAOType {
-    HERB,
-    EXPERIENCE,
-    PRESCRIPTION_INFO,
-    PRESCRIPTION,
-    ITEM_DIFFERENTIATION_INFO,
-    ITEM_DIFFERENTIATION,
+    HERB, EXPERIENCE, PRESCRIPTION_INFO, PRESCRIPTION, ITEM_DIFFERENTIATION_INFO, ITEM_DIFFERENTIATION,
   }
 
   /**
@@ -51,7 +46,7 @@ public abstract class GenericDAO<UncertainBean extends GenericBean> implements A
   }
 
   @Override
-  public final int add(UncertainBean o) {
+  public final synchronized int add(UncertainBean o) {
     if (selectById(o.getId()) != null) return 0;
 
     int affectedRows = 0;
@@ -63,7 +58,7 @@ public abstract class GenericDAO<UncertainBean extends GenericBean> implements A
   }
 
   @Override
-  public final int delete(int id) {
+  public final synchronized int delete(int id) {
     int affectedRows = 0;
     try (SqlSession s = SessionPool.getSession()) {
       affectedRows = s.delete(fullMapperName + ".delete", id);
@@ -73,7 +68,7 @@ public abstract class GenericDAO<UncertainBean extends GenericBean> implements A
   }
 
   @Override
-  public final int update(UncertainBean o) {
+  public final synchronized int update(UncertainBean o) {
     if (selectById(o.getId()) == null) return 0;
 
     int affectedRows = 0;
