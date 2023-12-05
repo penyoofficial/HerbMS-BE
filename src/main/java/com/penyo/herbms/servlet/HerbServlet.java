@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author Penyo
  * @see com.penyo.herbms.pojo.HerbBean
  */
-@WebServlet({"/herbServlet", "/herbServletSpecific"})
+@WebServlet({"/herbsServlet", "/herbsServletSpecific"})
 public class HerbServlet extends GenericServlet<HerbBean, HerbService> {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) {

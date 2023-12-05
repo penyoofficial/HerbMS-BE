@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author Penyo
  * @see com.penyo.herbms.pojo.ExperienceBean
  */
-@WebServlet({"/experienceServlet", "/experienceServletSpecific"})
+@WebServlet({"/experiencesServlet", "/experiencesServletSpecific"})
 public class ExperienceServlet extends GenericServlet<ExperienceBean, ExperienceService> {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) {

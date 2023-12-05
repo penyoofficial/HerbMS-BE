@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author Penyo
  * @see com.penyo.herbms.pojo.PrescriptionBean
  */
-@WebServlet({"/prescriptionServlet", "/prescriptionServletSpecific"})
+@WebServlet({"/prescriptionsServlet", "/prescriptionsServletSpecific"})
 public class PrescriptionServlet extends GenericServlet<PrescriptionInfoBean, PrescriptionBean, PrescriptionInfoService, PrescriptionService> {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) {

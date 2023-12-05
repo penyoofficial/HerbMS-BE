@@ -2,6 +2,7 @@ package com.penyo.herbms.dao;
 
 import com.penyo.herbms.pojo.GenericBean;
 import com.penyo.herbms.util.SessionPool;
+import com.penyo.herbms.util.TableMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,23 +26,16 @@ public abstract class GenericDAO<UncertainBean extends GenericBean> implements A
   }
 
   /**
-   * DAO 实例类型
-   */
-  public enum DAOType {
-    HERB, EXPERIENCE, PRESCRIPTION_INFO, PRESCRIPTION, ITEM_DIFFERENTIATION_INFO, ITEM_DIFFERENTIATION,
-  }
-
-  /**
    * 创建具体 DAO 实例。
    */
-  public static GenericDAO<?> createDAO(DAOType daoType) {
-    return switch (daoType) {
-      case HERB -> new HerbDAO();
-      case EXPERIENCE -> new ExperienceDAO();
-      case PRESCRIPTION_INFO -> new PrescriptionInfoDAO();
-      case PRESCRIPTION -> new PrescriptionDAO();
-      case ITEM_DIFFERENTIATION_INFO -> new ItemDifferentiationInfoDAO();
-      case ITEM_DIFFERENTIATION -> new ItemDifferentiationDAO();
+  public static GenericDAO<?> createDAO(TableMapper t) {
+    return switch (t) {
+      case HERBS -> new HerbDAO();
+      case EXPERIENCES -> new ExperienceDAO();
+      case PRESCRIPTION_INFOS -> new PrescriptionInfoDAO();
+      case PRESCRIPTIONS -> new PrescriptionDAO();
+      case ITEM_DIFFERENTIATION_INFOS -> new ItemDifferentiationInfoDAO();
+      case ITEM_DIFFERENTIATIONS -> new ItemDifferentiationDAO();
     };
   }
 

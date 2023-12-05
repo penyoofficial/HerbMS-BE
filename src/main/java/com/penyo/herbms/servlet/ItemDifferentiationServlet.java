@@ -21,7 +21,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author Penyo
  * @see com.penyo.herbms.pojo.ItemDifferentiationBean
  */
-@WebServlet({"/itemDifferentiationServlet", "/itemDifferentiationServletSpecific"})
+@WebServlet({"/itemDifferentiationsServlet", "/itemDifferentiationsServletSpecific"})
 public class ItemDifferentiationServlet extends GenericServlet<ItemDifferentiationInfoBean, ItemDifferentiationBean, ItemDifferentiationInfoService, ItemDifferentiationService> {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
