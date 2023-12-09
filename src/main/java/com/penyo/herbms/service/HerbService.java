@@ -44,6 +44,17 @@ public class HerbService extends GenericService<HerbBean> {
   }
 
   /**
+   * 根据处方 ID 查找多个处方概要的解释。
+   */
+  public List<String> selectDescriptionsByPrescriptionId(int id){
+    List<String> descriptions = new ArrayList<>();
+
+    for(HerbBean o : hDAO.selectByPrescriptionId(id))
+      descriptions.add(o.getDescription());
+    return descriptions;
+  }
+
+  /**
    * 根据处方 ID 查找多个中草药名称。
    */
   public List<String> selectNamesByPrescriptionId(int id) {

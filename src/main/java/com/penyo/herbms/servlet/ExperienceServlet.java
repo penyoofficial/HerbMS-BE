@@ -18,11 +18,11 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author Penyo
  * @see com.penyo.herbms.pojo.ExperienceBean
  */
-@WebServlet({"/experiencesServlet", "/experiencesServletSpecific"})
+@WebServlet({"/use-experiences", "/use-experiences-specific"})
 public class ExperienceServlet extends GenericServlet<ExperienceBean, ExperienceService> {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-    if (!req.getServletPath().contains("Specific")) doProcess(req, resp, new ExperienceService(), true);
+    if (!req.getServletPath().contains("specific")) doProcess(req, resp, new ExperienceService(), true);
     else doSpecificProcess(req, resp, new ExperienceService());
   }
 

@@ -18,11 +18,11 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author Penyo
  * @see com.penyo.herbms.pojo.HerbBean
  */
-@WebServlet({"/herbsServlet", "/herbsServletSpecific"})
+@WebServlet({"/use-herbs", "/use-herbs-specific"})
 public class HerbServlet extends GenericServlet<HerbBean, HerbService> {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-    if (!req.getServletPath().contains("Specific")) doProcess(req, resp, new HerbService(), true);
+    if (!req.getServletPath().contains("specific")) doProcess(req, resp, new HerbService(), true);
     else doSpecificProcess(req, resp, new HerbService());
   }
 

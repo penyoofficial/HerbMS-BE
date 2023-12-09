@@ -2,8 +2,6 @@ package com.penyo.herbms.servlet;
 
 import com.penyo.herbms.pojo.*;
 import com.penyo.herbms.service.HerbService;
-import com.penyo.herbms.service.ItemDifferentiationInfoService;
-import com.penyo.herbms.service.PrescriptionInfoService;
 import com.penyo.herbms.service.PrescriptionService;
 
 import java.util.ArrayList;
@@ -19,56 +17,36 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author Penyo
  * @see com.penyo.herbms.pojo.PrescriptionBean
  */
-@WebServlet({"/prescriptionsServlet", "/prescriptionsServletSpecific"})
-public class PrescriptionServlet extends GenericServlet<PrescriptionInfoBean, PrescriptionBean, PrescriptionInfoService, PrescriptionService> {
+@WebServlet({"/use-prescriptions", "/use-prescriptions-specific"})
+public class PrescriptionServlet extends GenericServlet<PrescriptionBean, PrescriptionService> {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-    if (!req.getServletPath().contains("Specific"))
-      doProcess(req, resp, new PrescriptionInfoService(), new PrescriptionService(), true);
-    else doSpecificProcess(req, resp, new PrescriptionInfoService(), new PrescriptionService());
+    if (!req.getServletPath().contains("specific"))
+      doProcess(req, resp, new PrescriptionService(), true);
+    else doSpecificProcess(req, resp, new PrescriptionService());
   }
 
   @Override
-  @SuppressWarnings("unchecked")
-  public void doSpecificProcess(HttpServletRequest req, HttpServletResponse resp, PrescriptionInfoService piService, PrescriptionService pService) {
-    if (req.getParameter("needQueryA").equals("true")) {
-      List<String> idtis = new ArrayList<>();
-
-      ReturnDataPack<PrescriptionInfoBean> pis = (ReturnDataPack<PrescriptionInfoBean>) doProcess(req, resp, piService, pService, false);
-      for (PrescriptionInfoBean o : pis.getList()) {
-        StringBuilder idtiTemp = new StringBuilder("\"");
-        for (ItemDifferentiationInfoBean idti : new ItemDifferentiationInfoService().selectByPrescriptionId(o.getId()))
-          idtiTemp.append(idti.getContent()).append("/");
-        if (idtiTemp.length() > 1)
-          idtis.add(idtiTemp.delete(idtiTemp.length() - 1, idtiTemp.length()).append("\"").toString());
-      }
-      doResponseInJSON(resp, new ReturnDataPack<>(idtis));
-    } else {
-      List<String> annotations = new ArrayList<>();
-
-      ReturnDataPack<PrescriptionBean> ps = (ReturnDataPack<PrescriptionBean>) doProcess(req, resp, piService, pService, false);
-      for (PrescriptionBean o : ps.getList()) {
-        StringBuilder annoTemp = new StringBuilder("\"");
-        for (HerbBean oo : new HerbService().selectByPrescriptionId(o.getId()))
-          annoTemp.append(oo.getName()).append("/");
-        if (annoTemp.length() > 1) annoTemp.delete(annoTemp.length() - 1, annoTemp.length()).append("：");
-        PrescriptionInfoBean oo = piService.selectByPrescriptionId(o.getId());
-        annoTemp.append(oo.getName());
-        if (!oo.getNickname().equals("无")) annoTemp.append("（").append(oo.getNickname()).append("）");
-        annoTemp.append("：").append(oo.getDescription());
-        annotations.add((annoTemp.append("\"").toString()));
-      }
-      doResponseInJSON(resp, new ReturnDataPack<>(annotations));
+  public void doSpecificProcess(HttpServletRequest req, HttpServletResponse resp,PrescriptionService serv){
+    List<String> annotations = new ArrayList<>();
+    ReturnDataPack<PrescriptionBean> ps = doProcess(req,resp,serv,false);
+    for (PrescriptionBean o : ps.getObjs()) {
+      StringBuilder annoTemp = new StringBuilder("\"");
+      for (String oo : new HerbService().selectDescriptionsByPrescriptionId(o.getId()))
+        annoTemp.append(new HerbService().selectNamesByPrescriptionId(o.getId())).append("/");
+        annoTemp.append(new HerbService().selectDescriptionsByPrescriptionId(o.getId())).append("/");
+      if (annoTemp.length() > 1) annoTemp.delete(annoTemp.length() - 1, annoTemp.length()).append("：");
+      PrescriptionInfoBean oo = serv.selectPrescriptionId(o.getId());
+      annoTemp.append(oo.getName());
+      if (!oo.getNickname().equals("无")) annoTemp.append("（").append(oo.getNickname()).append("）");
+      annoTemp.append("：").append(oo.getDescription());
+      annotations.add((annoTemp.append("\"").toString()));
     }
+    doResponseInJSON(resp, new ReturnDataPack<>(annotations));
   }
 
   @Override
-  public PrescriptionInfoBean getAInstance() {
-    return new PrescriptionInfoBean(Integer.parseInt(params.get("id")), params.get("name"), params.get("nickname"), params.get("description"));
-  }
-
-  @Override
-  public PrescriptionBean getBInstance() {
+  public PrescriptionBean getInstance() {
     return new PrescriptionBean(Integer.parseInt(params.get("id")), Integer.parseInt(params.get("prescriptionId")), Integer.parseInt("herbId"), params.get("dosage"), params.get("usage"));
   }
 }

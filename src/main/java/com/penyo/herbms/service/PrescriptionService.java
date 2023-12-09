@@ -1,6 +1,7 @@
 package com.penyo.herbms.service;
 
 import com.penyo.herbms.pojo.PrescriptionBean;
+import com.penyo.herbms.pojo.PrescriptionInfoBean;
 
 import java.util.List;
 
@@ -34,4 +35,9 @@ public class PrescriptionService extends GenericService<PrescriptionBean> {
   public List<PrescriptionBean> selectByFields(List<String> fields) {
     return pDAO.selectByFields(fields);
   }
+
+  /**
+   * 查找处方 ID。
+   */
+  public PrescriptionInfoBean selectPrescriptionId(int id){ return piDAO.selectByPrescriptionId(id); }
 }
