@@ -42,4 +42,28 @@
     FROM item_differentiation_infos
   </select>
 
+  <select id="selectByPrescriptionId" resultType="ItemDifferentiationInfoBean" parameterType="int">
+    SELECT *
+    FROM item_differentiation_infos
+    WHERE id IN (SELECT id
+                 FROM item_differentiations
+                 WHERE item_differentiation_id IN (SELECT prescription_id FROM prescriptions WHERE id = #{id}))
+  </select>
+
+  <select id="selectByPrescriptionName" resultType="ItemDifferentiationInfoBean" parameterType="java.util.List">
+    SELECT *
+    FROM item_differentiation_infos
+    WHERE id IN (SELECT item_differentiation_id FROM item_differentiations WHERE prescription_id = (
+    SELECT id
+    FROM prescription_infos
+    WHERE
+    <foreach collection="list" item="name" separator="OR">
+      name
+      LIKE CONCAT('%', #{name}, '%')
+    </foreach>
+    )
+    )
+  </select>
+
+
 </mapper>
