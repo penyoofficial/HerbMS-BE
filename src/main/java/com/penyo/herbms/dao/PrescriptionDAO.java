@@ -22,8 +22,8 @@ public class PrescriptionDAO extends GenericDAO<PrescriptionBean> {
   public PrescriptionBean selectByPrescriptionId(int id) {
     PrescriptionBean o = null;
 
-    try(SqlSession s = SessionPool.getSession()){
-      o = s.selectOne(fullMapperName + ".selectByPrescriptionId",id);
+    try (SqlSession s = SessionPool.getSession()) {
+      o = s.selectOne(fullMapperName + ".selectByPrescriptionId", id);
     }
     return o;
   }

@@ -3,9 +3,7 @@ package com.penyo.herbms.service;
 import com.penyo.herbms.pojo.ItemDifferentiationInfoBean;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 条辩概要的业务代理
@@ -39,24 +37,13 @@ public class ItemDifferentiationInfoService extends GenericService<ItemDifferent
   }
 
   /**
-   * 根据处方 ID 查询元素。
+   * 根据处方 ID 查询多个条辨内容。
    */
-  public List<ItemDifferentiationInfoBean> selectByPrescriptionId(int id) {
-    List<ItemDifferentiationInfoBean> o = new ArrayList<>();
+  public List<String> selectContentsByPrescriptionId(int id) {
+    List<String> contents = new ArrayList<>();
 
     for (ItemDifferentiationInfoBean oo : idtiDAO.selectByPrescriptionId(id))
-      o.add(oo);
-    return o;
-  }
-
-  /**
-   * 根据处方名称返回条辩。
-   */
-  public List<ItemDifferentiationInfoBean> selectByPrescriptionName(List<String> fields) {
-    List<ItemDifferentiationInfoBean> o = new ArrayList<>();
-
-    for (ItemDifferentiationInfoBean oo : idtiDAO.selectByPrescriptionName(fields))
-      o.add(oo);
-    return o;
+      contents.add(oo.getContent());
+    return contents;
   }
 }

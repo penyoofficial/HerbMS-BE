@@ -43,7 +43,8 @@
   </select>
 
   <select id="selectByHerbName" resultType="PrescriptionInfoBean" parameterType="java.util.List">
-    SELECT * FROM prescription_infos
+    SELECT *
+    FROM prescription_infos
     WHERE id IN (SELECT id
                  FROM herbs
                  WHERE name = #{name})
@@ -64,4 +65,5 @@
                  FROM item_differentiation_infos
                  WHERE id = #{id})
   </select>
+
 </mapper>

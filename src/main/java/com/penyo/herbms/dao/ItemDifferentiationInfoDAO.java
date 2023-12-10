@@ -29,16 +29,4 @@ public class ItemDifferentiationInfoDAO extends GenericDAO<ItemDifferentiationIn
     }
     return is;
   }
-
-  /**
-   * 根据处方名称返回条辩。
-   */
-  public List<ItemDifferentiationInfoBean> selectByPrescriptionName(List<String> fields) {
-    List<ItemDifferentiationInfoBean> is = new ArrayList<>();
-
-    try (SqlSession s = SessionPool.getSession()) {
-      is.addAll(s.selectList(fullMapperName + ".selectByPrescriptionName", fields));
-    }
-    return is;
-  }
 }

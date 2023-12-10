@@ -20,8 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class ItemDifferentiationServlet extends GenericServlet<ItemDifferentiationBean, ItemDifferentiationService> {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-    if (!req.getServletPath().contains("specific"))
-      doProcess(req, resp, new ItemDifferentiationService(), true);
+    if (!req.getServletPath().contains("specific")) doProcess(req, resp, new ItemDifferentiationService(), true);
     else doSpecificProcess(req, resp, new ItemDifferentiationService());
   }
 

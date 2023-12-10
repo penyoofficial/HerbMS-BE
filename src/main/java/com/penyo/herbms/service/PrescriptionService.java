@@ -37,7 +37,9 @@ public class PrescriptionService extends GenericService<PrescriptionBean> {
   }
 
   /**
-   * 查找处方 ID。
+   * 根据处方 ID 查找处方概要。
    */
-  public PrescriptionInfoBean selectPrescriptionId(int id){ return piDAO.selectByPrescriptionId(id); }
+  public PrescriptionInfoBean selectPrescriptionInfoByPrescriptionId(int id) {
+    return piDAO.selectByPrescriptionId(id);
+  }
 }

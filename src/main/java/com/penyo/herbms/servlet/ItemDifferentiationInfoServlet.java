@@ -1,16 +1,16 @@
 package com.penyo.herbms.servlet;
 
 import com.penyo.herbms.pojo.ItemDifferentiationInfoBean;
-import com.penyo.herbms.pojo.PrescriptionInfoBean;
 import com.penyo.herbms.pojo.ReturnDataPack;
 import com.penyo.herbms.service.ItemDifferentiationInfoService;
 import com.penyo.herbms.service.PrescriptionInfoService;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * 条辩概要的请求处理代理
@@ -22,8 +22,7 @@ import java.util.List;
 public class ItemDifferentiationInfoServlet extends GenericServlet<ItemDifferentiationInfoBean, ItemDifferentiationInfoService> {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-    if (!req.getServletPath().contains("specific"))
-      doProcess(req, resp, new ItemDifferentiationInfoService(), true);
+    if (!req.getServletPath().contains("specific")) doProcess(req, resp, new ItemDifferentiationInfoService(), true);
     else doSpecificProcess(req, resp, new ItemDifferentiationInfoService());
   }
 
@@ -34,10 +33,10 @@ public class ItemDifferentiationInfoServlet extends GenericServlet<ItemDifferent
     ReturnDataPack<ItemDifferentiationInfoBean> idtis = doProcess(req, resp, serv, false);
     for (ItemDifferentiationInfoBean idti : idtis.getObjs()) {
       StringBuilder idtiTemp = new StringBuilder("\"");
-      for (PrescriptionInfoBean pi : new PrescriptionInfoService().selectByIDTIId(idti.getId()))
-        idtiTemp.append(pi.getName()).append("/");
+      for (String name : new PrescriptionInfoService().selectNamesByIDTIId(idti.getId()))
+        idtiTemp.append(name).append("/");
       if (idtiTemp.length() > 1)
-          ps.add(idtiTemp.delete(idtiTemp.length() - 1, idtiTemp.length()).append("\"").toString());
+        ps.add(idtiTemp.delete(idtiTemp.length() - 1, idtiTemp.length()).append("\"").toString());
     }
     doResponseInJSON(resp, new ReturnDataPack<>(ps));
   }
@@ -47,4 +46,3 @@ public class ItemDifferentiationInfoServlet extends GenericServlet<ItemDifferent
     return new ItemDifferentiationInfoBean(Integer.parseInt(params.get("id")), Integer.parseInt(params.get("code")), params.get("content"), params.get("annotation"));
   }
 }
-

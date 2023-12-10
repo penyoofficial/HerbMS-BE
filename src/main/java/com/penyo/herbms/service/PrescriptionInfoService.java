@@ -32,24 +32,18 @@ public class PrescriptionInfoService extends GenericService<PrescriptionInfoBean
   }
 
   @Override
-  public List<PrescriptionInfoBean> selectByFields(List<String> fields) { return piDAO.selectByFields(fields); }
-
-  /**
-   * 根据条辨 ID 查找元素。
-   */
-  public List<PrescriptionInfoBean> selectByIDTIId(int id) {
-    return piDAO.selectByIDTIId(id);
+  public List<PrescriptionInfoBean> selectByFields(List<String> fields) {
+    return piDAO.selectByFields(fields);
   }
 
   /**
-   * 根据条辩概要 ID 返回多个条辩概要内容。
+   * 根据条辨 ID 查找多个经方名称。
    */
-  public String selectContentByIDTIId(int id){
-    List<String> contents = new ArrayList<>();
+  public List<String> selectNamesByIDTIId(int id) {
+    List<String> names = new ArrayList<>();
 
-    for(PrescriptionInfoBean o : piDAO.selectByIDTIId(id)){
-      contents.add(o.getDescription());
-    }
-    return  contents.toString();
+    for (PrescriptionInfoBean o : piDAO.selectByIDTIId(id))
+      names.add(o.getName());
+    return names;
   }
 }

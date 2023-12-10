@@ -19,25 +19,14 @@ public class PrescriptionInfoDAO extends GenericDAO<PrescriptionInfoBean> {
     super("PrescriptionInfoMapper");
   }
 
-/**
- * 根据中草药名查询多个元素。
- */
-  public List<PrescriptionInfoBean> selectByHerbName(int id){
-    List<PrescriptionInfoBean> os = new ArrayList<>();
-    try(SqlSession s = SessionPool.getSession()){
-      os.addAll(s.selectList(fullMapperName + ".selectByHerbName",id));
-    }
-    return os;
-  }
-
   /**
    * 根据处方 ID 查询单个元素。
    */
   public PrescriptionInfoBean selectByPrescriptionId(int id) {
     PrescriptionInfoBean o = null;
 
-    try(SqlSession s = SessionPool.getSession()){
-      o = s.selectOne(fullMapperName + ".selectByPrescriptionId",id);
+    try (SqlSession s = SessionPool.getSession()) {
+      o = s.selectOne(fullMapperName + ".selectByPrescriptionId", id);
     }
     return o;
   }
@@ -48,8 +37,8 @@ public class PrescriptionInfoDAO extends GenericDAO<PrescriptionInfoBean> {
   public List<PrescriptionInfoBean> selectByIDTIId(int id) {
     List<PrescriptionInfoBean> os = new ArrayList<>();
 
-    try(SqlSession s = SessionPool.getSession()){
-      os.addAll(s.selectList(fullMapperName + ".selectByIDTIId",id));
+    try (SqlSession s = SessionPool.getSession()) {
+      os.addAll(s.selectList(fullMapperName + ".selectByIDTIId", id));
     }
     return os;
   }
