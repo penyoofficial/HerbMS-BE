@@ -32,8 +32,7 @@ public class PrescriptionServlet extends GenericServlet<PrescriptionBean, Prescr
     ReturnDataPack<PrescriptionBean> ps = doProcess(req, resp, serv, false);
     for (PrescriptionBean o : ps.getObjs()) {
       StringBuilder annoTemp = new StringBuilder("\"");
-      for (String oo : new HerbService().selectDescriptionsByPrescriptionId(o.getId()))
-        annoTemp.append(new HerbService().selectNamesByPrescriptionId(o.getId())).append("/");
+      annoTemp.append(new HerbService().selectNamesByPrescriptionId(o.getId())).append("/");
       annoTemp.append(new HerbService().selectDescriptionsByPrescriptionId(o.getId())).append("/");
       if (annoTemp.length() > 1) annoTemp.delete(annoTemp.length() - 1, annoTemp.length()).append("：");
       PrescriptionInfoBean oo = serv.selectPrescriptionInfoByPrescriptionId(o.getId());
