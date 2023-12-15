@@ -1,67 +1,59 @@
 package com.penyo.herbms.service;
 
-import com.penyo.herbms.pojo.HerbBean;
+import com.penyo.herbms.pojo.Herb;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 /**
  * 中草药的业务代理
  *
  * @author Penyo
  */
-public class HerbService extends GenericService<HerbBean> {
+@Service
+public class HerbService extends GenericService<Herb> {
   @Override
-  public int add(HerbBean o) {
-    return hDAO.add(o);
+  public int add(Herb o) {
+    return herbDAO.add(o);
   }
 
   @Override
   public int delete(int id) {
-    return hDAO.delete(id);
+    return herbDAO.delete(id);
   }
 
   @Override
-  public int update(HerbBean o) {
-    return hDAO.update(o);
+  public int update(Herb o) {
+    return herbDAO.update(o);
   }
 
   @Override
-  public HerbBean selectById(int id) {
-    return hDAO.selectById(id);
+  public Herb selectById(int id) {
+    return herbDAO.selectById(id);
   }
 
   @Override
-  public List<HerbBean> selectByFields(List<String> fields) {
-    return hDAO.selectByFields(fields);
+  public List<Herb> selectByFields(List<String> fields) {
+    return herbDAO.selectByFields(fields);
   }
 
   /**
    * 根据中草药使用心得 ID 查询单个中草药名称。
    */
   public String selectNameByExperienceId(int id) {
-    return hDAO.selectByExperienceId(id).getName();
+    return herbDAO.selectByExperienceId(id).getName();
   }
 
   /**
-   * 根据处方 ID 查找多个处方概要的解释。
+   * 根据处方 ID 查找多个中草药名称和解释。
    */
-  public List<String> selectDescriptionsByPrescriptionId(int id){
-    List<String> descriptions = new ArrayList<>();
-
-    for(HerbBean o : hDAO.selectByPrescriptionId(id))
-      descriptions.add(o.getDescription());
-    return descriptions;
-  }
-
-  /**
-   * 根据处方 ID 查找多个中草药名称。
-   */
-  public List<String> selectNamesByPrescriptionId(int id) {
+  public List<String> selectNamesAndDescriptionsByPrescriptionId(int id) {
     List<String> names = new ArrayList<>();
 
-    for (HerbBean o : hDAO.selectByPrescriptionId(id))
-      names.add(o.getName());
+    for (Herb o : herbDAO.selectByPrescriptionId(id))
+      names.add(o.getName() + "/" + o.getDescription());
     return names;
   }
 }

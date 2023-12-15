@@ -1,39 +1,42 @@
 package com.penyo.herbms.service;
 
-import com.penyo.herbms.pojo.ExperienceBean;
+import com.penyo.herbms.pojo.Experience;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 /**
  * 中草药使用心得的业务代理
  *
  * @author Penyo
  */
-public class ExperienceService extends GenericService<ExperienceBean> {
+@Service
+public class ExperienceService extends GenericService<Experience> {
   @Override
-  public int add(ExperienceBean o) {
-    return expDAO.add(o);
+  public int add(Experience o) {
+    return experienceDAO.add(o);
   }
 
   @Override
   public int delete(int id) {
-    return expDAO.delete(id);
+    return experienceDAO.delete(id);
   }
 
   @Override
-  public int update(ExperienceBean o) {
-    return expDAO.update(o);
+  public int update(Experience o) {
+    return experienceDAO.update(o);
   }
 
   @Override
-  public ExperienceBean selectById(int id) {
-    return expDAO.selectById(id);
+  public Experience selectById(int id) {
+    return experienceDAO.selectById(id);
   }
 
   @Override
-  public List<ExperienceBean> selectByFields(List<String> fields) {
-    return expDAO.selectByFields(fields);
+  public List<Experience> selectByFields(List<String> fields) {
+    return experienceDAO.selectByFields(fields);
   }
 
   /**
@@ -42,7 +45,7 @@ public class ExperienceService extends GenericService<ExperienceBean> {
   public List<String> selectContentsByHerbId(int id) {
     List<String> contents = new ArrayList<>();
 
-    for (ExperienceBean h : expDAO.selectByHerbId(id))
+    for (Experience h : experienceDAO.selectByHerbId(id))
       contents.add(h.getContent());
     return contents;
   }

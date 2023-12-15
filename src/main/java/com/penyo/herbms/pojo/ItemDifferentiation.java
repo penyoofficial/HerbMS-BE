@@ -7,7 +7,7 @@ import java.util.Map;
  *
  * @author Penyo
  */
-public class ItemDifferentiationBean extends GenericBean {
+public class ItemDifferentiation extends GenericBean {
   /**
    * 唯一识别码
    */
@@ -25,10 +25,10 @@ public class ItemDifferentiationBean extends GenericBean {
    */
   private String type;
 
-  public ItemDifferentiationBean() {
+  public ItemDifferentiation() {
   }
 
-  public ItemDifferentiationBean(int id, int itemDifferentiationId, int prescriptionId, String type) {
+  public ItemDifferentiation(int id, int itemDifferentiationId, int prescriptionId, String type) {
     this.id = id;
     this.itemDifferentiationId = itemDifferentiationId;
     this.prescriptionId = prescriptionId;
@@ -72,7 +72,7 @@ public class ItemDifferentiationBean extends GenericBean {
 
   public void setType(String type) {
     try {
-      if (!ItemDifferentiationBean.isTypeValid(type)) throw new TypeNotPresentException(type, null);
+      if (!ItemDifferentiation.isTypeValid(type)) throw new TypeNotPresentException(type, null);
       this.type = type;
     } catch (TypeNotPresentException e) {
       this.type = "对症";

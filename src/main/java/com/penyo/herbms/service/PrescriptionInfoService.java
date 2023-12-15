@@ -1,39 +1,42 @@
 package com.penyo.herbms.service;
 
-import com.penyo.herbms.pojo.PrescriptionInfoBean;
+import com.penyo.herbms.pojo.PrescriptionInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 /**
  * 处方概要的业务代理
  *
  * @author Penyo
  */
-public class PrescriptionInfoService extends GenericService<PrescriptionInfoBean> {
+@Service
+public class PrescriptionInfoService extends GenericService<PrescriptionInfo> {
   @Override
-  public int add(PrescriptionInfoBean o) {
-    return piDAO.add(o);
+  public int add(PrescriptionInfo o) {
+    return prescriptionInfoDAO.add(o);
   }
 
   @Override
   public int delete(int id) {
-    return piDAO.delete(id);
+    return prescriptionInfoDAO.delete(id);
   }
 
   @Override
-  public int update(PrescriptionInfoBean o) {
-    return piDAO.update(o);
+  public int update(PrescriptionInfo o) {
+    return prescriptionInfoDAO.update(o);
   }
 
   @Override
-  public PrescriptionInfoBean selectById(int id) {
-    return piDAO.selectById(id);
+  public PrescriptionInfo selectById(int id) {
+    return prescriptionInfoDAO.selectById(id);
   }
 
   @Override
-  public List<PrescriptionInfoBean> selectByFields(List<String> fields) {
-    return piDAO.selectByFields(fields);
+  public List<PrescriptionInfo> selectByFields(List<String> fields) {
+    return prescriptionInfoDAO.selectByFields(fields);
   }
 
   /**
@@ -42,7 +45,7 @@ public class PrescriptionInfoService extends GenericService<PrescriptionInfoBean
   public List<String> selectNamesByIDTIId(int id) {
     List<String> names = new ArrayList<>();
 
-    for (PrescriptionInfoBean o : piDAO.selectByIDTIId(id))
+    for (PrescriptionInfo o : prescriptionInfoDAO.selectByIDTIId(id))
       names.add(o.getName());
     return names;
   }
