@@ -3,9 +3,11 @@ package com.penyo.herbms.servlet;
 import com.penyo.herbms.pojo.GenericBean;
 import com.penyo.herbms.pojo.ReturnDataPack;
 import com.penyo.herbms.service.GenericService;
+import com.penyo.herbms.util.SpringConfig;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
  * 抽象请求处理代理
@@ -32,4 +34,11 @@ public interface AbstractServlet<UncertainBean extends GenericBean, UncertainSer
    * 从参数图中获取值并构造数据容器。
    */
   UncertainBean getInstance();
+
+  /**
+   * 获取已被增强的业务对象。
+   */
+  default <S> S getService(Class<S> def) {
+    return new AnnotationConfigApplicationContext(SpringConfig.class).getBean(def);
+  }
 }

@@ -1,7 +1,7 @@
 package com.penyo.herbms.dao;
 
 import com.penyo.herbms.pojo.ItemDifferentiationInfo;
-import com.penyo.herbms.util.SessionPool;
+import com.penyo.herbms.util.Pool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class ItemDifferentiationInfoDAO extends GenericDAO<ItemDifferentiationIn
   public List<ItemDifferentiationInfo> selectByPrescriptionId(int id) {
     List<ItemDifferentiationInfo> is = new ArrayList<>();
 
-    try (SqlSession s = SessionPool.getSession()) {
+    try (SqlSession s = Pool.getSession()) {
       is.addAll(s.selectList(fullMapperName + ".selectByPrescriptionId", id));
     }
     return is;

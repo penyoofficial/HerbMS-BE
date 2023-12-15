@@ -1,7 +1,7 @@
 package com.penyo.herbms.dao;
 
 import com.penyo.herbms.pojo.Prescription;
-import com.penyo.herbms.util.SessionPool;
+import com.penyo.herbms.util.Pool;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -24,7 +24,7 @@ public class PrescriptionDAO extends GenericDAO<Prescription> {
   public Prescription selectByPrescriptionId(int id) {
     Prescription o = null;
 
-    try (SqlSession s = SessionPool.getSession()) {
+    try (SqlSession s = Pool.getSession()) {
       o = s.selectOne(fullMapperName + ".selectByPrescriptionId", id);
     }
     return o;

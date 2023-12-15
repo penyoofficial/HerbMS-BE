@@ -1,6 +1,5 @@
 package com.penyo.herbms.servlet;
 
-import com.penyo.herbms.HerbMSContext;
 import com.penyo.herbms.pojo.ItemDifferentiation;
 import com.penyo.herbms.pojo.ReturnDataPack;
 import com.penyo.herbms.service.ItemDifferentiationService;
@@ -23,10 +22,8 @@ import org.springframework.stereotype.Controller;
 public class ItemDifferentiationServlet extends GenericServlet<ItemDifferentiation, ItemDifferentiationService> {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-    ItemDifferentiationService serv = HerbMSContext.getService(ItemDifferentiationService.class);
-
-    if (!req.getServletPath().contains("specific")) doProcess(req, resp, serv, true);
-    else doSpecificProcess(req, resp, serv);
+    if (!req.getServletPath().contains("specific")) doProcess(req, resp, getService(ItemDifferentiationService.class), true);
+    else doSpecificProcess(req, resp, getService(ItemDifferentiationService.class));
   }
 
   @Override

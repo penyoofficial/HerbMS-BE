@@ -1,6 +1,5 @@
 package com.penyo.herbms.servlet;
 
-import com.penyo.herbms.HerbMSContext;
 import com.penyo.herbms.pojo.ItemDifferentiationInfo;
 import com.penyo.herbms.pojo.ReturnDataPack;
 import com.penyo.herbms.service.ItemDifferentiationInfoService;
@@ -25,10 +24,8 @@ import org.springframework.stereotype.Controller;
 public class ItemDifferentiationInfoServlet extends GenericServlet<ItemDifferentiationInfo, ItemDifferentiationInfoService> {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-    ItemDifferentiationInfoService serv = HerbMSContext.getService(ItemDifferentiationInfoService.class);
-
-    if (!req.getServletPath().contains("specific")) doProcess(req, resp, serv, true);
-    else doSpecificProcess(req, resp, serv);
+    if (!req.getServletPath().contains("specific")) doProcess(req, resp, getService(ItemDifferentiationInfoService.class), true);
+    else doSpecificProcess(req, resp, getService(ItemDifferentiationInfoService.class));
   }
 
   @Override
@@ -38,7 +35,7 @@ public class ItemDifferentiationInfoServlet extends GenericServlet<ItemDifferent
     ReturnDataPack<ItemDifferentiationInfo> idtis = doProcess(req, resp, serv, false);
     for (ItemDifferentiationInfo idti : idtis.getObjs()) {
       StringBuilder idtiTemp = new StringBuilder("\"");
-      for (String name : HerbMSContext.getService(PrescriptionInfoService.class).selectNamesByIDTIId(idti.getId()))
+      for (String name : getService(PrescriptionInfoService.class).selectNamesByIDTIId(idti.getId()))
         idtiTemp.append(name).append("/");
       if (idtiTemp.length() > 1)
         ps.add(idtiTemp.delete(idtiTemp.length() - 1, idtiTemp.length()).append("\"").toString());
