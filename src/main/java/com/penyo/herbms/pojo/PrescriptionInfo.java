@@ -5,7 +5,7 @@ package com.penyo.herbms.pojo;
  *
  * @author Penyo
  */
-public class PrescriptionInfoBean extends GenericBean {
+public class PrescriptionInfo extends GenericBean {
   /**
    * 唯一识别码
    */
@@ -23,10 +23,10 @@ public class PrescriptionInfoBean extends GenericBean {
    */
   private String description;
 
-  public PrescriptionInfoBean() {
+  public PrescriptionInfo() {
   }
 
-  public PrescriptionInfoBean(int id, String name, String nickname, String description) {
+  public PrescriptionInfo(int id, String name, String nickname, String description) {
     this.id = id;
     this.name = name;
     this.nickname = nickname;

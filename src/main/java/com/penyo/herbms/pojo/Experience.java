@@ -5,7 +5,7 @@ package com.penyo.herbms.pojo;
  *
  * @author Penyo
  */
-public class ExperienceBean extends GenericBean {
+public class Experience extends GenericBean {
   /**
    * 唯一识别码
    */
@@ -23,10 +23,10 @@ public class ExperienceBean extends GenericBean {
    */
   private String content;
 
-  public ExperienceBean() {
+  public Experience() {
   }
 
-  public ExperienceBean(int id, int herbId, String derivation, String content) {
+  public Experience(int id, int herbId, String derivation, String content) {
     this.id = id;
     this.herbId = herbId;
     this.derivation = derivation;

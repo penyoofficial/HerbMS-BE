@@ -1,29 +1,31 @@
 package com.penyo.herbms.dao;
 
-import com.penyo.herbms.pojo.PrescriptionInfoBean;
+import com.penyo.herbms.pojo.PrescriptionInfo;
 import com.penyo.herbms.util.SessionPool;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
 
 /**
  * 处方概要的数据访问代理
  *
  * @author Penyo
- * @see com.penyo.herbms.pojo.PrescriptionInfoBean
+ * @see PrescriptionInfo
  */
-public class PrescriptionInfoDAO extends GenericDAO<PrescriptionInfoBean> {
-  protected PrescriptionInfoDAO() {
+@Repository
+public class PrescriptionInfoDAO extends GenericDAO<PrescriptionInfo> {
+  public PrescriptionInfoDAO() {
     super("PrescriptionInfoMapper");
   }
 
   /**
    * 根据处方 ID 查询单个元素。
    */
-  public PrescriptionInfoBean selectByPrescriptionId(int id) {
-    PrescriptionInfoBean o = null;
+  public PrescriptionInfo selectByPrescriptionId(int id) {
+    PrescriptionInfo o = null;
 
     try (SqlSession s = SessionPool.getSession()) {
       o = s.selectOne(fullMapperName + ".selectByPrescriptionId", id);
@@ -34,8 +36,8 @@ public class PrescriptionInfoDAO extends GenericDAO<PrescriptionInfoBean> {
   /**
    * 根据条辩 ID 查询多个元素。
    */
-  public List<PrescriptionInfoBean> selectByIDTIId(int id) {
-    List<PrescriptionInfoBean> os = new ArrayList<>();
+  public List<PrescriptionInfo> selectByIDTIId(int id) {
+    List<PrescriptionInfo> os = new ArrayList<>();
 
     try (SqlSession s = SessionPool.getSession()) {
       os.addAll(s.selectList(fullMapperName + ".selectByIDTIId", id));

@@ -1,6 +1,7 @@
 package com.penyo.herbms.servlet;
 
-import com.penyo.herbms.pojo.ItemDifferentiationInfoBean;
+import com.penyo.herbms.HerbMSContext;
+import com.penyo.herbms.pojo.ItemDifferentiationInfo;
 import com.penyo.herbms.pojo.ReturnDataPack;
 import com.penyo.herbms.service.ItemDifferentiationInfoService;
 import com.penyo.herbms.service.PrescriptionInfoService;
@@ -11,29 +12,33 @@ import java.util.List;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Controller;
 
 /**
  * 条辩概要的请求处理代理
  *
  * @author Penyo
- * @see com.penyo.herbms.pojo.ItemDifferentiationInfoBean
+ * @see ItemDifferentiationInfo
  */
+@Controller
 @WebServlet({"/use-item_differentiation_infos", "/use-item_differentiation_infos-specific"})
-public class ItemDifferentiationInfoServlet extends GenericServlet<ItemDifferentiationInfoBean, ItemDifferentiationInfoService> {
+public class ItemDifferentiationInfoServlet extends GenericServlet<ItemDifferentiationInfo, ItemDifferentiationInfoService> {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-    if (!req.getServletPath().contains("specific")) doProcess(req, resp, new ItemDifferentiationInfoService(), true);
-    else doSpecificProcess(req, resp, new ItemDifferentiationInfoService());
+    ItemDifferentiationInfoService serv = HerbMSContext.getService(ItemDifferentiationInfoService.class);
+
+    if (!req.getServletPath().contains("specific")) doProcess(req, resp, serv, true);
+    else doSpecificProcess(req, resp, serv);
   }
 
   @Override
   public void doSpecificProcess(HttpServletRequest req, HttpServletResponse resp, ItemDifferentiationInfoService serv) {
     List<String> ps = new ArrayList<>();
 
-    ReturnDataPack<ItemDifferentiationInfoBean> idtis = doProcess(req, resp, serv, false);
-    for (ItemDifferentiationInfoBean idti : idtis.getObjs()) {
+    ReturnDataPack<ItemDifferentiationInfo> idtis = doProcess(req, resp, serv, false);
+    for (ItemDifferentiationInfo idti : idtis.getObjs()) {
       StringBuilder idtiTemp = new StringBuilder("\"");
-      for (String name : new PrescriptionInfoService().selectNamesByIDTIId(idti.getId()))
+      for (String name : HerbMSContext.getService(PrescriptionInfoService.class).selectNamesByIDTIId(idti.getId()))
         idtiTemp.append(name).append("/");
       if (idtiTemp.length() > 1)
         ps.add(idtiTemp.delete(idtiTemp.length() - 1, idtiTemp.length()).append("\"").toString());
@@ -42,7 +47,7 @@ public class ItemDifferentiationInfoServlet extends GenericServlet<ItemDifferent
   }
 
   @Override
-  public ItemDifferentiationInfoBean getInstance() {
-    return new ItemDifferentiationInfoBean(Integer.parseInt(params.get("id")), Integer.parseInt(params.get("code")), params.get("content"), params.get("annotation"));
+  public ItemDifferentiationInfo getInstance() {
+    return new ItemDifferentiationInfo(Integer.parseInt(params.get("id")), Integer.parseInt(params.get("code")), params.get("content"), params.get("annotation"));
   }
 }

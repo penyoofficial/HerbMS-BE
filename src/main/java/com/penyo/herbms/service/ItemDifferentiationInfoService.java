@@ -1,39 +1,42 @@
 package com.penyo.herbms.service;
 
-import com.penyo.herbms.pojo.ItemDifferentiationInfoBean;
+import com.penyo.herbms.pojo.ItemDifferentiationInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 /**
  * 条辩概要的业务代理
  *
  * @author Penyo
  */
-public class ItemDifferentiationInfoService extends GenericService<ItemDifferentiationInfoBean> {
+@Service
+public class ItemDifferentiationInfoService extends GenericService<ItemDifferentiationInfo> {
   @Override
-  public int add(ItemDifferentiationInfoBean o) {
-    return idtiDAO.add(o);
+  public int add(ItemDifferentiationInfo o) {
+    return itemDifferentiationInfoDAO.add(o);
   }
 
   @Override
   public int delete(int id) {
-    return idtiDAO.delete(id);
+    return itemDifferentiationInfoDAO.delete(id);
   }
 
   @Override
-  public int update(ItemDifferentiationInfoBean o) {
-    return idtiDAO.update(o);
+  public int update(ItemDifferentiationInfo o) {
+    return itemDifferentiationInfoDAO.update(o);
   }
 
   @Override
-  public ItemDifferentiationInfoBean selectById(int id) {
-    return idtiDAO.selectById(id);
+  public ItemDifferentiationInfo selectById(int id) {
+    return itemDifferentiationInfoDAO.selectById(id);
   }
 
   @Override
-  public List<ItemDifferentiationInfoBean> selectByFields(List<String> fields) {
-    return idtiDAO.selectByFields(fields);
+  public List<ItemDifferentiationInfo> selectByFields(List<String> fields) {
+    return itemDifferentiationInfoDAO.selectByFields(fields);
   }
 
   /**
@@ -42,7 +45,7 @@ public class ItemDifferentiationInfoService extends GenericService<ItemDifferent
   public List<String> selectContentsByPrescriptionId(int id) {
     List<String> contents = new ArrayList<>();
 
-    for (ItemDifferentiationInfoBean oo : idtiDAO.selectByPrescriptionId(id))
+    for (ItemDifferentiationInfo oo : itemDifferentiationInfoDAO.selectByPrescriptionId(id))
       contents.add(oo.getContent());
     return contents;
   }

@@ -3,7 +3,7 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.penyo.herbms.mapper.ItemDifferentiationInfoMapper">
 
-  <insert id="add" parameterType="ItemDifferentiationInfoBean">
+  <insert id="add" parameterType="ItemDifferentiationInfo">
     INSERT item_differentiation_infos (code, content, annotation)
     VALUES (#{code}, #{content}, #{annotation})
   </insert>
@@ -14,7 +14,7 @@
     WHERE id = #{id}
   </delete>
 
-  <update id="update" parameterType="ItemDifferentiationInfoBean">
+  <update id="update" parameterType="ItemDifferentiationInfo">
     UPDATE item_differentiation_infos
     SET code       = #{code},
         content    = #{content},
@@ -22,13 +22,13 @@
     WHERE id = #{id}
   </update>
 
-  <select id="selectById" resultType="ItemDifferentiationInfoBean" parameterType="int">
+  <select id="selectById" resultType="ItemDifferentiationInfo" parameterType="int">
     SELECT *
     FROM item_differentiation_infos
     WHERE id = #{id}
   </select>
 
-  <select id="selectByFields" resultType="ItemDifferentiationInfoBean" parameterType="java.util.List">
+  <select id="selectByFields" resultType="ItemDifferentiationInfo" parameterType="java.util.List">
     SELECT * FROM item_differentiation_infos
     WHERE
     <foreach collection="list" item="item" separator="AND">
@@ -37,12 +37,12 @@
     </foreach>
   </select>
 
-  <select id="selectAll" resultType="ItemDifferentiationInfoBean">
+  <select id="selectAll" resultType="ItemDifferentiationInfo">
     SELECT *
     FROM item_differentiation_infos
   </select>
 
-  <select id="selectByPrescriptionId" resultType="ItemDifferentiationInfoBean" parameterType="int">
+  <select id="selectByPrescriptionId" resultType="ItemDifferentiationInfo" parameterType="int">
     SELECT *
     FROM item_differentiation_infos
     WHERE id IN (SELECT id
@@ -50,7 +50,7 @@
                  WHERE item_differentiation_id IN (SELECT prescription_id FROM prescriptions WHERE id = #{id}))
   </select>
 
-  <select id="selectByPrescriptionName" resultType="ItemDifferentiationInfoBean" parameterType="java.util.List">
+  <select id="selectByPrescriptionName" resultType="ItemDifferentiationInfo" parameterType="java.util.List">
     SELECT *
     FROM item_differentiation_infos
     WHERE id IN (SELECT item_differentiation_id FROM item_differentiations WHERE prescription_id = (

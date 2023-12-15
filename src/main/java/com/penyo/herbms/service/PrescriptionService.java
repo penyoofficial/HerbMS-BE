@@ -1,45 +1,48 @@
 package com.penyo.herbms.service;
 
-import com.penyo.herbms.pojo.PrescriptionBean;
-import com.penyo.herbms.pojo.PrescriptionInfoBean;
+import com.penyo.herbms.pojo.Prescription;
+import com.penyo.herbms.pojo.PrescriptionInfo;
 
 import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 /**
  * 处方的业务代理
  *
  * @author Penyo
  */
-public class PrescriptionService extends GenericService<PrescriptionBean> {
+@Service
+public class PrescriptionService extends GenericService<Prescription> {
   @Override
-  public int add(PrescriptionBean o) {
-    return pDAO.add(o);
+  public int add(Prescription o) {
+    return prescriptionDAO.add(o);
   }
 
   @Override
   public int delete(int id) {
-    return pDAO.delete(id);
+    return prescriptionDAO.delete(id);
   }
 
   @Override
-  public int update(PrescriptionBean o) {
-    return pDAO.update(o);
+  public int update(Prescription o) {
+    return prescriptionDAO.update(o);
   }
 
   @Override
-  public PrescriptionBean selectById(int id) {
-    return pDAO.selectById(id);
+  public Prescription selectById(int id) {
+    return prescriptionDAO.selectById(id);
   }
 
   @Override
-  public List<PrescriptionBean> selectByFields(List<String> fields) {
-    return pDAO.selectByFields(fields);
+  public List<Prescription> selectByFields(List<String> fields) {
+    return prescriptionDAO.selectByFields(fields);
   }
 
   /**
    * 根据处方 ID 查找处方概要。
    */
-  public PrescriptionInfoBean selectPrescriptionInfoByPrescriptionId(int id) {
-    return piDAO.selectByPrescriptionId(id);
+  public PrescriptionInfo selectPrescriptionInfoByPrescriptionId(int id) {
+    return prescriptionInfoDAO.selectByPrescriptionId(id);
   }
 }

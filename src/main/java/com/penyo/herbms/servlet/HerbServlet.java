@@ -1,6 +1,7 @@
 package com.penyo.herbms.servlet;
 
-import com.penyo.herbms.pojo.HerbBean;
+import com.penyo.herbms.HerbMSContext;
+import com.penyo.herbms.pojo.Herb;
 import com.penyo.herbms.pojo.ReturnDataPack;
 import com.penyo.herbms.service.HerbService;
 import com.penyo.herbms.service.ExperienceService;
@@ -11,29 +12,33 @@ import java.util.List;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Controller;
 
 /**
  * 中草药的请求处理代理
  *
  * @author Penyo
- * @see com.penyo.herbms.pojo.HerbBean
+ * @see Herb
  */
+@Controller
 @WebServlet({"/use-herbs", "/use-herbs-specific"})
-public class HerbServlet extends GenericServlet<HerbBean, HerbService> {
+public class HerbServlet extends GenericServlet<Herb, HerbService> {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-    if (!req.getServletPath().contains("specific")) doProcess(req, resp, new HerbService(), true);
-    else doSpecificProcess(req, resp, new HerbService());
+    HerbService serv = HerbMSContext.getService(HerbService.class);
+
+    if (!req.getServletPath().contains("specific")) doProcess(req, resp, serv, true);
+    else doSpecificProcess(req, resp, serv);
   }
 
   @Override
   public void doSpecificProcess(HttpServletRequest req, HttpServletResponse resp, HerbService serv) {
     List<String> exps = new ArrayList<>();
 
-    ReturnDataPack<HerbBean> hs = doProcess(req, resp, serv, false);
-    for (HerbBean o : hs.getObjs()) {
+    ReturnDataPack<Herb> hs = doProcess(req, resp, serv, false);
+    for (Herb o : hs.getObjs()) {
       StringBuilder expTemp = new StringBuilder("\"");
-      for (String oo : new ExperienceService().selectContentsByHerbId(o.getId()))
+      for (String oo : HerbMSContext.getService(ExperienceService.class).selectContentsByHerbId(o.getId()))
         expTemp.append(oo);
       if (expTemp.length() > 1) exps.add(expTemp.append("\"").toString());
     }
@@ -41,7 +46,7 @@ public class HerbServlet extends GenericServlet<HerbBean, HerbService> {
   }
 
   @Override
-  public HerbBean getInstance() {
-    return new HerbBean(Integer.parseInt(params.get("id")), Integer.parseInt(params.get("code")), params.get("name"), params.get("nickname"), params.get("type"), params.get("description"), params.get("efficacy"), params.get("taste"), params.get("origin"), params.get("dosage"), params.get("taboo"), params.get("processing"));
+  public Herb getInstance() {
+    return new Herb(Integer.parseInt(params.get("id")), Integer.parseInt(params.get("code")), params.get("name"), params.get("nickname"), params.get("type"), params.get("description"), params.get("efficacy"), params.get("taste"), params.get("origin"), params.get("dosage"), params.get("taboo"), params.get("processing"));
   }
 }

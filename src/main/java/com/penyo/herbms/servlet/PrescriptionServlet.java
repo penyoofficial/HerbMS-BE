@@ -1,5 +1,6 @@
 package com.penyo.herbms.servlet;
 
+import com.penyo.herbms.HerbMSContext;
 import com.penyo.herbms.pojo.*;
 import com.penyo.herbms.service.HerbService;
 import com.penyo.herbms.service.PrescriptionService;
@@ -10,32 +11,35 @@ import java.util.List;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Controller;
 
 /**
  * 处方的请求处理代理
  *
  * @author Penyo
- * @see com.penyo.herbms.pojo.PrescriptionBean
+ * @see Prescription
  */
+@Controller
 @WebServlet({"/use-prescriptions", "/use-prescriptions-specific"})
-public class PrescriptionServlet extends GenericServlet<PrescriptionBean, PrescriptionService> {
+public class PrescriptionServlet extends GenericServlet<Prescription, PrescriptionService> {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-    if (!req.getServletPath().contains("specific")) doProcess(req, resp, new PrescriptionService(), true);
-    else doSpecificProcess(req, resp, new PrescriptionService());
+    PrescriptionService serv = HerbMSContext.getService(PrescriptionService.class);
+
+    if (!req.getServletPath().contains("specific")) doProcess(req, resp, serv, true);
+    else doSpecificProcess(req, resp, serv);
   }
 
   @Override
   public void doSpecificProcess(HttpServletRequest req, HttpServletResponse resp, PrescriptionService serv) {
     List<String> annotations = new ArrayList<>();
 
-    ReturnDataPack<PrescriptionBean> ps = doProcess(req, resp, serv, false);
-    for (PrescriptionBean o : ps.getObjs()) {
+    ReturnDataPack<Prescription> ps = doProcess(req, resp, serv, false);
+    for (Prescription o : ps.getObjs()) {
       StringBuilder annoTemp = new StringBuilder("\"");
-      annoTemp.append(new HerbService().selectNamesByPrescriptionId(o.getId())).append("/");
-      annoTemp.append(new HerbService().selectDescriptionsByPrescriptionId(o.getId())).append("/");
+      annoTemp.append(HerbMSContext.getService(HerbService.class).selectNamesAndDescriptionsByPrescriptionId(o.getId())).append("/");
       if (annoTemp.length() > 1) annoTemp.delete(annoTemp.length() - 1, annoTemp.length()).append("：");
-      PrescriptionInfoBean oo = serv.selectPrescriptionInfoByPrescriptionId(o.getId());
+      PrescriptionInfo oo = serv.selectPrescriptionInfoByPrescriptionId(o.getId());
       annoTemp.append(oo.getName());
       if (!oo.getNickname().equals("无")) annoTemp.append("（").append(oo.getNickname()).append("）");
       annoTemp.append("：").append(oo.getDescription());
@@ -45,7 +49,7 @@ public class PrescriptionServlet extends GenericServlet<PrescriptionBean, Prescr
   }
 
   @Override
-  public PrescriptionBean getInstance() {
-    return new PrescriptionBean(Integer.parseInt(params.get("id")), Integer.parseInt(params.get("prescriptionId")), Integer.parseInt("herbId"), params.get("dosage"), params.get("usage"));
+  public Prescription getInstance() {
+    return new Prescription(Integer.parseInt(params.get("id")), Integer.parseInt(params.get("prescriptionId")), Integer.parseInt("herbId"), params.get("dosage"), params.get("usage"));
   }
 }

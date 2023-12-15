@@ -3,11 +3,11 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.penyo.herbms.mapper.ExperienceMapper">
 
-  <resultMap id="ExperienceBean" type="ExperienceBean">
+  <resultMap id="Experience" type="Experience">
     <id property="herbId" column="herb_id"/>
   </resultMap>
 
-  <insert id="add" parameterType="ExperienceBean">
+  <insert id="add" parameterType="Experience">
     INSERT experiences (herb_id, derivation, content)
     VALUES (#{herbId}, #{derivation}, #{content})
   </insert>
@@ -18,7 +18,7 @@
     WHERE id = #{id}
   </delete>
 
-  <update id="update" parameterType="ExperienceBean">
+  <update id="update" parameterType="Experience">
     UPDATE experiences
     SET herb_id    = #{herbId},
         derivation = #{derivation},
@@ -26,13 +26,13 @@
     WHERE id = #{id}
   </update>
 
-  <select id="selectById" resultMap="ExperienceBean" parameterType="int">
+  <select id="selectById" resultMap="Experience" parameterType="int">
     SELECT *
     FROM experiences
     WHERE id = #{id}
   </select>
 
-  <select id="selectByFields" resultMap="ExperienceBean" parameterType="java.util.List">
+  <select id="selectByFields" resultMap="Experience" parameterType="java.util.List">
     SELECT * FROM experiences
     WHERE
     <foreach collection="list" item="item" separator="AND">
@@ -41,12 +41,12 @@
     </foreach>
   </select>
 
-  <select id="selectAll" resultMap="ExperienceBean">
+  <select id="selectAll" resultMap="Experience">
     SELECT *
     FROM experiences
   </select>
 
-  <select id="selectByHerbId" resultMap="ExperienceBean" parameterType="int">
+  <select id="selectByHerbId" resultMap="Experience" parameterType="int">
     SELECT *
     FROM experiences
     WHERE herb_id = #{id}

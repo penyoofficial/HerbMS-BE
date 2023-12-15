@@ -3,7 +3,7 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.penyo.herbms.mapper.PrescriptionInfoMapper">
 
-  <insert id="add" parameterType="PrescriptionInfoBean">
+  <insert id="add" parameterType="PrescriptionInfo">
     INSERT prescription_infos (name, nickname, description)
     VALUES (#{name}, #{nickname}, #{description})
   </insert>
@@ -14,7 +14,7 @@
     WHERE id = #{id}
   </delete>
 
-  <update id="update" parameterType="PrescriptionInfoBean">
+  <update id="update" parameterType="PrescriptionInfo">
     UPDATE prescription_infos
     SET name        = #{name},
         nickname    = #{nickname},
@@ -22,13 +22,13 @@
     WHERE id = #{id}
   </update>
 
-  <select id="selectById" resultType="PrescriptionInfoBean" parameterType="int">
+  <select id="selectById" resultType="PrescriptionInfo" parameterType="int">
     SELECT *
     FROM prescription_infos
     WHERE id = #{id}
   </select>
 
-  <select id="selectByFields" resultType="PrescriptionInfoBean" parameterType="java.util.List">
+  <select id="selectByFields" resultType="PrescriptionInfo" parameterType="java.util.List">
     SELECT * FROM prescription_infos
     WHERE
     <foreach collection="list" item="item" separator="AND">
@@ -37,12 +37,12 @@
     </foreach>
   </select>
 
-  <select id="selectAll" resultType="PrescriptionInfoBean">
+  <select id="selectAll" resultType="PrescriptionInfo">
     SELECT *
     FROM prescription_infos
   </select>
 
-  <select id="selectByHerbName" resultType="PrescriptionInfoBean" parameterType="java.util.List">
+  <select id="selectByHerbName" resultType="PrescriptionInfo" parameterType="java.util.List">
     SELECT *
     FROM prescription_infos
     WHERE id IN (SELECT id
@@ -50,7 +50,7 @@
                  WHERE name = #{name})
   </select>
 
-  <select id="selectByPrescriptionId" resultType="PrescriptionInfoBean" parameterType="int">
+  <select id="selectByPrescriptionId" resultType="PrescriptionInfo" parameterType="int">
     SELECT *
     FROM prescription_infos
     WHERE id IN (SELECT id
@@ -58,7 +58,7 @@
                  WHERE id = #{id})
   </select>
 
-  <select id="selectByIDTIId" resultType="PrescriptionInfoBean" parameterType="int">
+  <select id="selectByIDTIId" resultType="PrescriptionInfo" parameterType="int">
     SELECT *
     FROM prescription_infos
     WHERE id IN (SELECT id
