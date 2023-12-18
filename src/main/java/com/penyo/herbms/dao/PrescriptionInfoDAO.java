@@ -1,7 +1,7 @@
 package com.penyo.herbms.dao;
 
 import com.penyo.herbms.pojo.PrescriptionInfo;
-import com.penyo.herbms.util.SessionPool;
+import com.penyo.herbms.util.Pool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class PrescriptionInfoDAO extends GenericDAO<PrescriptionInfo> {
   public PrescriptionInfo selectByPrescriptionId(int id) {
     PrescriptionInfo o = null;
 
-    try (SqlSession s = SessionPool.getSession()) {
+    try (SqlSession s = Pool.getSession()) {
       o = s.selectOne(fullMapperName + ".selectByPrescriptionId", id);
     }
     return o;
@@ -39,7 +39,7 @@ public class PrescriptionInfoDAO extends GenericDAO<PrescriptionInfo> {
   public List<PrescriptionInfo> selectByIDTIId(int id) {
     List<PrescriptionInfo> os = new ArrayList<>();
 
-    try (SqlSession s = SessionPool.getSession()) {
+    try (SqlSession s = Pool.getSession()) {
       os.addAll(s.selectList(fullMapperName + ".selectByIDTIId", id));
     }
     return os;

@@ -1,7 +1,7 @@
 package com.penyo.herbms.dao;
 
 import com.penyo.herbms.pojo.GenericBean;
-import com.penyo.herbms.util.SessionPool;
+import com.penyo.herbms.util.Pool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public abstract class GenericDAO<UncertainBean extends GenericBean> implements A
     if (selectById(o.getId()) != null) return 0;
 
     int affectedRows = 0;
-    try (SqlSession s = SessionPool.getSession()) {
+    try (SqlSession s = Pool.getSession()) {
       affectedRows = s.insert(fullMapperName + ".add", o);
       s.commit();
     }
@@ -39,7 +39,7 @@ public abstract class GenericDAO<UncertainBean extends GenericBean> implements A
   @Override
   public final synchronized int delete(int id) {
     int affectedRows = 0;
-    try (SqlSession s = SessionPool.getSession()) {
+    try (SqlSession s = Pool.getSession()) {
       affectedRows = s.delete(fullMapperName + ".delete", id);
       s.commit();
     }
@@ -51,7 +51,7 @@ public abstract class GenericDAO<UncertainBean extends GenericBean> implements A
     if (selectById(o.getId()) == null) return 0;
 
     int affectedRows = 0;
-    try (SqlSession s = SessionPool.getSession()) {
+    try (SqlSession s = Pool.getSession()) {
       affectedRows = s.update(fullMapperName + ".update", o);
       s.commit();
     }
@@ -62,7 +62,7 @@ public abstract class GenericDAO<UncertainBean extends GenericBean> implements A
   public final UncertainBean selectById(int id) {
     UncertainBean o = null;
 
-    try (SqlSession s = SessionPool.getSession()) {
+    try (SqlSession s = Pool.getSession()) {
       o = s.selectOne(fullMapperName + ".selectById", id);
     }
     return o;
@@ -74,7 +74,7 @@ public abstract class GenericDAO<UncertainBean extends GenericBean> implements A
 
     List<UncertainBean> os = new ArrayList<>();
 
-    try (SqlSession s = SessionPool.getSession()) {
+    try (SqlSession s = Pool.getSession()) {
       os.addAll(s.selectList(fullMapperName + ".selectByFields", fields));
     }
     return os;
@@ -84,7 +84,7 @@ public abstract class GenericDAO<UncertainBean extends GenericBean> implements A
   public final List<UncertainBean> selectAll() {
     List<UncertainBean> os = new ArrayList<>();
 
-    try (SqlSession s = SessionPool.getSession()) {
+    try (SqlSession s = Pool.getSession()) {
       os.addAll(s.selectList(fullMapperName + ".selectAll"));
     }
     return os;

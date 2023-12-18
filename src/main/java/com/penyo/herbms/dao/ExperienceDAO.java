@@ -1,7 +1,7 @@
 package com.penyo.herbms.dao;
 
 import com.penyo.herbms.pojo.Experience;
-import com.penyo.herbms.util.SessionPool;
+import com.penyo.herbms.util.Pool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class ExperienceDAO extends GenericDAO<Experience> {
   public List<Experience> selectByHerbId(int id) {
     List<Experience> os = new ArrayList<>();
 
-    try (SqlSession s = SessionPool.getSession()) {
+    try (SqlSession s = Pool.getSession()) {
       os.addAll(s.selectList(fullMapperName + ".selectByHerbId", id));
     }
     return os;

@@ -9,16 +9,16 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
  *
  * @author Penyo
  */
-public class SessionPool {
+public class Pool {
   /**
    * 公共连接池
    */
-  private static final SqlSessionFactory pool = new SqlSessionFactoryBuilder().build(SessionPool.class.getClassLoader().getResourceAsStream("mybatis.config.xml"));
+  private static final SqlSessionFactory POOL = new SqlSessionFactoryBuilder().build(Pool.class.getClassLoader().getResourceAsStream("mybatis.config.xml"));
 
   /**
    * 获取 SQL 会话。
    */
   public static SqlSession getSession() {
-    return pool.openSession();
+    return POOL.openSession();
   }
 }

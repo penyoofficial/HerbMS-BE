@@ -1,6 +1,6 @@
 # 欢迎使用 HerbMS
 
-Herb Management System：中药处方管理系统，基于灵活架构构建的 Java Web 应用程序。
+Herb Management System：中药处方管理系统，基于灵活架构构建的 Jakarta EE 应用程序。
 
 ## 快速开始
 
@@ -28,8 +28,8 @@ graph
         s3.3["JSP"]
     end
     subgraph s4["配置数据库"]
-        s4.1["配置 src/main/java/db.properties"]
-        s4.2["执行 document/sql/herbms.sql"]
+        s4.1["配置 src/main/resources/db.config.yml"]
+        s4.2["执行 src/main/sql/herbms.sql"]
     end
     s5["Maven 打包"]
     s6["添加本地 Tomcat、添加部署并发布服务器"]

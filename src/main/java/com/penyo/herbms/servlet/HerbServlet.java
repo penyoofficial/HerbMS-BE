@@ -1,10 +1,9 @@
 package com.penyo.herbms.servlet;
 
-import com.penyo.herbms.HerbMSContext;
 import com.penyo.herbms.pojo.Herb;
 import com.penyo.herbms.pojo.ReturnDataPack;
-import com.penyo.herbms.service.HerbService;
 import com.penyo.herbms.service.ExperienceService;
+import com.penyo.herbms.service.HerbService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +24,8 @@ import org.springframework.stereotype.Controller;
 public class HerbServlet extends GenericServlet<Herb, HerbService> {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-    HerbService serv = HerbMSContext.getService(HerbService.class);
-
-    if (!req.getServletPath().contains("specific")) doProcess(req, resp, serv, true);
-    else doSpecificProcess(req, resp, serv);
+    if (!req.getServletPath().contains("specific")) doProcess(req, resp, getService(HerbService.class), true);
+    else doSpecificProcess(req, resp, getService(HerbService.class));
   }
 
   @Override
@@ -38,7 +35,7 @@ public class HerbServlet extends GenericServlet<Herb, HerbService> {
     ReturnDataPack<Herb> hs = doProcess(req, resp, serv, false);
     for (Herb o : hs.getObjs()) {
       StringBuilder expTemp = new StringBuilder("\"");
-      for (String oo : HerbMSContext.getService(ExperienceService.class).selectContentsByHerbId(o.getId()))
+      for (String oo : getService(ExperienceService.class).selectContentsByHerbId(o.getId()))
         expTemp.append(oo);
       if (expTemp.length() > 1) exps.add(expTemp.append("\"").toString());
     }

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 通用业务代理
  *
  * @author Penyo
- * @see com.penyo.herbms.service.AbstractService
  */
 public abstract class GenericService<UncertainBean extends GenericBean> implements AbstractService<UncertainBean> {
   @Autowired

@@ -1,9 +1,5 @@
 package com.penyo.herbms.pojo;
 
-import com.penyo.herbms.util.QualityEvaluation;
-
-import static com.penyo.herbms.util.QualityEvaluation.EvaluationType.GENIUS;
-
 import java.beans.JavaBean;
 import java.io.Serializable;
 
@@ -13,7 +9,6 @@ import java.io.Serializable;
  * @author Penyo
  */
 @JavaBean
-@QualityEvaluation(GENIUS)
 public interface AbstractBean extends Serializable {
   /**
    * “禅”
