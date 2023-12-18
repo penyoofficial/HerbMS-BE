@@ -9,11 +9,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 /**
  * 通用控制器代理
  *
  * @author Penyo
  */
+@CrossOrigin("*")
 public abstract class GenericController<UnknownBean extends GenericBean> implements AbstractController<UnknownBean> {
   /**
    * 通用处理主要请求。
