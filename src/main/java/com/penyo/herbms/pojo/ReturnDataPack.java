@@ -11,7 +11,7 @@ public class ReturnDataPack<T> extends GenericBean {
   /**
    * 影响行数
    */
-  private int affectedRows;
+  private int affectedRows = -114514;
   /**
    * 结果
    */

@@ -9,11 +9,11 @@ import java.util.List;
  *
  * @author Penyo
  */
-public interface AbstractDAO<UncertainBean extends GenericBean> {
+public interface AbstractDAO<UnknownBean extends GenericBean> {
   /**
    * 添加单个元素。
    */
-  int add(UncertainBean o);
+  int add(UnknownBean o);
 
   /**
    * 删除单个元素。
@@ -23,20 +23,20 @@ public interface AbstractDAO<UncertainBean extends GenericBean> {
   /**
    * 修改单个元素。
    */
-  int update(UncertainBean o);
+  int update(UnknownBean o);
 
   /**
    * 根据 ID 查找单个元素。
    */
-  UncertainBean selectById(int id);
+  UnknownBean selectById(int id);
 
   /**
    * 根据关键字集合模糊查找多个元素。
    */
-  List<UncertainBean> selectByFields(List<String> fields);
+  List<UnknownBean> selectByFields(List<String> fields);
 
   /**
    * 查找全部元素。
    */
-  List<UncertainBean> selectAll();
+  List<UnknownBean> selectAll();
 }

@@ -39,12 +39,12 @@ graph
 
 ## 模块设计
 
-HerbMS（后端）主要由四部分构成：数据容器（Bean）、数据访问代理（DAO）、业务代理（Service）和请求处理代理（Servlet），下图清晰地展示了各模块间的关系：
+HerbMS（后端）主要由四部分构成：数据容器（Bean）、数据访问代理（DAO）、业务代理（Service）和控制器代理（Controller），下图清晰地展示了各模块间的关系：
 
 ```mermaid
 graph
     subgraph Entire Project
-        subgraph Servlet
+        subgraph Controller
             4a["abstract class Generic"]
         end
         subgraph Service

@@ -14,7 +14,7 @@ import org.apache.ibatis.session.SqlSession;
  * @author Penyo
  * @see com.penyo.herbms.dao.AbstractDAO
  */
-public abstract class GenericDAO<UncertainBean extends GenericBean> implements AbstractDAO<UncertainBean> {
+public abstract class GenericDAO<UnknownBean extends GenericBean> implements AbstractDAO<UnknownBean> {
   /**
    * 映射器全名
    */
@@ -25,7 +25,7 @@ public abstract class GenericDAO<UncertainBean extends GenericBean> implements A
   }
 
   @Override
-  public final synchronized int add(UncertainBean o) {
+  public final synchronized int add(UnknownBean o) {
     if (selectById(o.getId()) != null) return 0;
 
     int affectedRows = 0;
@@ -47,7 +47,7 @@ public abstract class GenericDAO<UncertainBean extends GenericBean> implements A
   }
 
   @Override
-  public final synchronized int update(UncertainBean o) {
+  public final synchronized int update(UnknownBean o) {
     if (selectById(o.getId()) == null) return 0;
 
     int affectedRows = 0;
@@ -59,8 +59,8 @@ public abstract class GenericDAO<UncertainBean extends GenericBean> implements A
   }
 
   @Override
-  public final UncertainBean selectById(int id) {
-    UncertainBean o = null;
+  public final UnknownBean selectById(int id) {
+    UnknownBean o = null;
 
     try (SqlSession s = Pool.getSession()) {
       o = s.selectOne(fullMapperName + ".selectById", id);
@@ -69,10 +69,10 @@ public abstract class GenericDAO<UncertainBean extends GenericBean> implements A
   }
 
   @Override
-  public final List<UncertainBean> selectByFields(List<String> fields) {
+  public final List<UnknownBean> selectByFields(List<String> fields) {
     if (fields.size() <= 1 && fields.get(0).isEmpty()) return selectAll();
 
-    List<UncertainBean> os = new ArrayList<>();
+    List<UnknownBean> os = new ArrayList<>();
 
     try (SqlSession s = Pool.getSession()) {
       os.addAll(s.selectList(fullMapperName + ".selectByFields", fields));
@@ -81,8 +81,8 @@ public abstract class GenericDAO<UncertainBean extends GenericBean> implements A
   }
 
   @Override
-  public final List<UncertainBean> selectAll() {
-    List<UncertainBean> os = new ArrayList<>();
+  public final List<UnknownBean> selectAll() {
+    List<UnknownBean> os = new ArrayList<>();
 
     try (SqlSession s = Pool.getSession()) {
       os.addAll(s.selectList(fullMapperName + ".selectAll"));
