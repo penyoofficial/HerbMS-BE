@@ -1,4 +1,4 @@
-package com.penyo.herbms.servlet;
+package com.penyo.herbms.controller;
 
 import com.penyo.herbms.pojo.Prescription;
 import com.penyo.herbms.pojo.PrescriptionInfo;
@@ -8,47 +8,50 @@ import com.penyo.herbms.service.PrescriptionService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * 处方的请求处理代理
+ * 处方的控制器代理
  *
  * @author Penyo
  * @see Prescription
  */
 @Controller
-@WebServlet({"/use-prescriptions", "/use-prescriptions-specific"})
-public class PrescriptionServlet extends GenericServlet<Prescription, PrescriptionService> {
+public class PrescriptionController extends GenericController<Prescription> {
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-    if (!req.getServletPath().contains("specific")) doProcess(req, resp, getService(PrescriptionService.class), true);
-    else doSpecificProcess(req, resp, getService(PrescriptionService.class));
+  @RequestMapping("/use-prescriptions")
+  @ResponseBody
+  public String requestMain(HttpServletRequest request) {
+    return requestMain(toMap(request), getService(PrescriptionService.class)).toString();
   }
 
   @Override
-  public void doSpecificProcess(HttpServletRequest req, HttpServletResponse resp, PrescriptionService serv) {
+  @RequestMapping("/use-prescriptions-specific")
+  @ResponseBody
+  public String requestSub(HttpServletRequest request) {
     List<String> annotations = new ArrayList<>();
 
-    ReturnDataPack<Prescription> ps = doProcess(req, resp, serv, false);
+    ReturnDataPack<Prescription> ps = requestMain(toMap(request), getService(PrescriptionService.class));
     for (Prescription o : ps.getObjs()) {
       StringBuilder annoTemp = new StringBuilder("\"");
       annoTemp.append(getService(HerbService.class).selectNamesAndDescriptionsByPrescriptionId(o.getId())).append("/");
       if (annoTemp.length() > 1) annoTemp.delete(annoTemp.length() - 1, annoTemp.length()).append("：");
-      PrescriptionInfo oo = serv.selectPrescriptionInfoByPrescriptionId(o.getId());
+      PrescriptionInfo oo = getService(PrescriptionService.class).selectPrescriptionInfoByPrescriptionId(o.getId());
       annoTemp.append(oo.getName());
       if (!oo.getNickname().equals("无")) annoTemp.append("（").append(oo.getNickname()).append("）");
       annoTemp.append("：").append(oo.getDescription());
       annotations.add((annoTemp.append("\"").toString()));
     }
-    doResponseInJSON(resp, new ReturnDataPack<>(annotations));
+    return new ReturnDataPack<>(annotations).toString();
   }
 
   @Override
-  public Prescription getInstance() {
+  public Prescription getInstance(Map<String, String> params) {
     return new Prescription(Integer.parseInt(params.get("id")), Integer.parseInt(params.get("prescriptionId")), Integer.parseInt("herbId"), params.get("dosage"), params.get("usage"));
   }
 }

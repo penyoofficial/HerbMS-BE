@@ -1,4 +1,4 @@
-package com.penyo.herbms.servlet;
+package com.penyo.herbms.controller;
 
 import com.penyo.herbms.pojo.PrescriptionInfo;
 import com.penyo.herbms.pojo.ReturnDataPack;
@@ -7,32 +7,35 @@ import com.penyo.herbms.service.PrescriptionInfoService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * 处方概要的请求处理代理
+ * 处方概要的控制器代理
  *
  * @author Penyo
  * @see PrescriptionInfo
  */
 @Controller
-@WebServlet({"/use-prescription_infos", "/use-prescription_infos-specific"})
-public class PrescriptionInfoServlet extends GenericServlet<PrescriptionInfo, PrescriptionInfoService> {
+public class PrescriptionInfoController extends GenericController<PrescriptionInfo> {
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-    if (!req.getServletPath().contains("specific")) doProcess(req, resp, getService(PrescriptionInfoService.class), true);
-    else doSpecificProcess(req, resp, getService(PrescriptionInfoService.class));
+  @RequestMapping("/use-prescription_infos")
+  @ResponseBody
+  public String requestMain(HttpServletRequest request) {
+    return requestMain(toMap(request), getService(PrescriptionInfoService.class)).toString();
   }
 
   @Override
-  public void doSpecificProcess(HttpServletRequest req, HttpServletResponse resp, PrescriptionInfoService serv) {
+  @RequestMapping("/use-prescription_infos-specific")
+  @ResponseBody
+  public String requestSub(HttpServletRequest request) {
     List<String> idtis = new ArrayList<>();
 
-    ReturnDataPack<PrescriptionInfo> pis = doProcess(req, resp, serv, false);
+    ReturnDataPack<PrescriptionInfo> pis = requestMain(toMap(request), getService(PrescriptionInfoService.class));
     for (PrescriptionInfo o : pis.getObjs()) {
       StringBuilder idtiTemp = new StringBuilder("\"");
       for (String content : getService(ItemDifferentiationInfoService.class).selectContentsByPrescriptionId(o.getId()))
@@ -40,11 +43,11 @@ public class PrescriptionInfoServlet extends GenericServlet<PrescriptionInfo, Pr
       if (idtiTemp.length() > 1)
         idtis.add(idtiTemp.delete(idtiTemp.length() - 1, idtiTemp.length()).append("\"").toString());
     }
-    doResponseInJSON(resp, new ReturnDataPack<>(idtis));
+    return new ReturnDataPack<>(idtis).toString();
   }
 
   @Override
-  public PrescriptionInfo getInstance() {
+  public PrescriptionInfo getInstance(Map<String, String> params) {
     return new PrescriptionInfo(Integer.parseInt(params.get("id")), params.get("name"), params.get("nickname"), params.get("description"));
   }
 }

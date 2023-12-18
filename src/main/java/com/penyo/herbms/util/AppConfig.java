@@ -5,12 +5,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
- * Spring 配置
+ * 应用配置
  *
  * @author Penyo
  */
 @Configuration
 @ComponentScan("com.penyo.herbms")
 @EnableAspectJAutoProxy(proxyTargetClass = true)
-public class SpringConfig {
+public class AppConfig {
 }

@@ -1,4 +1,4 @@
-package com.penyo.herbms.servlet;
+package com.penyo.herbms.controller;
 
 import com.penyo.herbms.pojo.ItemDifferentiationInfo;
 import com.penyo.herbms.pojo.ReturnDataPack;
@@ -7,32 +7,35 @@ import com.penyo.herbms.service.PrescriptionInfoService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * 条辩概要的请求处理代理
+ * 条辩概要的控制器代理
  *
  * @author Penyo
  * @see ItemDifferentiationInfo
  */
 @Controller
-@WebServlet({"/use-item_differentiation_infos", "/use-item_differentiation_infos-specific"})
-public class ItemDifferentiationInfoServlet extends GenericServlet<ItemDifferentiationInfo, ItemDifferentiationInfoService> {
+public class ItemDifferentiationInfoController extends GenericController<ItemDifferentiationInfo> {
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-    if (!req.getServletPath().contains("specific")) doProcess(req, resp, getService(ItemDifferentiationInfoService.class), true);
-    else doSpecificProcess(req, resp, getService(ItemDifferentiationInfoService.class));
+  @RequestMapping("/use-item_differentiation_infos")
+  @ResponseBody
+  public String requestMain(HttpServletRequest request) {
+    return requestMain(toMap(request), getService(ItemDifferentiationInfoService.class)).toString();
   }
 
   @Override
-  public void doSpecificProcess(HttpServletRequest req, HttpServletResponse resp, ItemDifferentiationInfoService serv) {
+  @RequestMapping("/use-item_differentiation_infos-specific")
+  @ResponseBody
+  public String requestSub(HttpServletRequest request) {
     List<String> ps = new ArrayList<>();
 
-    ReturnDataPack<ItemDifferentiationInfo> idtis = doProcess(req, resp, serv, false);
+    ReturnDataPack<ItemDifferentiationInfo> idtis = requestMain(toMap(request), getService(ItemDifferentiationInfoService.class));
     for (ItemDifferentiationInfo idti : idtis.getObjs()) {
       StringBuilder idtiTemp = new StringBuilder("\"");
       for (String name : getService(PrescriptionInfoService.class).selectNamesByIDTIId(idti.getId()))
@@ -40,11 +43,11 @@ public class ItemDifferentiationInfoServlet extends GenericServlet<ItemDifferent
       if (idtiTemp.length() > 1)
         ps.add(idtiTemp.delete(idtiTemp.length() - 1, idtiTemp.length()).append("\"").toString());
     }
-    doResponseInJSON(resp, new ReturnDataPack<>(ps));
+    return new ReturnDataPack<>(ps).toString();
   }
 
   @Override
-  public ItemDifferentiationInfo getInstance() {
+  public ItemDifferentiationInfo getInstance(Map<String, String> params) {
     return new ItemDifferentiationInfo(Integer.parseInt(params.get("id")), Integer.parseInt(params.get("code")), params.get("content"), params.get("annotation"));
   }
 }

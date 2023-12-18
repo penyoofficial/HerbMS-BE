@@ -10,9 +10,9 @@ import java.util.List;
  *
  * @author Penyo
  */
-public interface AbstractService<UncertainBean extends GenericBean> extends AbstractDAO<UncertainBean> {
+public interface AbstractService<UnknownBean extends GenericBean> extends AbstractDAO<UnknownBean> {
   @Override
-  default List<UncertainBean> selectAll() {
+  default List<UnknownBean> selectAll() {
     throw new UnsupportedOperationException();
   }
 }

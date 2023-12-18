@@ -1,4 +1,4 @@
-package com.penyo.herbms.servlet;
+package com.penyo.herbms.controller;
 
 import com.penyo.herbms.pojo.Herb;
 import com.penyo.herbms.pojo.ReturnDataPack;
@@ -7,43 +7,46 @@ import com.penyo.herbms.service.HerbService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * 中草药的请求处理代理
+ * 中草药的控制器代理
  *
  * @author Penyo
  * @see Herb
  */
 @Controller
-@WebServlet({"/use-herbs", "/use-herbs-specific"})
-public class HerbServlet extends GenericServlet<Herb, HerbService> {
+public class HerbController extends GenericController<Herb> {
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-    if (!req.getServletPath().contains("specific")) doProcess(req, resp, getService(HerbService.class), true);
-    else doSpecificProcess(req, resp, getService(HerbService.class));
+  @RequestMapping("/use-herbs")
+  @ResponseBody
+  public String requestMain(HttpServletRequest request) {
+    return requestMain(toMap(request), getService(HerbService.class)).toString();
   }
 
   @Override
-  public void doSpecificProcess(HttpServletRequest req, HttpServletResponse resp, HerbService serv) {
+  @RequestMapping("/use-herbs-specific")
+  @ResponseBody
+  public String requestSub(HttpServletRequest request) {
     List<String> exps = new ArrayList<>();
 
-    ReturnDataPack<Herb> hs = doProcess(req, resp, serv, false);
+    ReturnDataPack<Herb> hs = requestMain(toMap(request), getService(HerbService.class));
     for (Herb o : hs.getObjs()) {
       StringBuilder expTemp = new StringBuilder("\"");
       for (String oo : getService(ExperienceService.class).selectContentsByHerbId(o.getId()))
         expTemp.append(oo);
       if (expTemp.length() > 1) exps.add(expTemp.append("\"").toString());
     }
-    doResponseInJSON(resp, new ReturnDataPack<>(exps));
+    return new ReturnDataPack<>(exps).toString();
   }
 
   @Override
-  public Herb getInstance() {
+  public Herb getInstance(Map<String, String> params) {
     return new Herb(Integer.parseInt(params.get("id")), Integer.parseInt(params.get("code")), params.get("name"), params.get("nickname"), params.get("type"), params.get("description"), params.get("efficacy"), params.get("taste"), params.get("origin"), params.get("dosage"), params.get("taboo"), params.get("processing"));
   }
 }

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author Penyo
  */
-public abstract class GenericService<UncertainBean extends GenericBean> implements AbstractService<UncertainBean> {
+public abstract class GenericService<UnknownBean extends GenericBean> implements AbstractService<UnknownBean> {
   @Autowired
   protected HerbDAO herbDAO;
   @Autowired
