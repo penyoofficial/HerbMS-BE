@@ -1,6 +1,6 @@
 # 欢迎使用 HerbMS
 
-Herb Management System：中药处方管理系统，基于灵活架构构建的 Jakarta EE 应用程序。
+Herb Management System：中药处方管理系统，基于 SSM 构建的 Jakarta EE 应用程序。
 
 ## 快速开始
 
