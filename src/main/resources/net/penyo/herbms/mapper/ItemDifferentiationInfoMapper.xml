@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.penyo.herbms.mapper.ItemDifferentiationInfoMapper">
+
+  <insert id="add" parameterType="ItemDifferentiationInfo">
+    INSERT item_differentiation_infos (code, content, annotation)
+    VALUES (#{code}, #{content}, #{annotation})
+  </insert>
+
+  <delete id="delete" parameterType="int">
+    DELETE
+    FROM item_differentiation_infos
+    WHERE id = #{id}
+  </delete>
+
+  <update id="update" parameterType="ItemDifferentiationInfo">
+    UPDATE item_differentiation_infos
+    SET code       = #{code},
+        content    = #{content},
+        annotation = #{annotation}
+    WHERE id = #{id}
+  </update>
+
+  <select id="selectById" resultType="ItemDifferentiationInfo" parameterType="int">
+    SELECT *
+    FROM item_differentiation_infos
+    WHERE id = #{id}
+  </select>
+
+  <select id="selectByFields" resultType="ItemDifferentiationInfo" parameterType="java.util.List">
+    SELECT * FROM item_differentiation_infos
+    WHERE
+    <foreach collection="list" item="item" separator="AND">
+      CONCAT_WS(content, annotation)
+      LIKE CONCAT('%', #{item}, '%')
+    </foreach>
+  </select>
+
+  <select id="selectAll" resultType="ItemDifferentiationInfo">
+    SELECT *
+    FROM item_differentiation_infos
+  </select>
+
+  <select id="selectByPrescriptionId" resultType="ItemDifferentiationInfo" parameterType="int">
+    SELECT *
+    FROM item_differentiation_infos
+    WHERE id IN (SELECT id
+                 FROM item_differentiations
+                 WHERE item_differentiation_id IN (SELECT prescription_id FROM prescriptions WHERE id = #{id}))
+  </select>
+
+  <select id="selectByPrescriptionName" resultType="ItemDifferentiationInfo" parameterType="java.util.List">
+    SELECT *
+    FROM item_differentiation_infos
+    WHERE id IN (SELECT item_differentiation_id FROM item_differentiations WHERE prescription_id = (
+    SELECT id
+    FROM prescription_infos
+    WHERE
+    <foreach collection="list" item="name" separator="OR">
+      name
+      LIKE CONCAT('%', #{name}, '%')
+    </foreach>
+    )
+    )
+  </select>
+
+</mapper>

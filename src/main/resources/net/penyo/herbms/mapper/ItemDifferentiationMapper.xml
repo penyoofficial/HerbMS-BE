@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.penyo.herbms.mapper.ItemDifferentiationMapper">
+
+  <resultMap id="ItemDifferentiation" type="ItemDifferentiation">
+    <id property="itemDifferentiationId" column="item_differentiation_id"/>
+    <id property="prescriptionId" column="prescription_id"/>
+  </resultMap>
+
+  <insert id="add" parameterType="ItemDifferentiation">
+    INSERT
+    item_differentiations (item_differentiation_id, prescription_id, type)
+    VALUES (
+    #{itemDifferentiationId},
+    #{prescriptionId},
+    #{type}
+    )
+  </insert>
+
+  <delete id="delete" parameterType="int">
+    DELETE
+    FROM item_differentiations
+    WHERE id = #{id}
+  </delete>
+
+  <update id="update" parameterType="ItemDifferentiation">
+    UPDATE item_differentiations
+    SET itemDifferentiation_id = #{itemDifferentiationId},
+        prescription_id        = #{prescriptionId},
+        type                   = #{type}
+    WHERE id = #{id}
+  </update>
+
+  <select id="selectById" resultMap="ItemDifferentiation" parameterType="int">
+    SELECT *
+    FROM item_differentiations
+    WHERE id = #{id}
+  </select>
+
+  <select id="selectByFields" resultMap="ItemDifferentiation" parameterType="java.util.List">
+    SELECT * FROM item_differentiations
+    WHERE
+    <foreach collection="list" item="item" separator="AND">
+      CONCAT_WS(type)
+      LIKE CONCAT('%', #{item}, '%')
+    </foreach>
+  </select>
+
+  <select id="selectAll" resultMap="ItemDifferentiation">
+    SELECT *
+    FROM item_differentiations
+  </select>
+
+</mapper>

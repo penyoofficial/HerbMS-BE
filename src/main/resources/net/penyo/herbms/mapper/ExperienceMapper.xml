@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.penyo.herbms.mapper.ExperienceMapper">
+
+  <resultMap id="Experience" type="Experience">
+    <id property="herbId" column="herb_id"/>
+  </resultMap>
+
+  <insert id="add" parameterType="Experience">
+    INSERT experiences (herb_id, derivation, content)
+    VALUES (#{herbId}, #{derivation}, #{content})
+  </insert>
+
+  <delete id="delete" parameterType="int">
+    DELETE
+    FROM experiences
+    WHERE id = #{id}
+  </delete>
+
+  <update id="update" parameterType="Experience">
+    UPDATE experiences
+    SET herb_id    = #{herbId},
+        derivation = #{derivation},
+        content    = #{content}
+    WHERE id = #{id}
+  </update>
+
+  <select id="selectById" resultMap="Experience" parameterType="int">
+    SELECT *
+    FROM experiences
+    WHERE id = #{id}
+  </select>
+
+  <select id="selectByFields" resultMap="Experience" parameterType="java.util.List">
+    SELECT * FROM experiences
+    WHERE
+    <foreach collection="list" item="item" separator="AND">
+      CONCAT_WS(derivation, content)
+      LIKE CONCAT('%', #{item}, '%')
+    </foreach>
+  </select>
+
+  <select id="selectAll" resultMap="Experience">
+    SELECT *
+    FROM experiences
+  </select>
+
+  <select id="selectByHerbId" resultMap="Experience" parameterType="int">
+    SELECT *
+    FROM experiences
+    WHERE herb_id = #{id}
+  </select>
+
+</mapper>

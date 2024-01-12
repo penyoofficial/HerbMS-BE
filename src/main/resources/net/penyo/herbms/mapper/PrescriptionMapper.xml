@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.penyo.herbms.mapper.PrescriptionMapper">
+
+  <resultMap id="Prescription" type="Prescription">
+    <id property="prescriptionId" column="prescription_id"/>
+    <id property="herbId" column="herb_id"/>
+  </resultMap>
+
+  <insert id="add" parameterType="Prescription">
+    INSERT prescriptions (prescription_id, herb_id, dosage, `usage`)
+    VALUES (#{prescriptionId}, #{herbId}, #{dosage}, #{usage})
+  </insert>
+
+  <delete id="delete" parameterType="int">
+    DELETE
+    FROM prescriptions
+    WHERE id = #{id}
+  </delete>
+
+  <update id="update" parameterType="Prescription">
+    UPDATE prescriptions
+    SET prescription_id = #{prescriptionId},
+        herb_id         = #{herbId},
+        dosage          = #{dosage},
+        `usage`         = #{usage}
+    WHERE id = #{id}
+  </update>
+
+  <select id="selectById" resultMap="Prescription" parameterType="int">
+    SELECT *
+    FROM prescriptions
+    WHERE id = #{id}
+  </select>
+
+  <select id="selectByFields" resultMap="Prescription" parameterType="java.util.List">
+    SELECT * FROM prescriptions
+    WHERE
+    <foreach collection="list" item="item" separator="AND">
+      CONCAT_WS(dosage, `usage`)
+      LIKE CONCAT('%', #{item}, '%')
+    </foreach>
+  </select>
+
+  <select id="selectAll" resultMap="Prescription">
+    SELECT *
+    FROM prescriptions
+  </select>
+
+</mapper>

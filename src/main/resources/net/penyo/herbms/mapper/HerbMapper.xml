@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.penyo.herbms.mapper.HerbMapper">
+
+  <insert id="add" parameterType="Herb">
+    INSERT herbs (code, name, nickname, type, description, efficacy, taste, origin, dosage, taboo, processing)
+    VALUES (#{code}, #{name}, #{nickname}, #{type}, #{description}, #{efficacy}, #{taste}, #{origin}, #{dosage},
+            #{taboo}, #{processing})
+  </insert>
+
+  <delete id="delete" parameterType="int">
+    DELETE
+    FROM herbs
+    WHERE id = #{id}
+  </delete>
+
+  <update id="update" parameterType="Herb">
+    UPDATE herbs
+    SET code        = #{code},
+        name        = #{name},
+        nickname    = #{nickname},
+        type        = #{type},
+        description = #{description},
+        efficacy    = #{efficacy},
+        taste       = #{taste},
+        origin      = #{origin},
+        dosage      = #{dosage},
+        taboo       = #{taboo},
+        processing  = #{processing}
+    WHERE id = #{id}
+  </update>
+
+  <select id="selectById" resultType="Herb" parameterType="int">
+    SELECT *
+    FROM herbs
+    WHERE id = #{id}
+  </select>
+
+  <select id="selectByFields" resultType="Herb" parameterType="java.util.List">
+    SELECT * FROM herbs
+    WHERE
+    <foreach collection="list" item="item" separator="AND">
+      CONCAT_WS(name, nickname, type, description, efficacy, taste, origin, dosage, taboo, processing)
+      LIKE CONCAT('%', #{item}, '%')
+    </foreach>
+  </select>
+
+  <select id="selectAll" resultType="Herb">
+    SELECT *
+    FROM herbs
+  </select>
+
+  <select id="selectByExperienceId" resultType="Herb" parameterType="int">
+    SELECT *
+    FROM herbs
+    WHERE id IN (SELECT herb_id
+                 FROM experiences
+                 WHERE id = #{id})
+  </select>
+
+  <select id="selectByPrescriptionId" resultType="Herb" parameterType="int">
+    SELECT *
+    FROM herbs
+    WHERE id IN (SELECT herb_id
+                 FROM prescriptions
+                 WHERE id = #{id})
+  </select>
+
+</mapper>
